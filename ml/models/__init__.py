@@ -1,1 +1,1 @@
-from . import textmodel
+from . import textmodel, imagetextmodel

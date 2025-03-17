@@ -1,0 +1,6 @@
+{
+  "type": "llavamodel",
+  "repo_id": "mys/ggml_llava-v1.5-7b",
+  "filename": "*q4_k*",
+  "handler_filename": "*mmproj*"
+}

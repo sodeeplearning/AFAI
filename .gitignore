@@ -1,5 +1,7 @@
 .idea
 *.ipynb
+test.py
+*.jpg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

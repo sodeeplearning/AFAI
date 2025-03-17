@@ -1,15 +1,16 @@
 from llama_cpp import Llama
-from collections import deque
 
 
 class TextOnlyModel:
+    """Class for Text2Text task."""
+
     def __init__(
             self,
             filename: str,
             repo_id: str = None,
             context_size: int = 8192
     ):
-        """Model for Text2Text task.
+        """Constructor of TextOnlyModel.
 
         :param filename: Local file path / name of repo file.
         :param repo_id: Model's repo name.
@@ -24,7 +25,7 @@ class TextOnlyModel:
                 n_ctx=context_size
             )
 
-        self.messages = deque()
+        self.messages = []
 
     def __call__(self, prompt: str, max_new_tokens: int = 1024):
         """Get generator of model's response.
@@ -44,11 +45,13 @@ class TextOnlyModel:
             generated += new_token
             yield new_token
 
+        self.messages.append({"role": "assistant", "content": generated})
 
-if __name__ == '__main__':
-    model = TextOnlyModel(
-        repo_id="unsloth/DeepSeek-R1-Distill-Qwen-1.5B-GGUF",
-        filename="*q4-k-m"
-    )
-    for new in model("What is cosine of 225 degrees?"):
-        print(new)
+    def show(self, prompt: str):
+        """Show example of model's working.
+
+        :param prompt: Model's input.
+        :return: None.
+        """
+        for new in self.__call__(prompt=prompt):
+            print(new, end="", flush=True)
