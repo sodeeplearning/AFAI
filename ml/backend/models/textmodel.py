@@ -27,7 +27,7 @@ class TextOnlyModel:
 
         self.messages = []
 
-    def __call__(self, prompt: str, max_new_tokens: int = 1024):
+    def __call__(self, prompt: str, max_new_tokens: int = 512):
         """Get generator of model's response.
 
         :param prompt: Input to the model.

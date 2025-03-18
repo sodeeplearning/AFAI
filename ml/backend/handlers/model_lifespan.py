@@ -4,7 +4,7 @@ import json
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from iomodels import LaunchModel, ModelNameMode
+from iomodels import LaunchModel, ModelNameModel
 from config import configs_path
 from active import active_models, chat_history, update_chathistory_file
 
@@ -45,8 +45,8 @@ async def launch_model(body: LaunchModel):
             active_models[body.model_name] = classes_mapping[model_type](
                 repo_id=repo_id,
                 filename=filename,
-                content_size=n_ctx,
-                handler_type=handler_type,
+                context_size=n_ctx,
+                handler_class=handler_type,
                 handler_filename=handler_filename
             )
 
@@ -56,7 +56,7 @@ async def launch_model(body: LaunchModel):
 
 
 @router.delete("/kill")
-async def kill_model(body: ModelNameMode):
+async def kill_model(body: ModelNameModel):
     model_name = body.model_name
     if model_name not in active_models:
         raise HTTPException(status_code=404, detail=f"model {model_name} is not launched or even exists")
