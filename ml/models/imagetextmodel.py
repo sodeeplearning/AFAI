@@ -1,10 +1,26 @@
 from llama_cpp import Llama
-from llama_cpp.llama_chat_format import Llava15ChatHandler
+
+from llama_cpp.llama_chat_format import (
+    Llava15ChatHandler,
+    MiniCPMv26ChatHandler,
+    Llava16ChatHandler,
+    NanoLlavaChatHandler,
+    LlamaChatCompletionHandler
+)
 
 from .utils.image import image_to_base64_data_uri
 
 
-class LlavaModel:
+handler_mapping = {
+    "llava15": Llava15ChatHandler,
+    "llava16": Llava16ChatHandler,
+    "minicpm": MiniCPMv26ChatHandler,
+    "nanollava": NanoLlavaChatHandler,
+    "llama": LlamaChatCompletionHandler
+}
+
+
+class TextImageModel:
     """Class for ImageText2Text task."""
 
     def __init__(
@@ -12,9 +28,10 @@ class LlavaModel:
             filename: str,
             handler_filename: str = "*mmproj*",
             repo_id: str = None,
-            context_size: int = 8192
+            context_size: int = 8192,
+            handler_class=Llava15ChatHandler
     ):
-        """Constructor of ImageTextModel class.
+        """Constructor of TextImageModel class.
 
         :param filename: Local file path / name of repo file.
         :param handler_filename: Local handler file / name of repo file.
@@ -22,14 +39,14 @@ class LlavaModel:
         :param context_size: Max context size (memory of the model).
         """
         if repo_id is None:
-            self.handler = Llava15ChatHandler(handler_filename)
+            self.handler = handler_class(handler_filename)
             self.model = Llama(
                 filename,
                 n_ctx=context_size,
                 chat_handler=self.handler,
             )
         else:
-            self.handler = Llava15ChatHandler.from_pretrained(
+            self.handler = handler_class.from_pretrained(
                 repo_id=repo_id,
                 filename=handler_filename
             )
