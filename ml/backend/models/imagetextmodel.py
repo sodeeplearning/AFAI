@@ -1,23 +1,7 @@
 from llama_cpp import Llama
-
-from llama_cpp.llama_chat_format import (
-    Llava15ChatHandler,
-    MiniCPMv26ChatHandler,
-    Llava16ChatHandler,
-    NanoLlavaChatHandler,
-    LlamaChatCompletionHandler
-)
+from llama_cpp.llama_chat_format import Llava15ChatHandler
 
 from .utils.image import image_to_base64_data_uri
-
-
-handler_mapping = {
-    "llava15": Llava15ChatHandler,
-    "llava16": Llava16ChatHandler,
-    "minicpm": MiniCPMv26ChatHandler,
-    "nanollava": NanoLlavaChatHandler,
-    "llama": LlamaChatCompletionHandler
-}
 
 
 class TextImageModel:

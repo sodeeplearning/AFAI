@@ -1,7 +1,8 @@
 {
-  "type": "llavamodel",
+  "type": "imagetext2text",
   "repo_id": "mys/ggml_llava-v1.5-7b",
   "filename": "*q4_k*",
   "handler_filename": "*mmproj*",
-  "handler_type": "llava15"
+  "handler_type": "llava15",
+  "n_ctx": 8192
 }
