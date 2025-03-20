@@ -30,7 +30,6 @@ async def generate_text_only(body: InputModel) -> StreamingResponse:
 async def generate_from_image_text(
         body: InputModel,
         image_files: List[UploadFile] = None,
-        image_links: list[str] = None
 ):
     if body.model_name not in active_models:
         raise HTTPException(status_code=404, detail=f"Model {body.model_name} is not launched")
@@ -48,7 +47,7 @@ async def generate_from_image_text(
         prompt=body.prompt,
         max_new_tokens=body.max_new_tokens,
         local_images=image_bytes,
-        images_links=image_links
+        images_links=body.image_links
     )
 
     return StreamingResponse(generator, media_type="text/event-stream")

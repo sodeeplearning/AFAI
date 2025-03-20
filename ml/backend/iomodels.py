@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class TextModel(BaseModel):
@@ -16,3 +17,4 @@ class LaunchModel(ModelNameModel):
 class InputModel(ModelNameModel):
     prompt: str
     max_new_tokens: int = 2048
+    image_links: List[str] = None
