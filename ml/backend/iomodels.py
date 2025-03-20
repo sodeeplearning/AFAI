@@ -16,5 +16,8 @@ class LaunchModel(ModelNameModel):
 
 class InputModel(ModelNameModel):
     prompt: str
-    max_new_tokens: int = 2048
+    max_new_tokens: int
+
+
+class TextImageInputModel(InputModel):
     image_links: List[str] = None

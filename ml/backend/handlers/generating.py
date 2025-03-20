@@ -5,7 +5,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.exceptions import HTTPException
 
 from active import active_models, chat_history, update_chathistory_file
-from iomodels import InputModel
+from iomodels import InputModel, TextImageInputModel
 
 
 router = APIRouter(prefix="/generate")
@@ -28,7 +28,7 @@ async def generate_text_only(body: InputModel) -> StreamingResponse:
 
 @router.post("/fromimagetext")
 async def generate_from_image_text(
-        body: InputModel,
+        body: TextImageInputModel,
         image_files: List[UploadFile] = None,
 ):
     if body.model_name not in active_models:
