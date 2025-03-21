@@ -28,10 +28,11 @@ async def generate_text_only(body: InputModel) -> StreamingResponse:
 
 @router.post("/fromimagetext")
 async def generate_from_image_text(
-        image_files: List[UploadFile],
         model_name: str,
         prompt: str,
         max_new_tokens: int = 2048,
+        image_files: List[UploadFile] = None,
+        image_links: List[str] = None
 ):
     if model_name not in active_models:
         raise HTTPException(status_code=404, detail=f"Model {model_name} is not launched")
@@ -40,7 +41,7 @@ async def generate_from_image_text(
     update_chathistory_file()
 
     image_bytes = []
-    if image_files is not None:
+    if image_files:
         for current_file in image_files:
             file_content = await current_file.read()
             image_bytes.append(file_content)
@@ -49,6 +50,7 @@ async def generate_from_image_text(
         prompt=prompt,
         max_new_tokens=max_new_tokens,
         local_images=image_bytes,
+        images_links=image_links
     )
 
     return StreamingResponse(generator, media_type="text/event-stream")

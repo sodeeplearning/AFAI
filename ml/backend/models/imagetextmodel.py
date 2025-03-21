@@ -1,7 +1,10 @@
+import os
+
 from llama_cpp import Llama
 from llama_cpp.llama_chat_format import Llava15ChatHandler
 
 from .utils.image import image_to_base64_data_uri
+from .models_config import default_saving_path
 
 
 class TextImageModel:
@@ -13,7 +16,8 @@ class TextImageModel:
             handler_filename: str = "*mmproj*",
             repo_id: str = None,
             context_size: int = 8192,
-            handler_class=Llava15ChatHandler
+            handler_class=Llava15ChatHandler,
+            saving_path: str = default_saving_path
     ):
         """Constructor of TextImageModel class.
 
@@ -21,13 +25,19 @@ class TextImageModel:
         :param handler_filename: Local handler file / name of repo file.
         :param repo_id: Model's repo name.
         :param context_size: Max context size (memory of the model).
+        :param handler_class: Class of handler-function of model.
+        :param saving_path: Path where model will be stored.
         """
+        if not os.path.isdir(default_saving_path):
+            os.mkdir(default_saving_path)
+
         if repo_id is None:
             self.handler = handler_class(handler_filename)
             self.model = Llama(
                 filename,
                 n_ctx=context_size,
                 chat_handler=self.handler,
+                cache_dir=saving_path,
             )
         else:
             self.handler = handler_class.from_pretrained(
@@ -39,6 +49,7 @@ class TextImageModel:
                 filename=filename,
                 n_ctx=context_size,
                 chat_handler=self.handler,
+                cache_dir=saving_path
             )
         self.messages = [
             {"role": "system", "content": "You are an assistant who perfectly describes images."}

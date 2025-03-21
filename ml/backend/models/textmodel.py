@@ -1,4 +1,8 @@
+import os
+
 from llama_cpp import Llama
+
+from .models_config import default_saving_path
 
 
 class TextOnlyModel:
@@ -8,21 +12,31 @@ class TextOnlyModel:
             self,
             filename: str,
             repo_id: str = None,
-            context_size: int = 8192
+            context_size: int = 8192,
+            saving_path: str = default_saving_path
     ):
         """Constructor of TextOnlyModel.
 
         :param filename: Local file path / name of repo file.
         :param repo_id: Model's repo name.
         :param context_size: Max context size (memory of the model).
+        :param saving_path: Path where model will be stored.
         """
+        if not os.path.isdir(default_saving_path):
+            os.mkdir(default_saving_path)
+
         if repo_id is None:
-            self.model = Llama(filename, n_ctx=context_size)
+            self.model = Llama(
+                filename,
+                n_ctx=context_size,
+                cache_dir=saving_path
+            )
         else:
             self.model = Llama.from_pretrained(
                 repo_id=repo_id,
                 filename=filename,
-                n_ctx=context_size
+                n_ctx=context_size,
+                cache_dir=saving_path
             )
 
         self.messages = []
