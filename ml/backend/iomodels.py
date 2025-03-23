@@ -11,6 +11,10 @@ class ModelNameModel(BaseModel):
     model_name: str
 
 
+class SystemPromptModel(ModelNameModel):
+    system_prompt: str
+
+
 class LaunchModel(ModelNameModel):
     n_ctx: int = -1
 

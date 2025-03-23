@@ -63,6 +63,8 @@ async def launch_model(body: LaunchModel):
     if body.model_name not in chat_history:
         chat_history[body.model_name] = []
         update_chathistory_file()
+    else:
+        active_models[body.model_name].messages = chat_history[body.model_name]
 
 
 @router.delete("/kill")
@@ -88,6 +90,9 @@ async def delete_model(body: ModelNameModel):
         raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
 
     shutil.rmtree(model_path)
+
+    if model_name in chat_history:
+        del chat_history[model_name]
 
 
 @router.get("/getactive")
