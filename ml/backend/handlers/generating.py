@@ -1,11 +1,9 @@
-from typing import List
-
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from fastapi.exceptions import HTTPException
 
 from active import active_models, chat_history, update_chathistory_file
-from iomodels import InputModel
+from iomodels import InputModel, TextImageInputModel
 
 
 router = APIRouter(prefix="/generate")
@@ -27,13 +25,10 @@ async def generate_text_only(body: InputModel) -> StreamingResponse:
 
 
 @router.post("/fromimagetext")
-async def generate_from_image_text(
-        model_name: str,
-        prompt: str,
-        max_new_tokens: int = 2048,
-        image_files: List[UploadFile] = None,
-        image_links: List[str] = None
-):
+async def generate_from_image_text(body: TextImageInputModel) -> StreamingResponse:
+    model_name = body.model_name
+    image_files = body.image_files
+
     if model_name not in active_models:
         raise HTTPException(status_code=404, detail=f"Model {model_name} is not launched")
 
@@ -47,10 +42,10 @@ async def generate_from_image_text(
             image_bytes.append(file_content)
 
     generator = active_models[model_name](
-        prompt=prompt,
-        max_new_tokens=max_new_tokens,
+        prompt=body.prompt,
+        max_new_tokens=body.max_new_tokens,
         local_images=image_bytes,
-        images_links=image_links
+        images_links=body.image_links
     )
 
     return StreamingResponse(generator, media_type="text/event-stream")

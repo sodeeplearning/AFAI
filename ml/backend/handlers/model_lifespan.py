@@ -35,7 +35,10 @@ async def launch_model(body: LaunchModel):
     model_type = config_file["type"]
     repo_id = config_file["repo_id"]
     filename = config_file["filename"]
-    n_ctx = config_file["n_ctx"]
+
+    n_ctx = body.n_ctx
+    if n_ctx == -1:
+        n_ctx = config_file["n_ctx"]
 
     match model_type:
         case "text2text":

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List
+from fastapi import UploadFile
 
 
 class TextModel(BaseModel):
@@ -11,9 +12,14 @@ class ModelNameModel(BaseModel):
 
 
 class LaunchModel(ModelNameModel):
-    n_ctx: int = 8192
+    n_ctx: int = -1
 
 
 class InputModel(ModelNameModel):
     prompt: str
-    max_new_tokens: int
+    max_new_tokens: int = 1024
+
+
+class TextImageInputModel(InputModel):
+    image_files: List[UploadFile] = []
+    image_links: List[str] = []
