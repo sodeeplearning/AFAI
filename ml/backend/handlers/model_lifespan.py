@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
@@ -9,14 +10,14 @@ from config import configs_path
 from active import active_models, chat_history, update_chathistory_file
 
 from models.mapping import classes_mapping, handler_mapping
+from models.models_config import default_saving_path
 
 
 router = APIRouter(prefix="/model")
 
 
-@router.post("/launch")
-async def launch_model(body: LaunchModel):
-    model_name = body.model_name + ".json"
+def __get_model_config(model_name):
+    model_name = model_name + ".json"
     models_config_path = os.path.join(configs_path, model_name)
 
     if not os.path.exists(models_config_path):
@@ -24,6 +25,12 @@ async def launch_model(body: LaunchModel):
 
     with open(models_config_path, "r") as json_file:
         config_file = json.load(json_file)
+        return config_file
+
+
+@router.post("/launch")
+async def launch_model(body: LaunchModel):
+    config_file = __get_model_config(model_name=body.model_name)
 
     model_type = config_file["type"]
     repo_id = config_file["repo_id"]
@@ -50,8 +57,8 @@ async def launch_model(body: LaunchModel):
                 handler_filename=handler_filename
             )
 
-    if model_name not in chat_history:
-        chat_history[model_name] = []
+    if body.model_name not in chat_history:
+        chat_history[body.model_name] = []
         update_chathistory_file()
 
 
@@ -59,9 +66,25 @@ async def launch_model(body: LaunchModel):
 async def kill_model(body: ModelNameModel):
     model_name = body.model_name
     if model_name not in active_models:
-        raise HTTPException(status_code=404, detail=f"model {model_name} is not launched or even exists")
+        raise HTTPException(status_code=404, detail=f"model {model_name} is not launched or even exists.")
 
     del active_models[model_name]
+
+
+@router.delete("/delete")
+async def delete_model(body: ModelNameModel):
+    model_name = body.model_name
+    config_file = __get_model_config(model_name)
+    model_dir_name = config_file["model_dir_name"]
+    model_path = os.path.join(default_saving_path, model_dir_name)
+
+    if model_name in active_models:
+        del active_models[model_name]
+
+    if not os.path.isdir(model_path):
+        raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
+
+    shutil.rmtree(model_path)
 
 
 @router.get("/getactive")

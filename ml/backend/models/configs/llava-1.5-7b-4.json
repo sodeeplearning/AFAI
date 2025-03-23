@@ -4,5 +4,6 @@
   "filename": "*q4_k*",
   "handler_filename": "*mmproj*",
   "handler_type": "llava15",
-  "n_ctx": 8192
+  "n_ctx": 8192,
+  "model_dir_name": "models--mys--ggml_llava-v1.5-7b"
 }
