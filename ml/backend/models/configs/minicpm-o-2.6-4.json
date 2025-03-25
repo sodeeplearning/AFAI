@@ -1,0 +1,9 @@
+{
+  "type": "imagetext2text",
+  "repo_id": "openbmb/MiniCPM-o-2_6-gguf",
+  "filename": "Model-7.6B-Q4_K_M.gguf",
+  "handler_filename": "*mmproj*",
+  "handler_type": "minicpm",
+  "n_ctx": 8192,
+  "model_dir_name": "models--openbmb--MiniCPM-o-2_6-gguf"
+}
