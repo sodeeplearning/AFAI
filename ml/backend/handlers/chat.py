@@ -36,7 +36,7 @@ async def add_system_prompt(body: SystemPromptModel):
 
     adding_message = {
         "role": "system",
-        "prompt": body.system_prompt
+        "content": body.system_prompt
     }
 
     active_models[model_name].messages.append(adding_message)
