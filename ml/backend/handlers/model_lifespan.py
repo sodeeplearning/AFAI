@@ -40,25 +40,31 @@ async def launch_model(body: LaunchModel):
     if n_ctx == -1:
         n_ctx = config_file["n_ctx"]
 
-    match model_type:
-        case "text2text":
-            active_models[body.model_name] = classes_mapping[model_type](
-                repo_id=repo_id,
-                filename=filename,
-                context_size=n_ctx
-            )
+    try:
+        match model_type:
+            case "text2text":
+                active_models[body.model_name] = classes_mapping[model_type](
+                    repo_id=repo_id,
+                    filename=filename,
+                    context_size=n_ctx
+                )
 
-        case "imagetext2text":
-            handler_type = handler_mapping[config_file["handler_type"]]
-            handler_filename = config_file["handler_filename"]
+            case "imagetext2text":
+                handler_type = handler_mapping[config_file["handler_type"]]
+                handler_filename = config_file["handler_filename"]
 
-            active_models[body.model_name] = classes_mapping[model_type](
-                repo_id=repo_id,
-                filename=filename,
-                context_size=n_ctx,
-                handler_class=handler_type,
-                handler_filename=handler_filename
-            )
+                active_models[body.model_name] = classes_mapping[model_type](
+                    repo_id=repo_id,
+                    filename=filename,
+                    context_size=n_ctx,
+                    handler_class=handler_type,
+                    handler_filename=handler_filename
+                )
+    except ConnectionError as e:
+        raise HTTPException(
+            status_code=408,
+            detail=f"Conntection Error: {e}"
+        )
 
     if body.model_name not in chat_history:
         chat_history[body.model_name] = []
