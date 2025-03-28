@@ -41,11 +41,12 @@ async def generate_from_image_text(body: TextImageInputModel) -> StreamingRespon
             file_content = await current_file.read()
             image_bytes.append(file_content)
 
-    generator = active_models[model_name](
-        prompt=body.prompt,
-        max_new_tokens=body.max_new_tokens,
-        local_images=image_bytes,
-        images_links=body.image_links
+    return StreamingResponse(
+        active_models[model_name](
+            prompt=body.prompt,
+            max_new_tokens=body.max_new_tokens,
+            local_images=image_bytes,
+            images_links=body.image_links
+        ),
+        media_type="text/event-stream"
     )
-
-    return StreamingResponse(generator, media_type="text/event-stream")
