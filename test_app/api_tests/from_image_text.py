@@ -1,10 +1,10 @@
 # Input data
 
-image_paths = ["/home/vitalliy/Downloads/sosal.jpg"]
+image_paths = ["/home/vitalliy/Downloads/test_task_2.png"]
 image_links = []
 model_name = "minicpm-o-2.6-4"
 max_new_tokens = 1024
-prompt = "Describe this image"
+prompt = "Solve this geometry task"
 
 
 # Executing part
@@ -21,7 +21,7 @@ def image_to_base64_data_uri(image_bytes: bytes):
 
 
 async def process_request():
-    async with httpx.AsyncClient(timeout=60) as client:
+    async with httpx.AsyncClient(timeout=600) as client:
         async with client.stream("POST", url, json=data) as response:
             async for chunk in response.aiter_text():
                 print(chunk, end="", flush=True)
