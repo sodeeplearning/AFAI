@@ -17,11 +17,13 @@ async def generate_text_only(body: InputModel) -> StreamingResponse:
     chat_history[body.model_name] = active_models[body.model_name].messages
     update_chathistory_file()
 
-    generator = active_models[body.model_name](
-        prompt=body.prompt,
-        max_new_tokens=body.max_new_tokens
+    return StreamingResponse(
+        active_models[body.model_name](
+            prompt=body.prompt,
+            max_new_tokens=body.max_new_tokens
+        ),
+        media_type="text/event-stream"
     )
-    return StreamingResponse(generator, media_type="text/event-stream")
 
 
 @router.post("/fromimagetext")
