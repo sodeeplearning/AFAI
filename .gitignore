@@ -1,6 +1,6 @@
 .idea
 *.ipynb
-test.py
+ml/test.py
 *.jpg
 .locks
 saved

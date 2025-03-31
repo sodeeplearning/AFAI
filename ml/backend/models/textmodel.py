@@ -22,8 +22,8 @@ class TextOnlyModel:
         :param context_size: Max context size (memory of the model).
         :param saving_path: Path where model will be stored.
         """
-        if not os.path.isdir(default_saving_path):
-            os.mkdir(default_saving_path)
+        if not os.path.isdir(saving_path):
+            os.mkdir(saving_path)
 
         if repo_id is None:
             self.model = Llama(
