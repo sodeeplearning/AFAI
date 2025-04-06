@@ -2,7 +2,7 @@
 
 model_name = "minicpm-o-2.6-4"
 max_new_tokens = 1024
-prompt = "What is a content of this page? https://sdo.1534.org/"
+prompt = "What is cosine of 225 degrees?"
 
 
 # Executing part
