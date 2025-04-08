@@ -12,6 +12,17 @@
 - [Add system prompt](#add-system-prompt)
 
 
+# How to launch
+```bash
+cd ml
+pip install -r requirements.txt
+fastapi dev ./backend/main.py
+```
+Then you can interact with API via 2 ways:
+1. Go to this [**page**](http://127.0.0.1:8000/docs) and use UI.
+2. Check ```test_app``` directory and use script for endpoint you need. 
+
+
 # Requests  documentation
 
 ## Model Lifespan
