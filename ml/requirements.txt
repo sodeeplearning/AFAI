@@ -1,3 +1,4 @@
 llama-cpp-python
 fastapi[standard]
 huggingface-hub
+diffusers
