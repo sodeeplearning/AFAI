@@ -1,23 +1,35 @@
 import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 
+from models_config import default_saving_path
+
 
 class TextToImageCascadeModel:
-    def __init__(self):
+    """Class of StableCascade (text to image) model."""
+    def __init__(self, saving_path: str = default_saving_path):
+        """Constructor of StableCascade class.
+
+        :param saving_path: Path to a dir to cache model.
+        """
         self.prior = StableCascadePriorPipeline.from_pretrained(
             "stabilityai/stable-cascade-prior",
             variant="bf16",
-            torch_dtype=torch.bfloat16,
-            cache_dir="./saved"
+            cache_dir=saving_path,
+            torch_dtype=torch.bfloat16
         )
         self.decoder = StableCascadeDecoderPipeline.from_pretrained(
             "stabilityai/stable-cascade",
             variant="bf16",
-            torch_dtype=torch.float16,
-            cache_dir="./saved"
+            cache_dir=saving_path,
+            torch_dtype=torch.bfloat16
         )
 
-    def __call__(self, prompt: str):
+    def __call__(self, prompt: str) -> bytes:
+        """Generate image from prompt.
+
+        :param prompt: Prompt to a model (description of image to generate).
+        :return: bytes of this image.
+        """
         self.prior.enable_model_cpu_offload()
         prior_output = self.prior(
             prompt=prompt,
@@ -31,7 +43,7 @@ class TextToImageCascadeModel:
 
         self.decoder.enable_model_cpu_offload()
         decoder_output = self.decoder(
-            image_embeddings=prior_output.image_embeddings.to(torch.float16),
+            image_embeddings=prior_output.image_embeddings,
             prompt=prompt,
             negative_prompt="",
             guidance_scale=0.0,
@@ -39,4 +51,4 @@ class TextToImageCascadeModel:
             num_inference_steps=10
         ).images[0]
 
-        return decoder_output
+        return decoder_output.tobytes()

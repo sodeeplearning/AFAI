@@ -2,6 +2,7 @@
 *.ipynb
 ml/test.py
 *.jpg
+*.png
 .locks
 saved
 chathistory.json
