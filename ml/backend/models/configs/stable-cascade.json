@@ -1,0 +1,8 @@
+{
+  "type": "text2image",
+  "class_name": "cascade_model",
+  "model_dirs": [
+    "models--stabilityai--stable-cascade",
+    "models--stabilityai--stable-cascade-prior"
+  ]
+}

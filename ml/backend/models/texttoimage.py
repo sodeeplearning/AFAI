@@ -1,12 +1,15 @@
 import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 
-from models_config import default_saving_path
+from .models_config import default_saving_path
 
 
 class TextToImageCascadeModel:
     """Class of StableCascade (text to image) model."""
-    def __init__(self, saving_path: str = default_saving_path):
+    def __init__(
+            self,
+            saving_path: str = default_saving_path
+    ):
         """Constructor of StableCascade class.
 
         :param saving_path: Path to a dir to cache model.

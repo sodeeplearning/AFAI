@@ -5,5 +5,7 @@
   "handler_filename": "*mmproj*",
   "handler_type": "minicpm",
   "n_ctx": 8192,
-  "model_dir_name": "models--openbmb--MiniCPM-o-2_6-gguf"
+  "model_dirs": [
+    "models--openbmb--MiniCPM-o-2_6-gguf"
+  ]
 }

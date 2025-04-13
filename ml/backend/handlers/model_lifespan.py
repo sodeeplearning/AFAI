@@ -17,8 +17,8 @@ router = APIRouter(prefix="/model")
 
 
 def __get_model_config(model_name):
-    model_name = model_name + ".json"
-    models_config_path = os.path.join(configs_path, model_name)
+    model_filename = model_name + ".json"
+    models_config_path = os.path.join(configs_path, model_filename)
 
     if not os.path.exists(models_config_path):
         raise HTTPException(status_code=404, detail=f"model '{model_name}' not found")
@@ -86,16 +86,17 @@ async def kill_model(body: ModelNameModel):
 async def delete_model(body: ModelNameModel):
     model_name = body.model_name
     config_file = __get_model_config(model_name)
-    model_dir_name = config_file["model_dir_name"]
-    model_path = os.path.join(default_saving_path, model_dir_name)
+    model_dirs = config_file["model_dirs"]
 
     if model_name in active_models:
         del active_models[model_name]
 
-    if not os.path.isdir(model_path):
-        raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
+    for dir_name in model_dirs:
+        model_path = os.path.join(default_saving_path, dir_name)
+        if not os.path.isdir(model_path):
+            raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
 
-    shutil.rmtree(model_path)
+        shutil.rmtree(model_path)
 
     if model_name in chat_history:
         del chat_history[model_name]
