@@ -6,7 +6,7 @@ from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
 from iomodels import LaunchModel, ModelNameModel
-from config import configs_path
+from config import configs_path, full_version
 from active import active_models, chat_history, update_chathistory_file
 
 from models.mapping import classes_mapping, handler_mapping
@@ -14,6 +14,16 @@ from models.models_config import default_saving_path
 
 
 router = APIRouter(prefix="/model")
+
+lite_models = [
+    "deep-qwen-4",
+    "llama-1b-4",
+    "llava-1.5-7b-4",
+    "minicpm-o-2.6-4"
+]
+heavy_models = [
+    "stable-cascade"
+]
 
 
 def __get_model_config(model_name):
@@ -105,3 +115,8 @@ async def delete_model(body: ModelNameModel):
 @router.get("/getactive")
 async def get_all_active_models() -> list[str]:
     return list(active_models.keys())
+
+
+@router.get("/getavailabletodownload")
+async def get_all_available_models_to_download_them():
+    return lite_models + heavy_models * full_version
