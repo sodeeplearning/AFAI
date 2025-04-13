@@ -3,6 +3,7 @@ import { Navbar } from "widgets/Navbar";
 import { Sidebar } from "widgets/Sidebar";
 import { useLocation } from "react-router-dom";
 import { routeConfig } from "shared/config/routeConfig/routeConfig";
+import classNames from "shared/library/classNames/classNames";
 
 interface LayoutWrapperProps {
     children: ReactNode;
@@ -22,10 +23,13 @@ export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
 
     return (
         <>
-            <Navbar toggleCollapse={() => setIsCollapsed(!isCollapsed)} />
-            <div className="content-page">
-                <Sidebar isCollapsed={isCollapsed} />
-                <>{children}</>
+            <Navbar 
+                toggleCollapse={() => setIsCollapsed(!isCollapsed)} 
+                isCollapsed={isCollapsed} 
+            />
+            <Sidebar isCollapsed={isCollapsed} />
+            <div className={classNames("content-page", { "sidebar-collapsed": isCollapsed })}>
+                {children}
             </div>
         </>
     );

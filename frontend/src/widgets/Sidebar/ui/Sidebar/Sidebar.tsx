@@ -5,7 +5,10 @@ import { SidebarItems } from '../Sidebar-items/SidebarItems';
 import { menu } from 'shared/constants/menu'
 import { observer } from 'mobx-react-lite';
 import { ThemeSwitcher } from 'shared/ui/ThemeSwitcher/ThemeSwitcher';
+import { Typography } from 'antd';
 
+
+const { Title } = Typography;
 interface SidebarProps {
   isCollapsed: boolean;
   className?: string;
@@ -15,6 +18,9 @@ export const Sidebar = observer(({ className, isCollapsed }: SidebarProps) => {
   return (
     <nav className={classNames(s.Sidebar, { [s.collapsed]: isCollapsed }, [className])}>
       <div className={s.items}>
+      <Title level={4} className={s.title}>
+            AFAI
+          </Title>
       <SidebarItems items={menu} isCollapsed={isCollapsed} />
       </div>
       <div className={s.switchers}>

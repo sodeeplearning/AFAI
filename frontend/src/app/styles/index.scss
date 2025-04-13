@@ -14,4 +14,13 @@
 
 .content-page {
     display: flex;
+    padding-top: var(--navbar-height);
+    padding-left: var(--sidebar-width);
+    min-height: 100vh;
+    width: 100%;
+    transition: padding-left 0.3s ease;
+}
+
+.content-page.sidebar-collapsed {
+    padding-left: var(--sidebar-width-collapsed);
 }

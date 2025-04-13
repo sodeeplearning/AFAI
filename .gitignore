@@ -208,3 +208,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.cursor

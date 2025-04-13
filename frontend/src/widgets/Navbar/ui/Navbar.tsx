@@ -8,24 +8,29 @@ import { PanelRight } from 'lucide-react'
 interface NavbarProps {
   toggleCollapse: () => void;
   className?: string;
+  isCollapsed?: boolean;
 }
 
-export const Navbar = ({ className, toggleCollapse }: NavbarProps) => {
+export const Navbar = ({ className, toggleCollapse, isCollapsed }: NavbarProps) => {
   return (
-
-    <nav className={classNames(s.navbar, {}, [className])}>
-      <Flex justify="start" align="center" className={s.row}>
+    <nav className={classNames(s.navbar, { [s.collapsed]: isCollapsed }, [className])}>
+      <Flex justify="space-between" align="center" className={s.row}>
+        <div className={s.burMenuContainer}>
           <PanelRight
             size={24}
             className={s.burMenu}
             onClick={toggleCollapse}
           />
-          <Title level={4} className={s.text}>
+        </div>
+        {isCollapsed && (
+          <Title level={4} className={s.title}>
             AFAI
           </Title>
+        )}
+        
+        <div className={s.spacer}></div>
       </Flex>
     </nav>
-
   );
 };
 

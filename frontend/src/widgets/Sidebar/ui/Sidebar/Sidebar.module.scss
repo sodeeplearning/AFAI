@@ -2,12 +2,13 @@
     height: 100vh;
     width: var(--sidebar-width);
     background: var(--bg-color);
-    position: relative;
+    position: fixed;
+    left: 0;
+    top: 0;
     border-right: 1px solid var(--stroke);
-    transition: width 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
-    opacity: 1;
+    transition: width 0.3s ease, transform 0.3s ease;
     overflow: hidden;
-    transform: translateX(0);
+    z-index: 200;
 }
 
 .switchers {
@@ -16,7 +17,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    transition: opacity 0.2s ease, transform 0.3s ease;
+    transition: opacity 0.2s ease;
 }
 
 .lang {
@@ -24,11 +25,11 @@
 }
 
 .items {
-    margin-top: 1.25rem;
+    margin-top: 4rem;
     margin-left: 1.25rem;
     display: flex;
     flex-direction: column;
-    transition: opacity 0.4s ease, transform 0.3s ease;
+    transition: opacity 0.2s ease;
 }
 
 .collapsed {

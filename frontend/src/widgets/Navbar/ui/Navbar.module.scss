@@ -2,28 +2,47 @@
     width: 100%;
     height: var(--navbar-height);
     background: var(--bg-color);
-    border-bottom: 0.0625rem solid var(--stroke);
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     z-index: 100;
+    transition: padding-left 0.3s ease;
+    padding-left: var(--sidebar-width);
+
+    &.collapsed {
+        padding-left: var(--sidebar-width-collapsed);
+    }
 
     .row {
-        padding: 1rem;
+        padding: 0 1rem;
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        height: 100%;
+    }
 
-        h4 {
-            margin: 0;
-            margin-left: 1rem;
-        }
+    .burMenuContainer {
+        flex: 0 0 auto;
+    }
+
+    .title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .spacer {
+        width: 1.5rem;
     }
 }
 
 .burMenu {
     cursor: pointer;
     vertical-align: middle;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 
     &:hover {
         transform: scale(1.1);
