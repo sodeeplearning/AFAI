@@ -40,6 +40,12 @@ def __get_model_config(model_name):
 
 @router.post("/launch")
 async def launch_model(body: LaunchModel):
+    if body.model_name in heavy_models:
+        raise HTTPException(
+            status_code=403,
+            detail="You are likely trying to launch 'heavy' model via endpoint for 'lite' models"
+        )
+
     config_file = __get_model_config(model_name=body.model_name)
 
     model_type = config_file["type"]
