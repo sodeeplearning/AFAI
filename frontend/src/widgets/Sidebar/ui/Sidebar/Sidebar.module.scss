@@ -34,17 +34,15 @@
 
 .collapsed {
     width: var(--sidebar-width-collapsed);
-    opacity: 0.8;
-    transform: translateX(calc(var(--sidebar-width-collapsed) - var(--sidebar-width)));
-    border-right: none;
+    transform: translateX(0);
     
     .switchers {
         opacity: 0;
-        transform: translateX(-100%);
+        pointer-events: none;
     }
     
     .items {
         opacity: 0;
-        transform: translateX(-1rem);
+        pointer-events: none;
     }
 }
