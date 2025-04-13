@@ -11,8 +11,10 @@
 - [Kill model](#kill-model)
 - [Delete model](#delete-model)
 - [Get active models](#get-active-models)
+- [Get available to download models](#get-available-to-download-models)
 - [Generate from text](#from-text)
 - [Generate from image-text](#from-image-text)
+- [Generate image from text](#generate-image-from-prompt)
 - [Clear chat history](#clear-chat)
 - [Add system prompt](#add-system-prompt)
 
@@ -109,6 +111,21 @@ Output:
     ]
 ```
 
+### Get available to download models
+```GET /model/getravailabletodownload```
+
+Get all models that you can download in your version
+
+```html request
+Output:
+    [
+        "model 1",
+        "model 2",
+        ...
+        "model N"
+    ]
+```
+
 ## Generate
 Get answer from model
 
@@ -146,6 +163,24 @@ Input:
 
 Output:
     StreamingResponse[text]
+```
+
+### Generate image from prompt
+
+```POST /generate/imagefromtext```
+
+Generate image from single text prompt
+
+```html_request
+Input:
+    {
+      "model_name": string - Model to get answer from,
+      "prompt": string - prompt / query to the model,
+      "image_size": int = 1024 - Size of generated image (squared image)
+    }
+    
+Output:
+    Image
 ```
 
 ## Chat
@@ -205,25 +240,3 @@ Output:
 ```
 
 **Endpoints ```Delete``` and ```Kill``` are implemented in Lite-part of the project**
-
-## Generating via heavy models
-
-Get answers from the models
-
-### Generate image from prompt
-
-```POST heavy/generate/imagefromtext```
-
-Generate image from single text prompt
-
-```html_request
-Input:
-    {
-      "model_name": string - Model to get answer from,
-      "prompt": string - prompt / query to the model,
-      "image_size": int = 1024 - Size of generated image (squared image)
-    }
-    
-Output:
-    Image
-```
