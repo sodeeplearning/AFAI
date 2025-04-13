@@ -1,7 +1,12 @@
 # API Documentation
 
+**⚠️ Recent updates ⚠️**: Project divided to 2 parts - ```lite``` and ```heavy```.
 
-**Endpoints:**
+- Lite part - for mobile phones and weak computers / laptops
+- Heavy part - for computers with GPU or strong processor 
+
+
+## Endpoints:
 - [Launch model](#launch-model)
 - [Kill model](#kill-model)
 - [Delete model](#delete-model)
@@ -35,6 +40,9 @@ Choose variant whichever you want for your tasks.
 
 
 # Requests  documentation
+
+# Lite-part endpoints
+Endpoints in the lite part of the project.
 
 ## Model Lifespan
 
@@ -172,4 +180,50 @@ Input:
 
 Output:
     null
+```
+
+# Heavy-part endpoints
+Endpoints of heavy part of the project
+
+## Heavy models lifespan
+
+Lifespan of heavy models.
+
+### Launch heavy model
+
+```POST /heavy/model/launch```
+
+Download or start model
+
+```html_request
+Input:
+    {
+      "model_name": string - Name of the model to launch
+    }
+Output:
+    null
+```
+
+**Endpoints ```Delete``` and ```Kill``` are implemented in Lite-part of the project**
+
+## Generating via heavy models
+
+Get answers from the models
+
+### Generate image from prompt
+
+```POST heavy/generate/imagefromtext```
+
+Generate image from single text prompt
+
+```html_request
+Input:
+    {
+      "model_name": string - Model to get answer from,
+      "prompt": string - prompt / query to the model,
+      "image_size": int = 1024 - Size of generated image (squared image)
+    }
+    
+Output:
+    Image
 ```
