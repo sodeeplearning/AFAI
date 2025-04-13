@@ -19,9 +19,16 @@ class LaunchModel(ModelNameModel):
     n_ctx: int = -1
 
 
-class InputModel(ModelNameModel):
+class TextOnlyInputModel(ModelNameModel):
     prompt: str
+
+
+class InputModel(TextOnlyInputModel):
     max_new_tokens: int = 1024
+
+
+class TextToImageInputModel(TextOnlyInputModel):
+    image_size: int = 1024
 
 
 class TextImageInputModel(InputModel):

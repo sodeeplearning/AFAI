@@ -27,11 +27,17 @@ class TextToImageCascadeModel:
             torch_dtype=torch.bfloat16
         )
 
-    def __call__(self, prompt: str) -> bytes:
+    def __call__(
+            self,
+            prompt: str,
+            image_size: int = 1024,
+    ) -> bytes:
         """Generate image from prompt.
 
         :param prompt: Prompt to a model (description of image to generate).
-        :return: bytes of this image.
+        :param image_size: Size of generated image (squared image).
+
+        :return: bytes of generated image.
         """
         self.prior.enable_model_cpu_offload()
         prior_output = self.prior(
