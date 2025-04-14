@@ -27,9 +27,29 @@
             box-shadow: none;
             font-size: 1rem;
             width: 100%;
+            max-height: 20rem;
+            overflow-y: auto;
             
             &:focus {
                 box-shadow: none;
+            }
+
+            &::-webkit-scrollbar {
+                width: 0.5rem;
+            }
+            
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            
+            &::-webkit-scrollbar-thumb {
+                cursor: pointer;
+                background: var(--stroke);
+                border-radius: 0.25rem;
+                
+                &:hover {
+                    background: var(--stroke);
+                }
             }
         }
     }
@@ -38,8 +58,7 @@
 .controls {
     position: absolute;
     right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0.8rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
