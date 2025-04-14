@@ -1,7 +1,7 @@
 .Page {
     flex-grow: 1;
     padding: 20px 20px 20px 45px;
-    height: calc(100vh );
+    height: 100vh;
     overflow-y: auto;
-    width: 100%;
+    width: calc(100vw - var(--sidebar-width));
 }

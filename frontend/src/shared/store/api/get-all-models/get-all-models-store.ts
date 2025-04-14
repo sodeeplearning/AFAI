@@ -4,22 +4,20 @@ import { AxiosResponse } from "axios";
 import { GetAllModelsResponse } from "shared/api/services/GetAllModels/types";
 import { getAllModels } from "shared/api/services/GetAllModels/api";
 
-
-export class CatalogAnimeStoreReleases {
+export class GetAllModelsStore {
     constructor() {
         makeAutoObservable(this);
     }
 
-    releasesData?: IPromiseBasedObservable<AxiosResponse<GetAllModelsResponse[]>>
+    getAllModelsData?: IPromiseBasedObservable<AxiosResponse<GetAllModelsResponse[]>>
 
     getAllModelsAction = async () => {
         try {
             console.log("getAllModelsAction");
-            this.releasesData =
-                fromPromise<AxiosResponse<GetAllModelsResponse[]>>(
-                    getAllModels()
-                );
-            console.log(this.releasesData, 'releasesData');
+            this.getAllModelsData = fromPromise<AxiosResponse<GetAllModelsResponse[]>>(
+                getAllModels()
+            );
+            console.log(this.getAllModelsData, 'getAllModelsData');
         } catch (error) {
             console.log(error);
         }

@@ -1,0 +1,1 @@
+export { AgentsPageLazy as AgentsPage } from './ui/Agents.lazy'

@@ -1,0 +1,53 @@
+.askPanel {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+}
+
+.inputWrapper {
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.textareaWrapper {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+
+    :global {
+        .ant-input {
+            padding-right: 3rem;
+            resize: none;
+            border: none;
+            box-shadow: none;
+            
+            &:focus {
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+.controls {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.icon {
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.inputCard {
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+
+.inputText {
+    font-size: x-large;
+    font-weight: 600;
+}

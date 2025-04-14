@@ -1,3 +1,4 @@
+import { AgentsPage } from "pages/Agents";
 import { MainPage } from "pages/MainPage";
 import { NotFoundPage } from "pages/NotFoundPage";
 import { RouteProps } from "react-router-dom";
@@ -11,7 +12,7 @@ export type AppRoutesProps = RouteProps & {
 export enum AppRoutes {
     // ВСЕ ЧТО ОТНОСИТСЯ К ВЕБ 
     MAIN = 'main',
-
+    AGENTS = 'agents',
 
     // ДОЛЖНА БЫТЬ САМОЙ ПОСЛЕДНЕЙ
     NOT_FOUND = 'not_found'
@@ -20,6 +21,7 @@ export enum AppRoutes {
 export const RoutePath: Record<AppRoutes, string> = {
     // ------------- ВЕБ ------------------
     [AppRoutes.MAIN]: '/',
+    [AppRoutes.AGENTS]: '/agents',
 
     // ------------- ВЕБ ------------------
 
@@ -33,6 +35,11 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
         path: RoutePath.main,
         element: <MainPage />,
     },
+    [AppRoutes.AGENTS]: {
+        path: RoutePath.agents,
+        element: <AgentsPage />,
+    },
+
 
     // ------------- ВЕБ ------------------
 

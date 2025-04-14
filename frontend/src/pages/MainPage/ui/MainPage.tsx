@@ -1,14 +1,15 @@
-import { memo } from "react"
+import { observer } from "mobx-react-lite"
+import { AskPanel } from "widgets/AskPanel"
 import { Page } from "widgets/Page/Page"
+import s from './MainPage.module.scss'
 
 
-
-export const MainPage = () => {
+export const MainPage = observer(() => {
     return (
         <Page>
-            main
+            <AskPanel className={s.askPanel} />
         </Page>
     )
-}
+})
 
-export default memo(MainPage)
+export default MainPage
