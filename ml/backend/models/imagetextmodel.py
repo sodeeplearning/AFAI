@@ -28,8 +28,7 @@ class TextImageModel:
         :param handler_class: Class of handler-function of model.
         :param saving_path: Path where model will be stored.
         """
-        if not os.path.isdir(saving_path):
-            os.mkdir(saving_path)
+        self.saving_path = os.path.join(saving_path, repo_id)
 
         if repo_id is None:
             self.handler = handler_class(handler_filename)

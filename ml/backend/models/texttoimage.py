@@ -1,3 +1,5 @@
+import os
+
 import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 
@@ -8,22 +10,24 @@ class TextToImageCascadeModel:
     """Class of StableCascade (text to image) model."""
     def __init__(
             self,
+            repo_id: str = "stabilityai/stable-cascade",
             saving_path: str = default_saving_path
     ):
         """Constructor of StableCascade class.
 
         :param saving_path: Path to a dir to cache model.
         """
+        self.saving_path = os.path.join(saving_path, repo_id)
         self.prior = StableCascadePriorPipeline.from_pretrained(
-            "stabilityai/stable-cascade-prior",
+            repo_id + "-prior",
             variant="bf16",
-            cache_dir=saving_path,
+            cache_dir=self.saving_path,
             torch_dtype=torch.bfloat16
         )
         self.decoder = StableCascadeDecoderPipeline.from_pretrained(
-            "stabilityai/stable-cascade",
+            repo_id,
             variant="bf16",
-            cache_dir=saving_path,
+            cache_dir=self.saving_path,
             torch_dtype=torch.bfloat16
         )
 

@@ -102,20 +102,18 @@ async def kill_model(body: ModelNameModel):
 async def delete_model(body: ModelNameModel):
     model_name = body.model_name
     config_file = __get_model_config(model_name)
-    model_dirs = config_file["model_dirs"]
+    repo_id = config_file["repo_id"]
 
     if model_name in active_models:
         del active_models[model_name]
-
-    for dir_name in model_dirs:
-        model_path = os.path.join(default_saving_path, dir_name)
-        if not os.path.isdir(model_path):
-            raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
-
-        shutil.rmtree(model_path)
-
     if model_name in chat_history:
         del chat_history[model_name]
+
+    model_path = os.path.join(default_saving_path, repo_id)
+    if not os.path.isdir(model_path):
+        raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
+
+    shutil.rmtree(model_path)
 
 
 @router.get("/getactive")

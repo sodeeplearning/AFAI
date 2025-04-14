@@ -22,21 +22,20 @@ class TextOnlyModel:
         :param context_size: Max context size (memory of the model).
         :param saving_path: Path where model will be stored.
         """
-        if not os.path.isdir(saving_path):
-            os.mkdir(saving_path)
+        self.saving_path = os.path.join(saving_path, repo_id)
 
         if repo_id is None:
             self.model = Llama(
                 filename,
                 n_ctx=context_size,
-                cache_dir=saving_path
+                cache_dir=self.saving_path
             )
         else:
             self.model = Llama.from_pretrained(
                 repo_id=repo_id,
                 filename=filename,
                 n_ctx=context_size,
-                cache_dir=saving_path
+                cache_dir=self.saving_path
             )
 
         self.messages = []
