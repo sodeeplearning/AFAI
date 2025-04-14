@@ -25,7 +25,7 @@ export const AgentsList = observer(() => {
 
     return (
         <Card className={s.agentsList}>
-            <Text>{t("Все модели доступные для скачивания")}</Text>
+            <Text className={s.agentsListTitle}>{t("Все модели доступные для скачивания")}</Text>
             {getAllModelsStore.getAllModelsData?.value ? (
                 getAllModelsStore.getAllModelsData.value.data.map((model: string, index: number) => (
                     <Card key={`model-${index}`} className={s.agentCard}>

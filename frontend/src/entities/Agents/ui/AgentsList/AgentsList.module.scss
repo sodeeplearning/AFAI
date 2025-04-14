@@ -3,6 +3,7 @@
     height: auto;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 .agentCard {
@@ -16,4 +17,9 @@
         color: var(--bg-color);
         transition: all 0.3s ease;
     }
+}
+
+.agentsListTitle {
+    font-size: x-large;
+    font-weight: 600;
 }

@@ -1,10 +1,15 @@
 .askPanel {
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 1rem;
-    text-align: center;
 }
 
 .inputWrapper {
+    width: 100%;
     max-width: 48rem;
     margin: 0 auto;
 }
@@ -16,10 +21,12 @@
 
     :global {
         .ant-input {
-            padding-right: 3rem;
+            padding: 0.75rem 3rem 0.75rem 1rem;
             resize: none;
             border: none;
             box-shadow: none;
+            font-size: 1rem;
+            width: 100%;
             
             &:focus {
                 box-shadow: none;
@@ -31,7 +38,8 @@
 .controls {
     position: absolute;
     right: 1rem;
-    top: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -48,6 +56,7 @@
 }
 
 .inputText {
-    font-size: x-large;
+    font-size: 2rem;
     font-weight: 600;
+    margin-bottom: 1.5rem;
 }
