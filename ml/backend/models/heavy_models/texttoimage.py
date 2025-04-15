@@ -3,7 +3,7 @@ import os
 import torch
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 
-from .models_config import default_saving_path
+from models.models_config import default_saving_path
 
 
 class TextToImageCascadeModel:

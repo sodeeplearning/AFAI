@@ -9,7 +9,7 @@ from iomodels import LaunchModel, ModelNameModel
 from config import configs_path, full_version
 from active import active_models, chat_history, update_chathistory_file
 
-from models.mapping import classes_mapping, handler_mapping
+from models.lite_models import classes_mapping, handler_mapping
 from models.models_config import default_saving_path
 
 

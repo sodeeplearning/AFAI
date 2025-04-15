@@ -2,7 +2,7 @@ import os
 
 from llama_cpp import Llama
 
-from .models_config import default_saving_path
+from models.models_config import default_saving_path
 
 
 class TextOnlyModel:

@@ -8,7 +8,7 @@ from fastapi.exceptions import HTTPException
 from iomodels import ModelNameModel
 from active import active_models, chat_history, update_chathistory_file
 
-from models.fv_mapping import text_to_image_classes_mapping
+from models.heavy_models import text_to_image_classes_mapping
 
 
 router = APIRouter(prefix="/model")

@@ -1,1 +1,1 @@
-from . import textmodel, imagetextmodel
+from .lite_models import imagetextmodel, textmodel
