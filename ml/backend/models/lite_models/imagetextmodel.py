@@ -3,7 +3,7 @@ import os
 from llama_cpp import Llama
 from llama_cpp.llama_chat_format import Llava15ChatHandler
 
-from models.utils.image import image_to_base64_data_uri
+from utils.image import image_to_base64_data_uri
 from models.models_config import default_saving_path
 
 

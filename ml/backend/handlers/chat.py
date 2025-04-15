@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
 from active import active_models, chat_history, update_chathistory_file
-from iomodels import ModelNameModel, SystemPromptModel
+from utils.iomodels import ModelNameModel, SystemPromptModel
 
 
 router = APIRouter(prefix="/chat")

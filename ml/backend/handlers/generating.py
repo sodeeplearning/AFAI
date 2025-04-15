@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse, Response
 from fastapi.exceptions import HTTPException
 
 from active import active_models, chat_history, update_chathistory_file
-from iomodels import InputModel, TextImageInputModel, TextToImageInputModel
+from utils.iomodels import InputModel, TextImageInputModel, TextToImageInputModel
 
 
 router = APIRouter(prefix="/generate")

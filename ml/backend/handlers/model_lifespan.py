@@ -1,12 +1,12 @@
 import os
-import json
 import shutil
 
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from iomodels import LaunchModel, ModelNameModel, HeavyCheckingModel
-from config import configs_path, full_version
+from utils.iomodels import LaunchModel, ModelNameModel, HeavyCheckingModel
+from utils.model import get_model_config
+from config import full_version
 from active import active_models, chat_history, update_chathistory_file
 
 from models.lite_models import classes_mapping, handler_mapping
@@ -26,18 +26,6 @@ heavy_models = [
 ]
 
 
-def __get_model_config(model_name):
-    model_filename = model_name + ".json"
-    models_config_path = os.path.join(configs_path, model_filename)
-
-    if not os.path.exists(models_config_path):
-        raise HTTPException(status_code=404, detail=f"model '{model_name}' not found")
-
-    with open(models_config_path, "r") as json_file:
-        config_file = json.load(json_file)
-        return config_file
-
-
 @router.post("/launch")
 async def launch_model(body: LaunchModel):
     if body.model_name in heavy_models:
@@ -46,7 +34,7 @@ async def launch_model(body: LaunchModel):
             detail="You are likely trying to launch 'heavy' model via endpoint for 'lite' models"
         )
 
-    config_file = __get_model_config(model_name=body.model_name)
+    config_file = get_model_config(model_name=body.model_name)
 
     model_type = config_file["type"]
     repo_id = config_file["repo_id"]
@@ -101,7 +89,7 @@ async def kill_model(body: ModelNameModel):
 @router.delete("/delete")
 async def delete_model(body: ModelNameModel):
     model_name = body.model_name
-    config_file = __get_model_config(model_name)
+    config_file = get_model_config(model_name)
     repo_id = config_file["repo_id"]
 
     if model_name in active_models:
