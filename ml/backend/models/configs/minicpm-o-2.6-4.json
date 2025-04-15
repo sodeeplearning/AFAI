@@ -4,5 +4,5 @@
   "filename": "Model-7.6B-Q4_K_M.gguf",
   "handler_filename": "*mmproj*",
   "handler_type": "minicpm",
-  "n_ctx": 8192,
+  "n_ctx": 8192
 }
