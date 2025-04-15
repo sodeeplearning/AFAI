@@ -126,6 +126,21 @@ Output:
     ]
 ```
 
+### Is model heavy
+```POST /model/ismodelheavy```
+Check if model is heavy or not.
+```html request
+Input:
+    {
+        "model_name": Name of the model to check
+    }
+
+Output:
+    {
+        "is_heavy" True or False (depends on a model)
+    }
+```
+
 ## Generate
 Get answer from model
 

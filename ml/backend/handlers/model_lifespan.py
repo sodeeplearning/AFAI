@@ -126,7 +126,7 @@ async def get_all_available_models_to_download_them():
     return lite_models + heavy_models * full_version
 
 
-@router.get("/ismodelheavy")
+@router.post("/ismodelheavy")
 async def check_if_model_is_heavy(body: ModelNameModel) -> HeavyCheckingModel:
     result = False
     if body.model_name in heavy_models:
