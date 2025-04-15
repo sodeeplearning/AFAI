@@ -5,7 +5,7 @@ import shutil
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from iomodels import LaunchModel, ModelNameModel
+from iomodels import LaunchModel, ModelNameModel, HeavyCheckingModel
 from config import configs_path, full_version
 from active import active_models, chat_history, update_chathistory_file
 
@@ -124,3 +124,13 @@ async def get_all_active_models() -> list[str]:
 @router.get("/getavailabletodownload")
 async def get_all_available_models_to_download_them():
     return lite_models + heavy_models * full_version
+
+
+@router.get("/ismodelheavy")
+async def check_if_model_is_heavy(body: ModelNameModel) -> HeavyCheckingModel:
+    result = False
+    if body.model_name in heavy_models:
+        result = True
+    return HeavyCheckingModel(
+        is_heavy=result
+    )

@@ -34,3 +34,7 @@ class TextToImageInputModel(TextOnlyInputModel):
 class TextImageInputModel(InputModel):
     image_files: List[UploadFile] = []
     image_links: List[str] = []
+
+
+class HeavyCheckingModel(BaseModel):
+    is_heavy: bool
