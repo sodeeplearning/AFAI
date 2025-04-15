@@ -12,6 +12,7 @@
 - [Delete model](#delete-model)
 - [Get active models](#get-active-models)
 - [Get available to download models](#get-available-to-download-models)
+- [Is model heavy](#is-model-heavy)
 - [Generate from text](#from-text)
 - [Generate from image-text](#from-image-text)
 - [Generate image from text](#generate-image-from-prompt)
