@@ -33,7 +33,9 @@ async def launch_heavy_model(body: ModelNameModel):
     match model_config["type"]:
         case "text2image":
             try:
-                active_models[body.model_name] = text_to_image_classes_mapping[model_config["class_name"]]()
+                active_models[body.model_name] = text_to_image_classes_mapping[model_config["class_name"]](
+                    repo_id=model_config["repo_id"]
+                )
             except ConnectionError as e:
                 raise HTTPException(
                     status_code=408,

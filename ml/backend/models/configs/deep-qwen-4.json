@@ -3,7 +3,4 @@
   "repo_id": "unsloth/DeepSeek-R1-Distill-Qwen-1.5B-GGUF",
   "filename": "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf",
   "n_ctx": 8192,
-  "model_dirs": [
-    "models--unsloth--DeepSeek-R1-Distill-Qwen-1.5B-GGUF"
-  ]
 }

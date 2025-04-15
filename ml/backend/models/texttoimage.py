@@ -15,6 +15,7 @@ class TextToImageCascadeModel:
     ):
         """Constructor of StableCascade class.
 
+        :param repo_id: ID of HuggingFace repo.
         :param saving_path: Path to a dir to cache model.
         """
         self.saving_path = os.path.join(saving_path, repo_id)
