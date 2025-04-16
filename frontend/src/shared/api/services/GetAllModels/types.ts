@@ -1,3 +1,3 @@
 export type GetAllModelsResponse = {
-    models: string[];
+    data: string[];
 };

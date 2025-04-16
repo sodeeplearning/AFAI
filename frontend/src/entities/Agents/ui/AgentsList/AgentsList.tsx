@@ -1,16 +1,19 @@
 import { Button, Card, Typography } from "antd"
 import { useStore } from "app/providers/StoreProvider";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { PageLoader } from "widgets/PageLoader/ui/PageLoader";
 import s from "./AgentsList.module.scss";
 import { useTranslation } from "react-i18next";
-
+import { ModalAgents } from "widgets/ModalAgents";
+import { GetAllModelsResponse } from "shared/api/services/GetAllModels/types";
 const { Text } = Typography
 
 export const AgentsList = observer(() => {
-    const { getAllModelsStore } = useStore();
+    const { getAllModelsStore, downloadModelStore } = useStore();
     const { t } = useTranslation()
+    const [selectedModel, setSelectedModel] = useState<string>("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,6 +21,21 @@ export const AgentsList = observer(() => {
         };
         fetchData();
     }, [getAllModelsStore]);
+
+    const handleModelClick = (model: string) => {
+        setSelectedModel(model);
+        setIsModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+        setSelectedModel("");
+    };
+
+    const handleDownload = async () => {
+        await downloadModelStore.downloadModelAction(selectedModel);
+        handleModalClose();
+    };
 
     if (getAllModelsStore.getAllModelsData?.state === "pending") {
         return <PageLoader />
@@ -27,21 +45,25 @@ export const AgentsList = observer(() => {
         <Card className={s.agentsList}>
             <Text className={s.agentsListTitle}>{t("Все модели доступные для скачивания")}</Text>
             {getAllModelsStore.getAllModelsData?.value ? (
-                getAllModelsStore.getAllModelsData.value.data.map((model: string, index: number) => (
+                (getAllModelsStore.getAllModelsData.value as GetAllModelsResponse).data.map((model: string, index: number) => (
                     <Card key={`model-${index}`} className={s.agentCard}>
                         <Button
-                        type="default"
-                        onClick={() => {
-                            console.log(model)
-                        }}
+                            type="default"
+                            onClick={() => handleModelClick(model)}
                         >
-                        {model}
+                            {model}
                         </Button>
                     </Card>
                 ))
             ) : (
                 <Text>{t("Нет доступных моделей")}</Text>
             )}
+            <ModalAgents
+                model={selectedModel}
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+                onConfirm={handleDownload}
+            />
         </Card>
     )
 })

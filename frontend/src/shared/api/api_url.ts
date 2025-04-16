@@ -10,6 +10,9 @@ export const API_URL = {
     // получение вообще всех моделей 
     GetAllModels: () => '/model/getavailabletodownload',
 
+    // проверка на тяжелую модель
+    CheckHeavyModel: () => '/model/ismodelheavy',
+
 
     // генерации 
     GenerateOnlyText: () => '/generate/fromtext',
