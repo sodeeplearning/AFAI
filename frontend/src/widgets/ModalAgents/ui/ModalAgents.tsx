@@ -1,4 +1,5 @@
 import { Button, Modal, Typography } from "antd"
+import { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 
 const { Text } = Typography
@@ -8,6 +9,7 @@ interface ModalAgentsProps {
     isOpen: boolean
     onClose: () => void
     onConfirm: () => void
+    children: ReactNode
 }
 
 export const ModalAgents = (props: ModalAgentsProps) => {
@@ -15,7 +17,8 @@ export const ModalAgents = (props: ModalAgentsProps) => {
         model,
         isOpen,
         onClose,
-        onConfirm
+        onConfirm,
+        children
     } = props
     const { t } = useTranslation()
     
@@ -35,6 +38,7 @@ export const ModalAgents = (props: ModalAgentsProps) => {
             ]}
         >
             <Text>{t("Вы действительно хотите скачать модель")} <Text strong>{model}</Text>?</Text>
+            {children}
         </Modal>
     )
 }

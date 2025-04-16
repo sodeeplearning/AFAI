@@ -63,7 +63,10 @@ export const AgentsList = observer(() => {
                 isOpen={isModalOpen}
                 onClose={handleModalClose}
                 onConfirm={handleDownload}
-            />
+            >
+                <div className={s.modalContent}/>
+                    <Text className={s.modalText}>{t("* Скачивание модели может занять существенное время")}</Text>
+            </ModalAgents>
         </Card>
     )
 })
