@@ -18,9 +18,9 @@
   transition: background 0.3s, width 0.3s;
 
   &:hover {
-    background-color: var(--primary-color);
+    background-color: var(--stroke);
     width: 80%;
-    color: #222222;
+    color: var(--inverted-primary-color);
   }
 
 
@@ -40,10 +40,6 @@
     height: 24px; 
     margin-right: 8px; 
     transition: width 0.3s, height 0.3s;
-
-    &.active {
-      color: #222222;
-    }
   }
 
   a {
