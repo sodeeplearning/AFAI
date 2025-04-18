@@ -20,7 +20,7 @@ lite_models = [
     "llama-1b-4",
     "llava-1.5-7b-4",
     "minicpm-o-2.6-4",
-    "pyttsx3"
+    "pyttsx"
 ]
 heavy_models = [
     "stable-cascade"
@@ -73,7 +73,7 @@ async def launch_model(body: LaunchModel):
 
             case "text2speech":
                 class_name = config_file["class_name"]
-                active_models[class_name] = classes_mapping[class_name](
+                active_models[body.model_name] = classes_mapping[class_name](
                     repo_id=repo_id
                 )
 
@@ -113,7 +113,7 @@ async def delete_model(body: ModelNameModel):
     model_path = os.path.join(default_saving_path, repo_id)
 
     if not os.path.isdir(model_path):
-        if body.model_name != "pyttsx3":
+        if body.model_name != "pyttsx":
             raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
     else:
         shutil.rmtree(model_path)

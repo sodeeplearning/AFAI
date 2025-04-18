@@ -71,11 +71,11 @@ async def generate_image_from_text_prompt(body: TextToImageInputModel) -> Respon
 
 
 @router.post("/texttospeech")
-async def generate_speech_from_text(body: TextOnlyInputModel) -> StreamingResponse:
+async def generate_speech_from_text(body: TextOnlyInputModel) -> Response:
     if body.model_name not in active_models:
         raise HTTPException(status_code=404, detail=f"Model {body.model_name} is not launched")
 
-    return StreamingResponse(
+    return Response(
         active_models[body.model_name](prompt=body.prompt),
         media_type="audio/wav"
     )
