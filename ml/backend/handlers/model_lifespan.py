@@ -19,7 +19,8 @@ lite_models = [
     "deep-qwen-4",
     "llama-1b-4",
     "llava-1.5-7b-4",
-    "minicpm-o-2.6-4"
+    "minicpm-o-2.6-4",
+    "pyttsx3"
 ]
 heavy_models = [
     "stable-cascade"
@@ -38,15 +39,15 @@ async def launch_model(body: LaunchModel):
 
     model_type = config_file["type"]
     repo_id = config_file["repo_id"]
-    filename = config_file["filename"]
-
-    n_ctx = body.n_ctx
-    if n_ctx == -1:
-        n_ctx = config_file["n_ctx"]
 
     try:
         match model_type:
             case "text2text":
+                n_ctx = body.n_ctx
+                if n_ctx == -1:
+                    n_ctx = config_file["n_ctx"]
+
+                filename = config_file["filename"]
                 active_models[body.model_name] = classes_mapping[model_type](
                     repo_id=repo_id,
                     filename=filename,
@@ -54,6 +55,11 @@ async def launch_model(body: LaunchModel):
                 )
 
             case "imagetext2text":
+                n_ctx = body.n_ctx
+                if n_ctx == -1:
+                    n_ctx = config_file["n_ctx"]
+
+                filename = config_file["filename"]
                 handler_type = handler_mapping[config_file["handler_type"]]
                 handler_filename = config_file["handler_filename"]
 
@@ -64,6 +70,13 @@ async def launch_model(body: LaunchModel):
                     handler_class=handler_type,
                     handler_filename=handler_filename
                 )
+
+            case "text2speech":
+                class_name = config_file["class_name"]
+                active_models[class_name] = classes_mapping[class_name](
+                    repo_id=repo_id
+                )
+
     except ConnectionError as e:
         raise HTTPException(
             status_code=408,
@@ -98,10 +111,12 @@ async def delete_model(body: ModelNameModel):
         del chat_history[model_name]
 
     model_path = os.path.join(default_saving_path, repo_id)
-    if not os.path.isdir(model_path):
-        raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
 
-    shutil.rmtree(model_path)
+    if not os.path.isdir(model_path):
+        if body.model_name != "pyttsx3":
+            raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
+    else:
+        shutil.rmtree(model_path)
 
 
 @router.get("/getactive")

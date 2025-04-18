@@ -1,0 +1,5 @@
+{
+  "type": "text2speech",
+  "repo_id": "pyttsx3",
+  "class_name": "basetext2speech"
+}

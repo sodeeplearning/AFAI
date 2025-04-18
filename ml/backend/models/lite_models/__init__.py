@@ -8,11 +8,13 @@ from llama_cpp.llama_chat_format import (
 
 from .textmodel import TextOnlyModel
 from .imagetextmodel import TextImageModel
+from .texttospeech import BaseTextToSpeech
 
 
 classes_mapping = {
     "text2text": TextOnlyModel,
-    "imagetext2text": TextImageModel
+    "imagetext2text": TextImageModel,
+    "basetext2speech": BaseTextToSpeech
 }
 
 handler_mapping = {
