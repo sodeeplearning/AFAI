@@ -53,6 +53,7 @@ export const AgentsList = observer(() => {
                         >
                             {model}
                         </Button>
+                        
                     </Card>
                 ))
             ) : (
@@ -65,7 +66,7 @@ export const AgentsList = observer(() => {
                 onConfirm={handleDownload}
             >
                 <div className={s.modalContent}/>
-                    <Text className={s.modalText}>{t("* Скачивание модели может занять существенное время")}</Text>
+                    <Text className={s.modalText}>{t("* Скачивание модели может занять некоторое время")}</Text>
             </ModalAgents>
         </Card>
     )
