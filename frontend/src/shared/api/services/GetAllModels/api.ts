@@ -6,3 +6,7 @@ export const getAllModels = async () => (
     await baseInstanceV1.get(API_URL.GetAllModels())
 );
 
+//  ============= FETCH ALL DOWNLOADED MODELS =============
+export const getAllDownloadedModels = async () => (
+    await baseInstanceV1.get(API_URL.GetActiveModel())
+);

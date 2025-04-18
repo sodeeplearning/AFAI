@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import s from './SidebarItems.module.scss';
 import { observer } from 'mobx-react-lite';
-import classNames from 'classnames';
+import classNames from "shared/library/classNames/classNames";
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useStore } from 'app/providers/StoreProvider';
+
 
 interface MenuItem {
   id: number;
@@ -19,26 +19,25 @@ interface SidebarMenuProps {
   className?: string;
 }
 
-export const SidebarItems = observer(({ items, isCollapsed }: SidebarMenuProps) => {
-  const { sidebarStore } = useStore();
-  const { t } = useTranslation();
+export const SidebarItems = observer((props: SidebarMenuProps) => {
+  const {
+    items,
+    isCollapsed,
+    className
+  } = props
 
-  const handleMenuClick = (id: number) => {
-    sidebarStore.setSelectedKey(id);
-  };
+  const { t } = useTranslation();
 
   return (
     <ul className={s.menu}>
-      {items.map(({ id, url, text, icon }) => (
+      {items.map(({ url, text, icon }) => (
         <li
           key={url}
-          className={classNames(s.menuItem, {
-            [s.active]: sidebarStore.selectedKey === id,
-          })}
+          className={classNames(s.menuItem, {}, [className])}
         >
           <NavLink to={url}
             className={s.link}
-            onClick={() => handleMenuClick(id)}>
+            >
             <div className={s.icon}>{icon}</div>
             {!isCollapsed && <a className={s.helper}><span className={s.label}>{t(text)}</span></a>}
           </NavLink>
