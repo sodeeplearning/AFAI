@@ -1,10 +1,5 @@
 # API Documentation
 
-**⚠️ Recent updates ⚠️**: Project divided to 2 parts - ```lite``` and ```heavy```.
-
-- Lite part - for mobile phones and weak computers / laptops
-- Heavy part - for computers with GPU or strong processor 
-
 
 ## Endpoints:
 - [Launch model](#launch-model)
@@ -16,6 +11,7 @@
 - [Generate from text](#from-text)
 - [Generate from image-text](#from-image-text)
 - [Generate image from text](#generate-image-from-prompt)
+- [Generate speech from text](#generate-speech-from-text)
 - [Clear chat history](#clear-chat)
 - [Add system prompt](#add-system-prompt)
 
@@ -197,6 +193,23 @@ Input:
     
 Output:
     Image
+```
+
+### Generate speech from text
+
+```POST /generate/texttospeech```
+
+Generate speech from text prompt.
+
+```html_request
+Input:
+    {
+        "model_name": string - Model to get answer from,
+        "prompt" : string - Text prompt to get speech of
+    }
+   
+Output:
+    StreamingResponse (audiofile)
 ```
 
 ## Chat
