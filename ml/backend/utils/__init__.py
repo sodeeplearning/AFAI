@@ -1,1 +1,1 @@
-from . import iomodels, model
+from . import iomodels, model, text
