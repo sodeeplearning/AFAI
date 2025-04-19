@@ -5,7 +5,7 @@ import os
 
 class BaseTextToSpeech:
     """Class made for TextToSpeech task using base utils."""
-    def __init__(self, repo_id: str):
+    def __init__(self, repo_id: str = None):
         """Constructor of BaseTextToSpeech class.
 
         :param repo_id: ID of HuggingFace repo. (useless for this class)
