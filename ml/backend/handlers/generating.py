@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse, Response
-from fastapi.exceptions import HTTPException
 
 from active import active_models, chat_history, update_chathistory_file
 from utils.iomodels import InputModel, TextImageInputModel, TextToImageInputModel, TextOnlyInputModel
+from utils.checker import is_model_active
 
 
 router = APIRouter(prefix="/generate")
@@ -11,8 +11,7 @@ router = APIRouter(prefix="/generate")
 
 @router.post("/fromtext")
 async def generate_text_only(body: InputModel) -> StreamingResponse:
-    if body.model_name not in active_models:
-        raise HTTPException(status_code=404, detail=f"Model {body.model_name} is not launched")
+    is_model_active(model_name=body.model_name)
 
     chat_history[body.model_name] = active_models[body.model_name].messages
     update_chathistory_file()
@@ -31,8 +30,7 @@ async def generate_from_image_text(body: TextImageInputModel) -> StreamingRespon
     model_name = body.model_name
     image_files = body.image_files
 
-    if model_name not in active_models:
-        raise HTTPException(status_code=404, detail=f"Model {model_name} is not launched")
+    is_model_active(model_name=body.model_name)
 
     chat_history[model_name] = active_models[model_name].messages
     update_chathistory_file()
@@ -56,8 +54,7 @@ async def generate_from_image_text(body: TextImageInputModel) -> StreamingRespon
 
 @router.post("/imagefromtext")
 async def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
-    if body.model_name not in active_models:
-        raise HTTPException(status_code=404, detail=f"Model {body.model_name} is not launched")
+    is_model_active(model_name=body.model_name)
 
     generated_image_content = active_models[body.model_name](
         prompt=body.prompt,
@@ -72,8 +69,7 @@ async def generate_image_from_text_prompt(body: TextToImageInputModel) -> Respon
 
 @router.post("/texttospeech")
 async def generate_speech_from_text(body: TextOnlyInputModel) -> Response:
-    if body.model_name not in active_models:
-        raise HTTPException(status_code=404, detail=f"Model {body.model_name} is not launched")
+    is_model_active(model_name=body.model_name)
 
     return Response(
         active_models[body.model_name](prompt=body.prompt),
