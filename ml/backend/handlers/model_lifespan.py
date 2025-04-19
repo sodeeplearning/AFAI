@@ -15,15 +15,18 @@ from models.models_config import default_saving_path
 
 router = APIRouter(prefix="/model")
 
+
 lite_models = [
     "deep-qwen-4",
     "llama-1b-4",
     "llava-1.5-7b-4",
     "minicpm-o-2.6-4",
-    "pyttsx"
+    "pyttsx",
 ]
 heavy_models = [
     "stable-cascade"
+    "tts-eng",
+    "tts-rus"
 ]
 
 

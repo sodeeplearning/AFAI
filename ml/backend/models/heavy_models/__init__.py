@@ -1,6 +1,8 @@
 from .texttoimage import TextToImageCascadeModel
+from .texttospeech import TransformersTextToSpeechModel
 
 
-text_to_image_classes_mapping = {
-    "cascade_model": TextToImageCascadeModel
+classes_mapping = {
+    "cascade_model": TextToImageCascadeModel,
+    "transformers-tts": TransformersTextToSpeechModel
 }

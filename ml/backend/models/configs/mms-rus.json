@@ -1,0 +1,5 @@
+{
+  "type": "text2speech",
+  "repo_id": "facebook/mms-tts-rus",
+  "class_name": "transformers-tts"
+}
