@@ -13,6 +13,8 @@
 - [Generate image from text](#generate-image-from-prompt)
 - [Generate speech from text](#generate-speech-from-text)
 - [Clear chat history](#clear-chat)
+- [Get chat history](#get-chat-history)
+- [Update model chat](#update-model-chat)
 - [Add system prompt](#add-system-prompt)
 
 
@@ -58,9 +60,6 @@ Input:
         "model_name": "string" - name of the model to launch
         "n_ctx": 8192 - size in tokens of model's context (memory)
     }
-
-Output:
-    null
 ```
 
 ### Kill model
@@ -73,9 +72,6 @@ Input:
     {
         "model_name": "string" - name of the model to kill
     }
-
-Output:
-    null
 ```
 
 ### Delete model
@@ -88,9 +84,6 @@ Input:
     {
         "model_name": "string" - name of the model to delete
     }
-
-Output:
-    null
 ```
 
 ### Get active models
@@ -225,9 +218,6 @@ Input:
     {
         "model_name": string - Name of the model to clear chat with
     }
-
-Output:
-    null
 ```
 
 ### Add system prompt
@@ -241,10 +231,33 @@ Input:
         "model_name": string - Name of the model to set its system prompt
         "system_prompt": string - System prompt to the model
     }
-
-Output:
-    null
 ```
+
+### Get chat history
+```GET /chat/getchathistory```
+
+Get chat history (json format model_name - message1, message2...)
+
+```html request
+Output:
+    {
+        "model 1": [message1, message2, ...],
+        ...
+    }
+```
+
+### Update model chat
+```POST /chat/updatemodelchat```
+
+Update chat with model (it doesn't happen automatically yet)
+
+```html request
+Input:
+    {
+        "model_name" - Name of the model to update chat with.
+    }
+```
+
 
 # Heavy-part endpoints
 Endpoints of heavy part of the project
