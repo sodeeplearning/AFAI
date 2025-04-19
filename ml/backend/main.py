@@ -3,12 +3,19 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from config import full_version
+from active import update_chathistory_file
 
 import handlers
 
 
 app = FastAPI()
 app.include_router(handlers.router)
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    update_chathistory_file()
+
 
 if full_version:
     import fv_handlers

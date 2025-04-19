@@ -24,14 +24,14 @@ lite_models = [
     "pyttsx",
 ]
 heavy_models = [
-    "stable-cascade"
+    "stable-cascade",
     "tts-eng",
-    "tts-rus"
+    "tts-rus",
 ]
 
 
 @router.post("/launch")
-async def launch_model(body: LaunchModel):
+def launch_model(body: LaunchModel):
     if body.model_name in heavy_models:
         raise HTTPException(
             status_code=403,
@@ -103,7 +103,7 @@ async def kill_model(body: ModelNameModel):
 
 
 @router.delete("/delete")
-async def delete_model(body: ModelNameModel):
+def delete_model(body: ModelNameModel):
     model_name = body.model_name
     config_file = get_model_config(model_name)
     repo_id = config_file["repo_id"]

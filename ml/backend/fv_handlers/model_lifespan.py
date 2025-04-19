@@ -12,7 +12,7 @@ router = APIRouter(prefix="/model")
 
 
 @router.post("/launch")
-async def launch_heavy_model(body: ModelNameModel):
+def launch_heavy_model(body: ModelNameModel):
     model_config = get_model_config(model_name=body.model_name)
 
     try:

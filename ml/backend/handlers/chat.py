@@ -8,21 +8,21 @@ from utils.iomodels import ModelNameModel, SystemPromptModel
 router = APIRouter(prefix="/chat")
 
 
-def __check_model(model_name: str):
-    if model_name not in active_models or model_name not in chat_history:
-        raise HTTPException(
-            status_code=404,
-            detail="Model isn't found."
-        )
+not_found_exception = HTTPException(
+    status_code=404,
+    detail="Model isn't found."
+)
 
 
 @router.delete("/clearchat")
 async def clear_chat_history(body: ModelNameModel):
     model_name = body.model_name
 
-    __check_model(model_name=model_name)
+    if model_name not in chat_history:
+        raise not_found_exception
 
-    active_models[model_name].messages = []
+    if model_name in active_models:
+        active_models[model_name].messages = []
     chat_history[model_name] = []
 
     update_chathistory_file()
@@ -32,7 +32,8 @@ async def clear_chat_history(body: ModelNameModel):
 async def add_system_prompt(body: SystemPromptModel):
     model_name = body.model_name
 
-    __check_model(model_name=model_name)
+    if model_name not in chat_history or model_name not in active_models:
+        raise not_found_exception
 
     adding_message = {
         "role": "system",
@@ -42,4 +43,15 @@ async def add_system_prompt(body: SystemPromptModel):
     active_models[model_name].messages.append(adding_message)
     chat_history[model_name].append(adding_message)
 
+    update_chathistory_file()
+
+
+@router.get("/getchathistory")
+async def get_chat_history():
+    return chat_history
+
+
+@router.post("/updatemodelchat")
+async def update_model_chat_history(body: ModelNameModel):
+    chat_history[body.model_name] = active_models[body.model_name].messages
     update_chathistory_file()

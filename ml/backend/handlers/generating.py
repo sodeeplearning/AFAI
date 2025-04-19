@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse, Response
 
@@ -9,12 +10,14 @@ from utils.checker import is_model_active
 router = APIRouter(prefix="/generate")
 
 
-@router.post("/fromtext")
-async def generate_text_only(body: InputModel) -> StreamingResponse:
-    is_model_active(model_name=body.model_name)
+async def read_file(file) -> bytes:
+    return await file.read()
 
-    chat_history[body.model_name] = active_models[body.model_name].messages
-    update_chathistory_file()
+
+
+@router.post("/fromtext")
+def generate_text_only(body: InputModel) -> StreamingResponse:
+    is_model_active(model_name=body.model_name)
 
     return StreamingResponse(
         active_models[body.model_name](
@@ -26,19 +29,16 @@ async def generate_text_only(body: InputModel) -> StreamingResponse:
 
 
 @router.post("/fromimagetext")
-async def generate_from_image_text(body: TextImageInputModel) -> StreamingResponse:
+def generate_from_image_text(body: TextImageInputModel) -> StreamingResponse:
     model_name = body.model_name
     image_files = body.image_files
 
     is_model_active(model_name=body.model_name)
 
-    chat_history[model_name] = active_models[model_name].messages
-    update_chathistory_file()
-
     image_bytes = []
     if image_files:
         for current_file in image_files:
-            file_content = await current_file.read()
+            file_content = asyncio.run(read_file(file=current_file))
             image_bytes.append(file_content)
 
     return StreamingResponse(
@@ -53,7 +53,7 @@ async def generate_from_image_text(body: TextImageInputModel) -> StreamingRespon
 
 
 @router.post("/imagefromtext")
-async def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
+def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
     is_model_active(model_name=body.model_name)
 
     generated_image_content = active_models[body.model_name](
@@ -68,7 +68,7 @@ async def generate_image_from_text_prompt(body: TextToImageInputModel) -> Respon
 
 
 @router.post("/texttospeech")
-async def generate_speech_from_text(body: TextOnlyInputModel) -> Response:
+def generate_speech_from_text(body: TextOnlyInputModel) -> Response:
     is_model_active(model_name=body.model_name)
 
     return Response(

@@ -21,3 +21,5 @@ def update_chathistory_file():
 
 chat_history = dict()
 active_models = dict()
+
+load_chathistory()
