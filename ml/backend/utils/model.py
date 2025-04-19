@@ -6,7 +6,12 @@ from fastapi.exceptions import HTTPException
 from config import configs_path
 
 
-def get_model_config(model_name):
+def get_model_config(model_name) -> dict:
+    """Get models config json from configs list.
+
+    :param model_name: Name of the model to get config.
+    :return: Json (dict) of model's config.
+    """
     model_filename = model_name + ".json"
     models_config_path = os.path.join(configs_path, model_filename)
 
