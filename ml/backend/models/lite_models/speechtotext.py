@@ -7,7 +7,7 @@ from vosk import Model, KaldiRecognizer
 from models.models_config import default_saving_path
 
 from utils.zipworking import download_and_extract_zip
-from utils.wavworking import convert_audio_to_vosk_wav
+from utils.wavworking import convert_audio_to_vosk_wav, download_audio
 
 
 class VoskSpeechToText:
@@ -33,13 +33,19 @@ class VoskSpeechToText:
             model_path=self.saving_path
         )
 
-    def __call__(self, audio_bytes: bytes) -> str:
+    def __call__(
+            self,
+            audio_file: bytes | str
+    ) -> str:
         """Get text from audiofile.
 
-        :param audio_bytes: Bytes of audiofile to get text from.
+        :param audio_file: Bytes of audiofile to get text from.
         :return: Received text.
         """
-        wav_bytes = convert_audio_to_vosk_wav(audio_bytes)
+        if isinstance(audio_file, str):
+            audio_file = download_audio(audio_file)
+
+        wav_bytes = convert_audio_to_vosk_wav(audio_file)
 
         with wave.open(io.BytesIO(wav_bytes), 'rb') as wf:
             rec = KaldiRecognizer(self.model, wf.getframerate())
@@ -58,9 +64,3 @@ class VoskSpeechToText:
             result_text += final_result.get("text", "")
 
         return result_text.strip()
-
-
-if __name__ == '__main__':
-    model = VoskSpeechToText()
-    with open(r"C:\Users\vital\Downloads\The_Connells_-_74-75_64492774.mp3", "rb") as audio_file:
-        print(model(audio_bytes=audio_file.read()))
