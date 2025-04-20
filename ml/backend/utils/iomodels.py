@@ -41,7 +41,8 @@ class HeavyCheckingModel(BaseModel):
 
 
 class SpeechInputModel(ModelNameModel):
-    audio_files: List[UploadFile]
+    audio_files: List[UploadFile] = []
+    audio_links: List[str] = []
 
 
 class TextListModel(BaseModel):

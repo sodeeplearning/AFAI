@@ -94,8 +94,8 @@ def speech_to_text(body: SpeechInputModel) -> TextListModel:
         audio_bytes.append(asyncio.run(read_file(current_file)))
 
     answers = []
-    for current_bytes in audio_bytes:
-        generated = active_models[body.model_name](audio_bytes=current_bytes)
+    for current_bytes in audio_bytes + body.audio_links:
+        generated = active_models[body.model_name](audio_file=current_bytes)
         answers.append(generated)
 
     return TextListModel(
