@@ -22,6 +22,8 @@ lite_models = [
     "llava-1.5-7b-4",
     "minicpm-o-2.6-4",
     "pyttsx",
+    "vosk-small-en",
+    "vosk-ru"
 ]
 heavy_models = [
     "stable-cascade",
