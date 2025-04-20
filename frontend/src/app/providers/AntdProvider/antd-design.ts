@@ -60,6 +60,9 @@ export const lightThemeConfig: ThemeConfig = {
       Card: {
         colorBgContainer: '#212124'
       },
+      Skeleton: {
+         colorFill: '#fff',
+      }
    },
  };
 
