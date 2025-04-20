@@ -216,7 +216,8 @@ Extract text of speech in audiofile.
 Input:
     {
         "model_name": string - Name of the model using to extract text,
-        "audio_files": List[Uploadfile] - List of audio files to get text of speech from
+        "audio_files": List[Uploadfile] - List of audio files to get text of speech from (can be empty),
+        "audio_links": List[str] - List of links to hosted audio files (can be empty).
     }
 
 Output:
