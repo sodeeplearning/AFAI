@@ -4,3 +4,4 @@ huggingface-hub
 diffusers
 pyttsx3
 pydub
+vosk
