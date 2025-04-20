@@ -3,3 +3,4 @@ fastapi[standard]
 huggingface-hub
 diffusers
 pyttsx3
+pydub
