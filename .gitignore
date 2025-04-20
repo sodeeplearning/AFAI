@@ -3,6 +3,7 @@
 ml/test.py
 *.jpg
 *.png
+*.wav
 .locks
 saved
 chathistory.json
