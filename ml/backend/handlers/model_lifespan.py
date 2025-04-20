@@ -80,6 +80,12 @@ def launch_model(body: LaunchModel):
                     repo_id=repo_id
                 )
 
+            case "speech2text":
+                class_name = config_file["class_name"]
+                active_models[body.model_name] = classes_mapping[class_name](
+                    repo_id=repo_id
+                )
+
     except ConnectionError as e:
         raise HTTPException(
             status_code=408,
