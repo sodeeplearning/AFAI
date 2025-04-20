@@ -2,7 +2,7 @@ import asyncio
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse, Response
 
-from active import active_models, chat_history, update_chathistory_file
+from active import active_models
 from utils.iomodels import InputModel, TextImageInputModel, TextToImageInputModel, TextOnlyInputModel
 from utils.checker import is_model_active
 
