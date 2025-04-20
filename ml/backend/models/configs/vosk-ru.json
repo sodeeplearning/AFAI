@@ -1,0 +1,5 @@
+{
+  "type": "speech2text",
+  "class_name": "voskspeech2text",
+  "repo_id": "vosk-model-ru-0.22"
+}
