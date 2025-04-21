@@ -118,6 +118,7 @@ Output:
 
 ### Is model heavy
 ```POST /model/ismodelheavy```
+
 Check if model is heavy or not.
 ```html request
 Input:
@@ -176,7 +177,7 @@ Output:
 
 Generate image from single text prompt
 
-```html_request
+```html request
 Input:
     {
       "model_name": string - Model to get answer from,
@@ -194,7 +195,7 @@ Output:
 
 Generate speech from text prompt.
 
-```html_request
+```html request
 Input:
     {
         "model_name": string - Model to get answer from,
@@ -203,6 +204,30 @@ Input:
    
 Output:
     StreamingResponse (audiofile)
+```
+
+### Generate text from speech
+
+```POST /generate/speechtotext```
+
+Extract text of speech in audiofile.
+
+```html request
+Input:
+    {
+        "model_name": string - Name of the model using to extract text,
+        "audio_files": List[Uploadfile] - List of audio files to get text of speech from (can be empty),
+        "audio_links": List[str] - List of links to hosted audio files (can be empty).
+    }
+
+Output:
+    {
+        "texts": [
+            "Text1",
+            "Text2",
+            ...
+        ]
+    }
 ```
 
 ## Chat
@@ -272,7 +297,7 @@ Lifespan of heavy models.
 
 Download or start model
 
-```html_request
+```html request
 Input:
     {
       "model_name": string - Name of the model to launch

@@ -2,8 +2,16 @@ import asyncio
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse, Response
 
-from active import active_models, chat_history, update_chathistory_file
-from utils.iomodels import InputModel, TextImageInputModel, TextToImageInputModel, TextOnlyInputModel
+from active import active_models
+
+from utils.iomodels import (
+    InputModel,
+    TextImageInputModel,
+    TextToImageInputModel,
+    TextOnlyInputModel,
+    SpeechInputModel,
+    TextListModel
+)
 from utils.checker import is_model_active
 
 
@@ -74,4 +82,22 @@ def generate_speech_from_text(body: TextOnlyInputModel) -> Response:
     return Response(
         active_models[body.model_name](prompt=body.prompt),
         media_type="audio/wav"
+    )
+
+
+@router.post("/speechtotext")
+def speech_to_text(body: SpeechInputModel) -> TextListModel:
+    is_model_active(model_name=body.model_name)
+
+    audio_bytes = []
+    for current_file in body.audio_files:
+        audio_bytes.append(asyncio.run(read_file(current_file)))
+
+    answers = []
+    for current_bytes in audio_bytes + body.audio_links:
+        generated = active_models[body.model_name](audio_file=current_bytes)
+        answers.append(generated)
+
+    return TextListModel(
+        texts=answers
     )

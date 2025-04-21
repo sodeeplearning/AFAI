@@ -22,6 +22,8 @@ lite_models = [
     "llava-1.5-7b-4",
     "minicpm-o-2.6-4",
     "pyttsx",
+    "vosk-small-en",
+    "vosk-ru"
 ]
 heavy_models = [
     "stable-cascade",
@@ -75,6 +77,12 @@ def launch_model(body: LaunchModel):
                 )
 
             case "text2speech":
+                class_name = config_file["class_name"]
+                active_models[body.model_name] = classes_mapping[class_name](
+                    repo_id=repo_id
+                )
+
+            case "speech2text":
                 class_name = config_file["class_name"]
                 active_models[body.model_name] = classes_mapping[class_name](
                     repo_id=repo_id

@@ -60,6 +60,11 @@ export const AgentsList = observer(() => {
                 <Text>{t("Нет доступных моделей")}</Text>
             )}
             <ModalAgents
+                title={t("Скачать модель")}
+                cancelText={t("Отмена")}
+                confirmText={t("Скачать")}
+                modalText={t("Вы действительно хотите скачать модель")}
+                isCentered={true}
                 model={selectedModel}
                 isOpen={isModalOpen}
                 onClose={handleModalClose}

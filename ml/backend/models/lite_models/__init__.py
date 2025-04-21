@@ -9,12 +9,14 @@ from llama_cpp.llama_chat_format import (
 from .textmodel import TextOnlyModel
 from .imagetextmodel import TextImageModel
 from .texttospeech import BaseTextToSpeech
+from .speechtotext import VoskSpeechToText
 
 
 classes_mapping = {
     "text2text": TextOnlyModel,
     "imagetext2text": TextImageModel,
-    "basetext2speech": BaseTextToSpeech
+    "basetext2speech": BaseTextToSpeech,
+    "voskspeech2text": VoskSpeechToText
 }
 
 handler_mapping = {

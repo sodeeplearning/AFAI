@@ -26,6 +26,9 @@ export const lightThemeConfig: ThemeConfig = {
       Card: {
         colorBgContainer: 'rgba(246, 249, 252, 0.67)'
       },
+      Table: {
+         borderColor: '#141414'
+      }
    },
  };
 
@@ -62,6 +65,10 @@ export const lightThemeConfig: ThemeConfig = {
       },
       Skeleton: {
          colorFill: '#fff',
+      },
+      Table: {
+         colorError: '#bb3637',
+         borderColor: '#e2424287',
       }
    },
  };

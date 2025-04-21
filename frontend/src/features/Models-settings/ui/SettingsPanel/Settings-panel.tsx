@@ -3,16 +3,16 @@ import { ModelsList } from "entities/ModelsList";
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { GetAllModelsResponse } from "shared/api/services/GetAllModels/types";
-import { Card } from "antd";
+import { Card } from 'antd'
 
 export const SettingsPanel = observer(() => {
-    const { getAllModelsStore } = useStore();
+    const { getAllModelsStore, deleteModelStore } = useStore();
     useEffect(() => {
         const fetchData = async () => {
             await getAllModelsStore.getAllDownloadedModelsAction();
         };
         fetchData();
-    }, [getAllModelsStore]);
+    }, [getAllModelsStore]);    
     
     return (    
         <Card>
@@ -21,6 +21,7 @@ export const SettingsPanel = observer(() => {
                 children={<div>Footer</div>}
                 isLoading={getAllModelsStore.getAllDownloadedModelsData?.state === "pending"}
                 error={getAllModelsStore.getAllDownloadedModelsData?.state === "rejected" ? "Error" : null}
+                onDelete={deleteModelStore.deleteModelAction}
             />
         </Card>
     )

@@ -1,6 +1,5 @@
 import { Button, Modal, Typography } from "antd"
 import { ReactNode } from "react"
-import { useTranslation } from "react-i18next"
 
 const { Text } = Typography
 
@@ -9,7 +8,12 @@ interface ModalAgentsProps {
     isOpen: boolean
     onClose: () => void
     onConfirm: () => void
-    children: ReactNode
+    children?: ReactNode
+    title?: string
+    confirmText?: string
+    cancelText?: string
+    modalText?: string
+    isCentered?: boolean
 }
 
 export const ModalAgents = (props: ModalAgentsProps) => {
@@ -18,26 +22,30 @@ export const ModalAgents = (props: ModalAgentsProps) => {
         isOpen,
         onClose,
         onConfirm,
-        children
+        children,
+        title,
+        confirmText,
+        cancelText,
+        modalText,
+        isCentered
     } = props
-    const { t } = useTranslation()
     
     return (
         <Modal
-            title={t("Подтверждение")}
+            title={title}
             open={isOpen}
             onCancel={onClose}
-            centered
+            centered={isCentered}
             footer={[
                 <Button key="cancel" onClick={onClose}>
-                    {t("Отмена")}
+                    {cancelText}
                 </Button>,
                 <Button key="confirm" type="primary" onClick={onConfirm}>
-                    {t("Скачать")}
+                    {confirmText}
                 </Button>
             ]}
         >
-            <Text>{t("Вы действительно хотите скачать модель")} <Text strong>{model}</Text>?</Text>
+            <Text>{modalText} <Text strong>{model}</Text>?</Text>
             {children}
         </Modal>
     )

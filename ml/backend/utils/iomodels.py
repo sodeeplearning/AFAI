@@ -38,3 +38,12 @@ class TextImageInputModel(InputModel):
 
 class HeavyCheckingModel(BaseModel):
     is_heavy: bool
+
+
+class SpeechInputModel(ModelNameModel):
+    audio_files: List[UploadFile] = []
+    audio_links: List[str] = []
+
+
+class TextListModel(BaseModel):
+    texts: List[str]
