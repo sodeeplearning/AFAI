@@ -1,9 +1,10 @@
+import { Card } from "antd"
 
 
 export const SettingsPanel = () => {
     return (
-        <div>
+        <Card>
             <h1>Settings</h1>
-        </div>
+        </Card>
     )
 }

@@ -1,10 +1,11 @@
-
+import { Page } from "widgets/Page/Page"
+import { SettingsPanel } from "features/Models-settings/ui/SettingsPanel/Settings-panel"
 
 export const SettingsPage = () => {
     return (
-        <div>
-            <h1>Settings</h1>
-        </div>
+        <Page>
+            <SettingsPanel />
+        </Page>
     )
 }
 

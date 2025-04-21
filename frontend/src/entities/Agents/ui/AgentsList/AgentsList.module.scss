@@ -1,9 +1,11 @@
 .agentsList {
-    width: 60rem;
-    height: auto;
+    width: 100%;
+    max-width: 60rem;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    padding-bottom: 5rem;
 }
 
 .agentCard {
@@ -20,8 +22,9 @@
 }
 
 .agentsListTitle {
-    font-size: x-large;
+    font-size: 1.5rem;
     font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 .modalContent {
@@ -29,5 +32,6 @@
 }
 
 .modalText {
-    font-size: small;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
 }
