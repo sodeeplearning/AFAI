@@ -56,6 +56,7 @@ export const AddPrompt = observer((props: AddPromptProps) => {
             setIsSubmitting(false)
         }
     }, [addSystemPromptStore, form, messageApi, model, onConfirm, t])
+    
     return (
         <>
             {contextHolder}

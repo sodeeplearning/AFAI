@@ -69,6 +69,7 @@ export const AgentsList = observer(() => {
                 isOpen={isModalOpen}
                 onClose={handleModalClose}
                 onConfirm={handleDownload}
+                successMessage={t("Модель в процессе скачивания")}
             >
                 <div className={s.modalContent}/>
                     <Text className={s.modalText}>{t("* Скачивание модели может занять некоторое время")}</Text>
