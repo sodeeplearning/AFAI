@@ -6,10 +6,11 @@ import { GetAllModelsResponse } from "shared/api/services/GetAllModels/types";
 import s from './ModelsList.module.scss'
 import classNames from "shared/library/classNames/classNames";
 import { ModalAgents } from "widgets/ModalAgents";
+import { AddPrompt } from "features/AddPrompt";
 
 interface ModelsListProps {
     models: GetAllModelsResponse;
-    children: ReactNode;
+    children?: ReactNode;
     isLoading: boolean;
     error: string | null;
     onDelete?: (modelName: string) => void;
@@ -46,10 +47,13 @@ export const ModelsList = observer((props: ModelsListProps) => {
                 >
                     {t("delete")}
                 </Button>
-                <ModalAgents
+                <AddPrompt
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    onConfirm={() => onEdit?.(record.name)}
+                    onConfirm={() => {
+                        onEdit?.(record.name)
+                        setIsModalOpen(false)
+                    }}
                     model={record.name}
                     isCentered={false}
                 />

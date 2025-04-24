@@ -1,2 +1,16 @@
 {
+  "Reach": "Охват",
+  "Top Traffic": "Основной трафик",
+  "Sentiment": "Тональность",
+  "This article has positive sentiment.": "Эта статья имеет положительную тональность.",
+  "This article has negative sentiment.": "Эта статья имеет отрицательную тональность.",
+  "This article has neutral sentiment.": "Эта статья имеет нейтральную тональность.",
+  "Show less": "Показать меньше",
+  "Show more": "Показать больше",
+  "Original Source": "Оригинальный источник",
+  "Duplicates": "Дубликаты",
+  "View Duplicates": "Просмотреть дубликаты",
+  "Article Information": "Информация о статье",
+  "Close": "Закрыть",
+  "info": "информация"
 }

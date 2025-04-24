@@ -18,7 +18,6 @@ export const SettingsPanel = observer(() => {
         <Card>
             <ModelsList 
                 models={getAllModelsStore.getAllDownloadedModelsData?.value as GetAllModelsResponse}
-                children={<div>Footer</div>}
                 isLoading={getAllModelsStore.getAllDownloadedModelsData?.state === "pending"}
                 error={getAllModelsStore.getAllDownloadedModelsData?.state === "rejected" ? "Error" : null}
                 onDelete={deleteModelStore.deleteModelAction}
