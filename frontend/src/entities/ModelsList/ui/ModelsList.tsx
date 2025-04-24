@@ -34,6 +34,7 @@ export const ModelsList = observer((props: ModelsListProps) => {
 
     const renderActions = (record: { name: string }) => {
         return (
+            
             <Space size="small">
                 <Button
                     type="default"

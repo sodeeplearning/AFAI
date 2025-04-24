@@ -2,6 +2,7 @@ import { Modal, Input, Form, message } from "antd"
 import { useCallback, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { useStore } from "app/providers/StoreProvider"
+import { useTranslation } from "react-i18next"
 
 const { TextArea } = Input
 
@@ -22,6 +23,7 @@ export const AddPrompt = observer((props: AddPromptProps) => {
         isCentered
     } = props
     const [form] = Form.useForm()
+    const { t } = useTranslation()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [messageApi, contextHolder] = message.useMessage()
     const { addSystemPromptStore } = useStore()
@@ -41,29 +43,29 @@ export const AddPrompt = observer((props: AddPromptProps) => {
                 values.prompt
             )
 
-            messageApi.success("Промпт успешно добавлен")
+            messageApi.success(`${t("Промпт успешно добавлен")}`)
             form.resetFields()
             onConfirm()
         } catch (error) {
             if (error instanceof Error) {
                 messageApi.error(error.message)
             } else {
-                messageApi.error("Ошибка при добавлении промпта")
+                messageApi.error(`${t("Ошибка при добавлении промпта")}`)
             }
         } finally {
             setIsSubmitting(false)
         }
-    }, [addSystemPromptStore, form, messageApi, model, onConfirm])
+    }, [addSystemPromptStore, form, messageApi, model, onConfirm, t])
     return (
         <>
             {contextHolder}
             <Modal
-                title="Добавить промпт модели"
+                title={`${t("Добавить промпт модели")}`}
                 open={isOpen}
                 onCancel={handleCancel}
                 onOk={handleSubmit}
-                okText="Добавить"
-                cancelText="Отмена"
+                okText={`${t("Добавить")}`}
+                cancelText={`${t("Отмена")}`}
                 confirmLoading={isSubmitting}
                 centered={isCentered}
             >
@@ -74,19 +76,19 @@ export const AddPrompt = observer((props: AddPromptProps) => {
                 >
                     <Form.Item
                         name="model"
-                        label="Модель"
+                        label={`${t("Модель")}`}
                         initialValue={model}
-                        rules={[{ required: !model, message: "Выберите модель" }]}
+                        rules={[{ required: !model, message: `${t("Выберите модель")}` }]}
                     >
                         {model}
                     </Form.Item>
                     <Form.Item
                         name="prompt"
-                        label="Промпт"
-                        rules={[{ required: true, message: "Введите текст промпта" }]}
+                        label={`${t("Промпт")}`}
+                        rules={[{ required: true, message: `${t("Введите текст промпта")}` }]}
                     >
                         <TextArea
-                            placeholder="Введите системный промпт..."
+                            placeholder={`${t("Введите системный промпт...")}`}
                             rows={6}
                             showCount
                             maxLength={2000}
