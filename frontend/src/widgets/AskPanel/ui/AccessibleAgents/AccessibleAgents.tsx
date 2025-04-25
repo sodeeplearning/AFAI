@@ -4,17 +4,22 @@ import { observer } from "mobx-react-lite"
 import { AccessibleAgentsItems } from "./AccesibleAgentItem"
 
 interface AccessibleAgentsProps {
-    className?: string
+    className?: string;
+    onSelectModel?: (model: string) => void;
 }
 
 export const AccessibleAgents = observer((props: AccessibleAgentsProps) => {
     const {
-        className
+        className,
+        onSelectModel
     } = props
 
     return (
         <section className={classNames(s.accessibleAgents, {}, [className])}>
-            <AccessibleAgentsItems className={s.accessibleAgentsItems} />
+            <AccessibleAgentsItems 
+                className={s.accessibleAgentsItems} 
+                onSelectModel={onSelectModel}
+            />
         </section>
     )
 })

@@ -1,8 +1,8 @@
-import { Card, Input, Typography } from "antd"
+import { Button, Card, Input, Typography } from "antd"
 import s from "./AskPanel.module.scss"
 import classNames from "shared/library/classNames/classNames"
 import { useTranslation } from "react-i18next"
-import { Search } from "lucide-react"
+import { ArrowUp } from "lucide-react"
 import { AccessibleAgents } from "../AccessibleAgents/AccessibleAgents"
 
 const { TextArea } = Input
@@ -18,17 +18,21 @@ export const AskPanel = ({ className }: AskPanelProps) => {
         <div className={classNames(s.askPanel, {}, [className])}>
             <Text className={s.inputText}>{t("Чем я могу помочь?")}</Text>
             <div className={s.inputWrapper}>
-            <AccessibleAgents className={s.accessibleAgents} />
+                <AccessibleAgents className={s.accessibleAgents} />
                 <Card className={s.inputCard}>
                     <div className={s.textareaWrapper}>
                         <TextArea
                             autoSize
                             placeholder="Спросите что-нибудь..."
                         />
-                        
-                        <div className={s.controls}>
-                            <Search className={s.icon} />
-                        </div>
+
+                        <Button
+                            type="primary"
+                            shape="circle"
+                            className={s.controls}
+                        >
+                            <ArrowUp  className={s.icon} />
+                        </Button>
                     </div>
                 </Card>
             </div>

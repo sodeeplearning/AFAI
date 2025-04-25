@@ -10,13 +10,15 @@ import { AppRoutes } from "shared/config/routeConfig/routeConfig";
 import classNames from "shared/library/classNames/classNames";
 
 interface AccessibleAgentsItemsProps {
-    className?: string
+    className?: string;
+    onSelectModel?: (model: string) => void;
 }
 
 export const AccessibleAgentsItems = observer((props: AccessibleAgentsItemsProps) => {
     const [checkedModel, setCheckedModel] = useState<string | null>(null)
     const {
-        className
+        className,
+        onSelectModel
     } = props
 
     const { t } = useTranslation()
@@ -33,8 +35,11 @@ export const AccessibleAgentsItems = observer((props: AccessibleAgentsItemsProps
     const isLoading = getAllModelsStore.getAllDownloadedModelsData?.state === "pending"
 
     const handleCheckedModel = useCallback((model: string) => {
-        setCheckedModel(model)
-    }, [])
+        setCheckedModel(model);
+        if (onSelectModel) {
+            onSelectModel(model);
+        }
+    }, [onSelectModel]);
 
 
     return (

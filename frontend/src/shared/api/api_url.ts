@@ -17,10 +17,16 @@ export const API_URL = {
     // генерации 
     GenerateOnlyText: () => '/generate/fromtext',
     GenerateFromImageText: () => '/generate/fromimagetext',
+    GenerateImageFromText: () => '/generate/imagefromtext',
+    GenerateTextToSpeech: () => '/generate/texttospeech',
+    GenerateSpeechToText: () => '/generate/speechtotext',
 
     // Взимодейтствие с чатом и моделью
     ClearChat: () => '/chat/clearchat',
     AddSystemPrompt: () => '/chat/addsystemprompt',
+    UpdateModel: () => '/chat/updatemodelchat',
+    GetChat: () => '/chat/getchathistory',
+    ClearChatHistory: () => '/chat/clearchat',
 
 
     // запуск тяжелых моделей
