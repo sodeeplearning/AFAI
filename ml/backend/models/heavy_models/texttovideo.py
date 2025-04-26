@@ -45,7 +45,7 @@ class TextToVideoModel:
         :param frame_size: Resolution of each frame in the generated video.
         :param num_inference_steps: Num of steps to generate (more steps - more quality and more time for generation).
         :param fps: Num of frames in generated video.
-        :param duration: Duration of generated video.
+        :param duration: Duration of generated video (in seconds).
         :return:
         """
         temp_file_path: str = "temp.mp4"

@@ -10,7 +10,8 @@ from utils.iomodels import (
     TextToImageInputModel,
     TextOnlyInputModel,
     SpeechInputModel,
-    TextListModel
+    TextListModel,
+    TextToVideoInputModel
 )
 from utils.checker import is_model_active
 
@@ -66,12 +67,31 @@ def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
 
     generated_image_content = active_models[body.model_name](
         prompt=body.prompt,
-        image_size=body.image_size
+        image_size=body.image_size,
+        inference_steps=body.inference_steps
     )
 
     return Response(
         content=generated_image_content,
         media_type="image/jpg"
+    )
+
+
+@router.post("/videofromtext")
+def generate_video_from_text_prompt(body: TextToVideoInputModel) -> Response:
+    is_model_active(model_name=body.model_name)
+
+    generated_video_content = active_models[body.model_name](
+        prompt=body.prompt,
+        frame_size=body.image_size,
+        num_inference_steps=body.inference_steps,
+        fps=body.fps,
+        duration=body.duration
+    )
+
+    return Response(
+        content=generated_video_content,
+        media_type="video/mp4"
     )
 
 
