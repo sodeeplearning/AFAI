@@ -25,7 +25,7 @@ def launch_heavy_model(body: ModelNameModel):
             case "text2video":
                 active_models[body.model_name] = classes_mapping[model_config["class_name"]](
                     repo_id=model_config["repo_id"],
-                    pipeline_class=model_config["pipeline_name"]
+                    pipeline_class=pipeline_mapping[model_config["pipeline_name"]]
                 )
 
             case "text2speech":
