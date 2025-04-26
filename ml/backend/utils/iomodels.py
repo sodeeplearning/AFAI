@@ -29,6 +29,7 @@ class InputModel(TextOnlyInputModel):
 
 class TextToImageInputModel(TextOnlyInputModel):
     image_size: int = 1024
+    inference_steps: int = 20
 
 
 class TextImageInputModel(InputModel):

@@ -37,23 +37,25 @@ class TextToImageCascadeModel:
             self,
             prompt: str,
             image_size: int = 1024,
+            inference_steps: int = 20
     ) -> bytes:
         """Generate image from prompt.
 
         :param prompt: Prompt to a model (description of image to generate).
         :param image_size: Size of generated image (squared image).
+        :param inference_steps: Num of steps to generate (more steps - more quality and more time for generation).
 
         :return: bytes of generated image.
         """
         self.prior.enable_model_cpu_offload()
         prior_output = self.prior(
             prompt=prompt,
-            height=1024,
-            width=1024,
+            height=image_size,
+            width=image_size,
             negative_prompt="",
             guidance_scale=4.0,
             num_images_per_prompt=1,
-            num_inference_steps=20
+            num_inference_steps=inference_steps
         )
 
         self.decoder.enable_model_cpu_offload()
@@ -63,7 +65,7 @@ class TextToImageCascadeModel:
             negative_prompt="",
             guidance_scale=0.0,
             output_type="pil",
-            num_inference_steps=10
+            num_inference_steps=inference_steps // 2
         ).images[0]
 
         return decoder_output.tobytes()
