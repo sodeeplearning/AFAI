@@ -29,6 +29,7 @@ heavy_models = [
     "stable-cascade",
     "tts-eng",
     "tts-rus",
+    "ltx-video"
 ]
 
 
