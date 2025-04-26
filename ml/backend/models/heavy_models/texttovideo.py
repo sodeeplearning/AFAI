@@ -21,10 +21,12 @@ class TextToVideoModel:
         :param saving_path: Path to save model.
         :param pipeline_class: Class of diffusers pipeline model.
         """
+        self.saving_path = os.path.join(saving_path, repo_id)
+
         self.pipe = pipeline_class.from_pretrained(
             repo_id,
             torch_dtype=torch.bfloat16,
-            cache_dir=saving_path
+            cache_dir=self.saving_path
         )
         if torch.cuda.is_available():
             self.pipe.to("cuda")

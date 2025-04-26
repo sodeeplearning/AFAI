@@ -1,9 +1,11 @@
+from pydub import AudioSegment
+import io
+import os
+from tqdm import tqdm
+
 from transformers import VitsModel, AutoTokenizer
 import torch
 import torchaudio
-from pydub import AudioSegment
-import io
-from tqdm import tqdm
 
 from models.models_config import default_saving_path
 from utils.text import split_text
@@ -21,12 +23,13 @@ class TransformersTextToSpeechModel:
         :param repo_id: ID of huggingface repo of the model.
         :param saving_path: Path to save model.
         """
+        self.saving_path = os.path.join(saving_path, repo_id)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.model = VitsModel.from_pretrained(
             repo_id,
             device_map=self.device,
-            cache_dir=saving_path
+            cache_dir=self.saving_path
         )
         self.tokenizer = AutoTokenizer.from_pretrained(repo_id)
 

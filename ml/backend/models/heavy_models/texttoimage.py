@@ -19,6 +19,7 @@ class TextToImageCascadeModel:
         :param saving_path: Path to a dir to cache model.
         """
         self.saving_path = os.path.join(saving_path, repo_id)
+
         self.prior = StableCascadePriorPipeline.from_pretrained(
             repo_id + "-prior",
             variant="bf16",

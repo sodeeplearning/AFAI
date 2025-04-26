@@ -36,7 +36,7 @@ class TextImageModel:
                 filename,
                 n_ctx=context_size,
                 chat_handler=self.handler,
-                cache_dir=saving_path,
+                cache_dir=self.saving_path,
             )
         else:
             self.handler = handler_class.from_pretrained(
@@ -48,7 +48,7 @@ class TextImageModel:
                 filename=filename,
                 n_ctx=context_size,
                 chat_handler=self.handler,
-                cache_dir=saving_path
+                cache_dir=self.saving_path
             )
         self.messages = [
             {"role": "system", "content": "You are an assistant who perfectly describes images."}
