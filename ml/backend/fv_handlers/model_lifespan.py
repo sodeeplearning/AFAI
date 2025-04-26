@@ -5,7 +5,7 @@ from utils.iomodels import ModelNameModel
 from utils.model import get_model_config
 from active import active_models, chat_history, update_chathistory_file
 
-from models.heavy_models import classes_mapping
+from models.heavy_models import classes_mapping, pipeline_mapping
 
 
 router = APIRouter(prefix="/model")
@@ -20,6 +20,12 @@ def launch_heavy_model(body: ModelNameModel):
             case "text2image":
                 active_models[body.model_name] = classes_mapping[model_config["class_name"]](
                     repo_id=model_config["repo_id"]
+                )
+
+            case "text2video":
+                active_models[body.model_name] = classes_mapping[model_config["class_name"]](
+                    repo_id=model_config["repo_id"],
+                    pipeline_class=model_config["pipeline_name"]
                 )
 
             case "text2speech":

@@ -19,6 +19,7 @@ class TextToVideoModel:
 
         :param repo_id: ID of huggingface repo of the model.
         :param saving_path: Path to save model.
+        :param pipeline_class: Class of diffusers pipeline model.
         """
         self.pipe = pipeline_class.from_pretrained(
             repo_id,
