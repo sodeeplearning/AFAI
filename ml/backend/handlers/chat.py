@@ -41,7 +41,7 @@ async def add_system_prompt(body: SystemPromptModel):
     }
 
     active_models[model_name].messages.append(adding_message)
-    chat_history[model_name].append(adding_message)
+    chat_history[body.model_name] = active_models[body.model_name].messages.copy()
 
     update_chathistory_file()
 
@@ -53,5 +53,5 @@ async def get_chat_history():
 
 @router.post("/updatemodelchat")
 async def update_model_chat_history(body: ModelNameModel):
-    chat_history[body.model_name] = active_models[body.model_name].messages
+    chat_history[body.model_name] = active_models[body.model_name].messages.copy()
     update_chathistory_file()
