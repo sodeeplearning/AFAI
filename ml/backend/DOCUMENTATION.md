@@ -182,11 +182,33 @@ Input:
     {
       "model_name": string - Model to get answer from,
       "prompt": string - prompt / query to the model,
-      "image_size": int = 1024 - Size of generated image (squared image)
+      "image_size": int = 1024 - Size of generated image (squared image),
+      "inference_steps": 20 - More steps - more quality and longer generation
     }
     
 Output:
     Image
+```
+
+### Generate video from prompt
+
+```POST /generate/videofromprompt```
+
+Generate video from text prompt
+
+```html request
+Input:
+    {
+      "model_name": string - Model to get answer from,
+      "prompt": string - description of generated video,
+      "image_size": 1024 - Resolution of video frames,
+      "inference_steps": 20 - More steps - more quality and longer generation,
+      "fps": 24 - Amount of frames in generated video,
+      "duration": 5 - Duration of generated video in seconds
+    }
+
+Output:
+    Video
 ```
 
 ### Generate speech from text
