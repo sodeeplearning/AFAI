@@ -1,0 +1,6 @@
+{
+  "type": "text2text",
+  "repo_id": "bartowski/sum-small-GGUF",
+  "filename": "sum-small-Q6_K.gguf",
+  "n_ctx": 65536
+}

@@ -23,7 +23,8 @@ lite_models = [
     "minicpm-o-2.6-4",
     "pyttsx",
     "vosk-small-en",
-    "vosk-ru"
+    "vosk-ru",
+    "sum-small"
 ]
 heavy_models = [
     "stable-cascade",
