@@ -13,6 +13,8 @@ export const API_URL = {
     // проверка на тяжелую модель
     CheckHeavyModel: () => '/model/ismodelheavy',
 
+    // отслеживание статуса загрузки модели
+    ModelLoadingStatus: () => '/model/loading/status',
 
     // генерации 
     GenerateOnlyText: () => '/generate/fromtext',

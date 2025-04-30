@@ -1,41 +1,34 @@
-import { Button, Card, Input, Typography } from "antd"
+import { Card } from "antd"
 import s from "./AskPanel.module.scss"
 import classNames from "shared/library/classNames/classNames"
-import { useTranslation } from "react-i18next"
-import { ArrowUp } from "lucide-react"
 import { AccessibleAgents } from "../AccessibleAgents/AccessibleAgents"
+import { observer } from "mobx-react-lite"
+import { FC, useState } from "react"
+import { SendMessageToAgent } from "features/SendMessageToAgent"
 
-const { TextArea } = Input
-const { Text } = Typography
+
 
 interface AskPanelProps {
     className?: string
 }
 
-export const AskPanel = ({ className }: AskPanelProps) => {
-    const { t } = useTranslation()
+export const AskPanel: FC<AskPanelProps> = observer(({ className }) => {
+    const [selectedModel, setSelectedModel] = useState<string>("")
+
     return (
         <div className={classNames(s.askPanel, {}, [className])}>
-            <Text className={s.inputText}>{t("Чем я могу помочь?")}</Text>
             <div className={s.inputWrapper}>
-                <AccessibleAgents className={s.accessibleAgents} />
+                <AccessibleAgents
+                    className={s.accessibleAgents}
+                    onSelectModel={setSelectedModel}
+                />
                 <Card className={s.inputCard}>
-                    <div className={s.textareaWrapper}>
-                        <TextArea
-                            autoSize
-                            placeholder="Спросите что-нибудь..."
-                        />
-
-                        <Button
-                            type="primary"
-                            shape="circle"
-                            className={s.controls}
-                        >
-                            <ArrowUp  className={s.icon} />
-                        </Button>
-                    </div>
+                    <SendMessageToAgent
+                        className={s.sendMessageToAgent}
+                        selectedModel={selectedModel}
+                    />
                 </Card>
             </div>
         </div>
     )
-}
+})
