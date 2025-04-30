@@ -1,6 +1,8 @@
 export type ChatMessage = {
+  id: string;
   role: 'user' | 'assistant' | 'system';
   content: string;
+  model: string;
 };
 
 export type ChatHistory = {

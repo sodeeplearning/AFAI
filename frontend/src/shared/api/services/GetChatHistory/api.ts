@@ -3,5 +3,5 @@ import { baseInstanceV1 } from "shared/api/base";
 
 //  ============= FETCH CHAT HISTORY =============
 export const getChatHistory = async () => (
-    await baseInstanceV1.get(API_URL.GetChat())
+    (await baseInstanceV1.get(API_URL.GetChat())).data
 );
