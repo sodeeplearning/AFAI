@@ -1,0 +1,6 @@
+{
+  "type": "text2text",
+  "repo_id": "raaec/llama3.1-8b-instruct-summarize-q4_k_m",
+  "filename": "unsloth.Q4_K_M.gguf",
+  "n_ctx": 65536
+}
