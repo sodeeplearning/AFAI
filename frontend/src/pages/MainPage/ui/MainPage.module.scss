@@ -1,16 +1,5 @@
 .askPanel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: var(--bg-color);
-    border-top: 1px solid var(--border-color);
-}
-
-.chatList {
-    flex: 1;
-    overflow-y: auto;
-    height: calc(100vh - 12rem);
-    padding: 1rem;
+    
+    height: calc(100% - var(--header-height));
+    width: auto;
 }

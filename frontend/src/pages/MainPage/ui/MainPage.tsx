@@ -4,14 +4,12 @@ import { Page } from "widgets/Page/Page"
 import s from './MainPage.module.scss'
 import { ChatHistoryList } from "entities/Chat/ui/ChatHistoryList/ChatHistoryList"  
 import { useStore } from "app/providers/StoreProvider"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { ChatMessage } from "shared/api/services/GetChatHistory/types"
 
 export const MainPage = observer(() => {
     const { getChatHistoryStore, generationOnlyTextStore } = useStore()
     const [selectedModel, setSelectedModel] = useState<string>("")
-    const chatListRef = useRef<HTMLDivElement>(null)
-    const [scrollPosition, setScrollPosition] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,17 +20,9 @@ export const MainPage = observer(() => {
 
     useEffect(() => {
         if (generationOnlyTextStore.chatHistoryData.isFulfilled) {
-            const currentScroll = chatListRef.current?.scrollTop || 0
-            setScrollPosition(currentScroll)
             getChatHistoryStore.getAllModelsAction();
         }
     }, [generationOnlyTextStore.chatHistoryData.isFulfilled, getChatHistoryStore]);
-
-    useEffect(() => {
-        if (chatListRef.current && scrollPosition) {
-            chatListRef.current.scrollTop = scrollPosition
-        }
-    }, [getChatHistoryStore.getChatHistoryData?.value, scrollPosition]);
 
     console.log('getChatHistoryStore.getChatHistoryData?.value:', getChatHistoryStore.getChatHistoryData?.value);
     const messages = getChatHistoryStore.getChatHistoryData?.value
@@ -45,13 +35,11 @@ export const MainPage = observer(() => {
 
     return (
         <Page>
-            <div ref={chatListRef} className={s.chatList}>
-                <ChatHistoryList
-                    messages={messages}
-                    isLoading={getChatHistoryStore.getChatHistoryData?.state === 'pending'}
-                    selectedModel={selectedModel}
-                />
-            </div>
+            <ChatHistoryList
+                messages={messages}
+                isLoading={getChatHistoryStore.getChatHistoryData?.state === 'pending'}
+                selectedModel={selectedModel}
+            />
             <AskPanel 
                 className={s.askPanel} 
                 onSelectModel={setSelectedModel}
