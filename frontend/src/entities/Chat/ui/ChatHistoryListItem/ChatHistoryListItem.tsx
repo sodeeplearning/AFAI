@@ -20,16 +20,20 @@ export const ChatHistoryListItem = observer(({ message, className }: ChatHistory
 
     if (role === 'system') return null;
 
+    const modelName = message.model;
+
     const renderContent = () => {
         if (role === 'assistant') {
-            const thinkMatch = content.match(/<think>(.*?)<\/think>/s);
-            if (thinkMatch) {
-                const thinkPart = thinkMatch[1].trim();
-                const mainContent = content.replace(/<think>.*?<\/think>/s, '').trim();
+            if (content.includes('</think>')) {
+                const parts = content.split('</think>');
+                const thinkPart = parts[0].replace('<think>', '').trim();
+                const mainContent = parts.length > 1 ? parts[1].trim() : '';
+                
                 return (
                     <Card className={s.assistantCard}>
-                        <div className={s.thinkPart}>{thinkPart}</div>
-                        <div className={s.messageContent}>{mainContent}</div>
+                        <div className={s.modelName}>{modelName}</div>
+                        {thinkPart && <div className={s.thinkPart}>{thinkPart}</div>}
+                        {mainContent && <div className={s.messageContent}>{mainContent}</div>}
                     </Card>
                 );
             }

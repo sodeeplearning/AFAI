@@ -21,12 +21,16 @@
 }
 
 .thinkPart {
-    color: var(--stroke);
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
     border: 1px solid var(--stroke);
+    padding: 0.5rem;
+    color: var(--stroke);
     font-size: 0.875rem;
     opacity: 0.7;
     margin-bottom: 0.5rem;
     font-style: italic;
+    border-radius: 0.5rem;
 }
 
 .systemMessage {
