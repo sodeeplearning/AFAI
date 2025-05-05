@@ -45,7 +45,7 @@ export const SendMessageToAgent = observer(({ selectedModel, className }: SendMe
                 onChange={(e) => setMessageText(e.target.value)}
                 value={messageText}
                 onKeyDown={handleKeyDown}
-                disabled={generationOnlyTextStore.generationOnlyTextData?.state === "pending"}
+                disabled={generationOnlyTextStore.generationOnlyTextData.isPending}
             />
 
             <Button

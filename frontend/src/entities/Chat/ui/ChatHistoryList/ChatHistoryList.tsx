@@ -8,7 +8,7 @@ import { ChatHistoryListItem } from "../ChatHistoryListItem/ChatHistoryListItem"
 interface ChatHistoryListProps {
     className?: string;
     messages: ChatMessage[];
-    isLoading: boolean;
+    isLoading?: boolean;
     selectedModel?: string;
 }
 
