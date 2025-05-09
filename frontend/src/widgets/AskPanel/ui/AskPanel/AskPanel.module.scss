@@ -15,7 +15,7 @@
     bottom: 2rem;
 }
 
-.textareaWrapper {
+.sendMessageToAgent {
     position: relative;
     display: flex;
     align-items: flex-start;
@@ -66,11 +66,6 @@
     gap: 0.75rem;
 }
 
-.icon {
-    font-size: 1.25rem;
-    cursor: pointer;
-}
-
 .inputCard {
     border-radius: 1rem;
     width: 100%;
@@ -83,12 +78,6 @@
     }
 }
 
-.inputText {
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: center
-    
-}
 
 .accessibleAgents {
     margin: 1rem;

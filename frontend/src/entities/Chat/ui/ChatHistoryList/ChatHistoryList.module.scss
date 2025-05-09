@@ -1,0 +1,31 @@
+.ChatHistoryList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 65%;
+    min-height: 70%;
+    margin: 0 auto;
+    overflow-y: auto;
+
+    .loaderWrapper {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        max-width: 60%;
+        margin-right: auto;
+        background-color: var(--bg-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .assistantMessage {
+        margin-right: auto;
+    }
+
+    .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 2rem;
+        padding: 0.5rem 0;
+    }
+}

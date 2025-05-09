@@ -1,6 +1,6 @@
 export interface GenerateTextRequest {
     prompt: string;
-    model: string;
+    model_name: string;
 }
 
 export interface GenerateTextResponse {

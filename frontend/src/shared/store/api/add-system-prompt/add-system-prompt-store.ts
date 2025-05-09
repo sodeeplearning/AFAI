@@ -15,6 +15,7 @@ export class AddSystemPromptStore {
             this.addSystemPromptData = fromPromise<AxiosResponse>(
                 AddSystemPrompt(model_name, system_prompt)
             );
+            console.log(this.addSystemPromptData, 'addSystemPromptData');
         } catch (error) {
             console.error("Error checking model:", error);
         }

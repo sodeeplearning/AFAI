@@ -1,5 +1,11 @@
 .askPanel {
-    
     height: calc(100% - var(--header-height));
     width: auto;
+
+    .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
 }

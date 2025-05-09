@@ -13,6 +13,8 @@ export const API_URL = {
     // проверка на тяжелую модель
     CheckHeavyModel: () => '/model/ismodelheavy',
 
+    // отслеживание статуса загрузки модели
+    ModelLoadingStatus: () => '/model/loading/status',
 
     // генерации 
     GenerateOnlyText: () => '/generate/fromtext',
@@ -24,7 +26,7 @@ export const API_URL = {
     // Взимодейтствие с чатом и моделью
     ClearChat: () => '/chat/clearchat',
     AddSystemPrompt: () => '/chat/addsystemprompt',
-    UpdateModel: () => '/chat/updatemodelchat',
+    UpdateModel: () => `/chat/updatemodelchat`,
     GetChat: () => '/chat/getchathistory',
     ClearChatHistory: () => '/chat/clearchat',
 
