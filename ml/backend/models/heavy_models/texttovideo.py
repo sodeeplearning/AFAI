@@ -13,7 +13,7 @@ class TextToVideoModel:
             self,
             repo_id: str = "Lightricks/LTX-Video",
             saving_path: str = default_saving_path,
-            pipeline_class = LTXPipeline
+            pipeline_class=LTXPipeline
     ):
         """Constructor of TextToVideoModel class.
 
