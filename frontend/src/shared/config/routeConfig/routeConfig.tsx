@@ -1,4 +1,5 @@
 import { AgentsPage } from "pages/Agents";
+import { ChatPage } from "pages/ChatPage";
 import { MainPage } from "pages/MainPage";
 import { NotFoundPage } from "pages/NotFoundPage";
 import { SettingsPage } from "pages/SettingsPage";
@@ -15,7 +16,7 @@ export enum AppRoutes {
     MAIN = 'main',
     AGENTS = 'agents',
     SETTINGS = 'settings',
-
+    CHAT = 'chat',
     // ДОЛЖНА БЫТЬ САМОЙ ПОСЛЕДНЕЙ
     NOT_FOUND = 'not_found'
 }
@@ -23,6 +24,7 @@ export enum AppRoutes {
 export const RoutePath: Record<AppRoutes, string> = {
     // ------------- ВЕБ ------------------
     [AppRoutes.MAIN]: '/',
+    [AppRoutes.CHAT]: '/chat/',
     [AppRoutes.AGENTS]: '/agents',
     [AppRoutes.SETTINGS]: '/settings',
     // ------------- ВЕБ ------------------
@@ -44,6 +46,10 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.SETTINGS]: {
         path: RoutePath.settings,
         element: <SettingsPage />,
+    },
+    [AppRoutes.CHAT]: {
+        path: `${RoutePath.chat}:modelName`,
+        element: <ChatPage />,
     },
 
     // ------------- ВЕБ ------------------

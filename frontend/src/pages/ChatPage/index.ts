@@ -1,1 +1,1 @@
-export { ChatPage } from './ui/ChatPage'; 
+export { ChatPageLazy as ChatPage } from './ui/ChatPage.lazy'; 

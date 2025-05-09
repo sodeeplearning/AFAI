@@ -4,7 +4,7 @@ import { Flex, Typography, Card } from "antd"
 import { useTranslation } from "react-i18next"
 import { ChatHistory } from "shared/api/services/GetChatHistory/types"
 import { useRef } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 interface MessageHistoryListProps {
     className?: string;
@@ -16,13 +16,14 @@ const { Text } = Typography
 
 export const MessageHistoryList = (props: MessageHistoryListProps) => {
     const { className, chatHistory } = props
-    const { modelName } = useParams()
     const { t } = useTranslation()
     const messagesContainerRef = useRef<HTMLDivElement>(null)
 
     if (!chatHistory) {
         return null
     }
+
+    const modelName = Object.keys(chatHistory)[0]
 
     const renderCard = () => {
         return (
@@ -53,7 +54,6 @@ export const MessageHistoryList = (props: MessageHistoryListProps) => {
                         )
                     })}
                 </Link>
-
             </Flex>
         )
     }
@@ -64,4 +64,4 @@ export const MessageHistoryList = (props: MessageHistoryListProps) => {
             {renderCard()}
         </section>
     )
-}
+}       

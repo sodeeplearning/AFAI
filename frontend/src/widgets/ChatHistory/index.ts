@@ -1,1 +1,0 @@
-export { ChatHistoryWidget } from './ui/ChatHistoryWidget/ChatHistoryWidget'; 
