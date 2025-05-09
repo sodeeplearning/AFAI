@@ -4,6 +4,7 @@ import { GenerateTextResponse } from "shared/api/services/Generations/OnlyText/t
 import { GetChatHistoryResponse } from "shared/api/services/GetChatHistory/types";
 import { getChatHistory } from "shared/api/services/GetChatHistory/api";
 import { MobxSaiInstance, mobxSaiFetch, mobxSaiHandler } from "mobx-toolbox";
+import { getModelHistory } from "shared/api/services/GetModelHistory/api";
 
 export class GenerationOnlyTextStore {
     constructor() {
@@ -28,6 +29,7 @@ export class GenerationOnlyTextStore {
             mobxSaiHandler(
                 this.generationOnlyTextData,
                 () => {
+                    this.updateModelHistory(model);
                     this.updateChatHistory();
                 },
                 (error) => {
@@ -44,6 +46,29 @@ export class GenerationOnlyTextStore {
             this.chatHistoryData = mobxSaiFetch(
                 async () => {
                     const response = await getChatHistory();
+                    return response.data;
+                }
+            );
+
+            mobxSaiHandler(
+                this.chatHistoryData,
+                () => {
+                    console.log("Chat history updated");
+                },
+                (error) => {
+                    console.error("Chat history update failed:", error);
+                }
+            );
+        } catch (error) {
+            console.log("Error updating chat history:", error);
+        }
+    }
+
+    updateModelHistory = async (model: string) => {
+        try {
+            this.chatHistoryData = mobxSaiFetch(
+                async () => {
+                    const response = await getModelHistory(model);
                     return response.data;
                 }
             );

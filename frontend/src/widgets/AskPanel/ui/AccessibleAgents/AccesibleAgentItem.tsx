@@ -46,7 +46,7 @@ export const AccessibleAgentsItems = observer((props: AccessibleAgentsItemsProps
         <div className={classNames(s.accessibleAgentsItems, {}, [className])}>
             {isLoading && <Skeleton.Button />}
             {(getAllModelsStore.getAllDownloadedModelsData?.value as GetAllModelsResponse)?.data?.length ? 
-                (getAllModelsStore.getAllDownloadedModelsData?.value as GetAllModelsResponse)?.data.map((model: string) => (
+                (getAllModelsStore.getAllDownloadedModelsData?.value as GetAllModelsResponse)?.data?.map((model: string) => (
                     <Tag.CheckableTag
                         className={s.tag}
                         key={model}

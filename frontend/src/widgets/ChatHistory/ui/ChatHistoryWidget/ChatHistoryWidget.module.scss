@@ -1,0 +1,34 @@
+.ChatHistoryWidget {
+    width: 100%;
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    
+    &.expanded {
+        height: auto;
+    }
+    
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .icon {
+        font-size: 1.25rem;
+        color: var(--primary-color, #1890ff);
+    }
+    
+    .title {
+        margin: 0;
+    }
+    
+    .content {
+        transition: max-height 0.3s ease;
+        overflow: hidden;
+        
+        &.collapsed {
+            max-height: 12rem;
+        }
+    }
+} 

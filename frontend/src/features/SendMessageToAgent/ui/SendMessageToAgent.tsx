@@ -21,6 +21,10 @@ export const SendMessageToAgent = observer(({ selectedModel, className }: SendMe
 
     const handleSend = async () => {
         try {
+            if (messageText.trim() === "" || selectedModel === "") {
+                antMessage.error("Вы не ввели текст или не выбрали модель")
+                return
+            }
             await generationOnlyTextStore.generationOnlyTextAction(messageText, selectedModel)
             setMessageText("")
         } catch (error) {
@@ -35,6 +39,7 @@ export const SendMessageToAgent = observer(({ selectedModel, className }: SendMe
             handleSend()
         }
     }
+
 
     const { t } = useTranslation()
     return (
