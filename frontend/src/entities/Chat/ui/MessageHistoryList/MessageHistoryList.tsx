@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { ChatHistory } from "shared/api/services/GetChatHistory/types"
 import { useRef } from "react"
 import { Link } from "react-router-dom"
+import { RoutePath } from "shared/config/routeConfig/routeConfig"
 
 interface MessageHistoryListProps {
     className?: string;
@@ -28,7 +29,7 @@ export const MessageHistoryList = (props: MessageHistoryListProps) => {
     const renderCard = () => {
         return (
             <Flex vertical gap={16}>
-                <Link to={`/chat/${modelName}`}>
+                <Link to={`${RoutePath.chat}${modelName}`}>
                     {Object.entries(chatHistory).map(([modelName, messages]) => {
                         const displayMessages = messages.slice(0, 4)
 
