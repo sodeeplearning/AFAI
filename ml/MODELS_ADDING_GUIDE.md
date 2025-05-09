@@ -15,6 +15,14 @@ Now you need to write config file and some code. Let us explain how to do this
 
 Required actions depend on model's ``type`` and dependencies.
 
+Find respective model's type:
+- [Text to text](#text-to-text)
+- [Text + Image to text](#text--image-to-text)
+- [Speech to text](#speech-to-text)
+- [Text to speech](#text-to-speech)
+- [Text to image](#text-to-image)
+- [Text to video](#text-to-video)
+
 ### Text to text
 
 Config file should look like this:
