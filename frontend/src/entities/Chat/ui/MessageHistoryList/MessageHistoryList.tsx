@@ -32,7 +32,6 @@ export const MessageHistoryList = (props: MessageHistoryListProps) => {
                         const displayMessages = messages.slice(0, 4)
 
                         return (
-
                             <Card
                                 key={modelName}
                                 className={s.modelCard}
