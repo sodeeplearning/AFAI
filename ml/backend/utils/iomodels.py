@@ -35,6 +35,7 @@ class TextToImageInputModel(TextOnlyInputModel):
 class TextToVideoInputModel(TextToImageInputModel):
     fps: int = 24
     duration: int = 5
+    image: UploadFile = None
 
 
 class TextImageInputModel(InputModel):
