@@ -1,4 +1,4 @@
-from diffusers import LTXPipeline
+from diffusers import LTXPipeline, LTXImageToVideoPipeline
 
 from .texttoimage import TextToImageCascadeModel
 from .texttospeech import TransformersTextToSpeechModel
@@ -12,5 +12,6 @@ classes_mapping = {
 }
 
 pipeline_mapping = {
-    "LTX": LTXPipeline
+    "LTX": LTXPipeline,
+    "LTXimg2vid": LTXImageToVideoPipeline
 }
