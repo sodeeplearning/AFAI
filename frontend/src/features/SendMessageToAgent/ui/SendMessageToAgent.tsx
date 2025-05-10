@@ -21,6 +21,10 @@ export const SendMessageToAgent = observer(({ selectedModel, className }: SendMe
 
     const handleSend = async () => {
         try {
+            if (messageText.trim() === "" || selectedModel === "") {
+                antMessage.error("Вы не ввели текст или не выбрали модель")
+                return
+            }
             await generationOnlyTextStore.generationOnlyTextAction(messageText, selectedModel)
             setMessageText("")
         } catch (error) {
@@ -36,6 +40,7 @@ export const SendMessageToAgent = observer(({ selectedModel, className }: SendMe
         }
     }
 
+
     const { t } = useTranslation()
     return (
         <div className={classNames(s.textareaWrapper, {}, [className])}>
@@ -45,7 +50,7 @@ export const SendMessageToAgent = observer(({ selectedModel, className }: SendMe
                 onChange={(e) => setMessageText(e.target.value)}
                 value={messageText}
                 onKeyDown={handleKeyDown}
-                disabled={generationOnlyTextStore.generationOnlyTextData?.state === "pending"}
+                disabled={generationOnlyTextStore.generationOnlyTextData.isPending}
             />
 
             <Button

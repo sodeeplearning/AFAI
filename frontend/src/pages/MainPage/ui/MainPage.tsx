@@ -6,9 +6,10 @@ import { ChatHistoryList } from "entities/Chat/ui/ChatHistoryList/ChatHistoryLis
 import { useStore } from "app/providers/StoreProvider"
 import { useEffect, useState } from "react"
 import { ChatMessage } from "shared/api/services/GetChatHistory/types"
+import { Loader } from "widgets/Loader"
 
 export const MainPage = observer(() => {
-    const { getChatHistoryStore } = useStore()
+    const { getChatHistoryStore, generationOnlyTextStore } = useStore()
     const [selectedModel, setSelectedModel] = useState<string>("")
 
     useEffect(() => {
@@ -18,15 +19,17 @@ export const MainPage = observer(() => {
         fetchData();
     }, [getChatHistoryStore]);
 
-    console.log('getChatHistoryStore.getChatHistoryData?.value:', getChatHistoryStore.getChatHistoryData?.value);
+    useEffect(() => {
+        if (generationOnlyTextStore.chatHistoryData.isFulfilled) {
+            getChatHistoryStore.getAllModelsAction();
+        }
+    }, [generationOnlyTextStore.chatHistoryData.isFulfilled, getChatHistoryStore]);
+
     const messages = getChatHistoryStore.getChatHistoryData?.value
         ? Object.entries(getChatHistoryStore.getChatHistoryData.value).flatMap(([model, msgs]) =>
             (msgs as ChatMessage[]).map(msg => ({ ...msg, model }))
           )
         : [];
-
-    console.log('messages:', messages);
-
     return (
         <Page>
             <ChatHistoryList
@@ -34,6 +37,7 @@ export const MainPage = observer(() => {
                 isLoading={getChatHistoryStore.getChatHistoryData?.state === 'pending'}
                 selectedModel={selectedModel}
             />
+            {generationOnlyTextStore.generationOnlyTextData.isPending && <Loader className={s.loader} />}
             <AskPanel 
                 className={s.askPanel} 
                 onSelectModel={setSelectedModel}

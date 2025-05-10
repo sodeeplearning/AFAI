@@ -1,7 +1,13 @@
 import s from "./Loader.module.scss"
+import { classNames } from "shared/library/classNames/classNames"
 
-export const Loader = () => {
+interface LoaderProps {
+    className?: string;
+}
+export const Loader = ({ className }: LoaderProps) => {
     return (
-        <span className={s.loader}></span>
+        <span className={classNames(s.loader, {}, [className])}></span>
     )
 }
+
+export default Loader;

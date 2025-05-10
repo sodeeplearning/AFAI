@@ -26,7 +26,7 @@ export const API_URL = {
     // Взимодейтствие с чатом и моделью
     ClearChat: () => '/chat/clearchat',
     AddSystemPrompt: () => '/chat/addsystemprompt',
-    UpdateModel: () => '/chat/updatemodelchat',
+    UpdateModel: () => `/chat/updatemodelchat`,
     GetChat: () => '/chat/getchathistory',
     ClearChatHistory: () => '/chat/clearchat',
 

@@ -1,0 +1,1 @@
+export { ChatPageLazy as ChatPage } from './ui/ChatPage.lazy'; 
