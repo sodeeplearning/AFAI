@@ -2,5 +2,5 @@
   "type": "text2video",
   "class_name": "textimagetovideo",
   "repo_id": "Lightricks/LTX-Video",
-  "pipeline_name": "LTX"
+  "pipeline_name": "LTXimg2vid"
 }

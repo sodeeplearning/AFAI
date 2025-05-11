@@ -1,16 +1,17 @@
-from diffusers import LTXPipeline
+from diffusers import LTXPipeline, LTXImageToVideoPipeline
 
 from .texttoimage import TextToImageCascadeModel
 from .texttospeech import TransformersTextToSpeechModel
-from .texttovideo import TextToVideoModel
+from .texttovideo import TextImageToVideoModel
 
 
 classes_mapping = {
     "cascade_model": TextToImageCascadeModel,
     "transformers-tts": TransformersTextToSpeechModel,
-    "texttovideo": TextToVideoModel
+    "textimagetovideo": TextImageToVideoModel
 }
 
 pipeline_mapping = {
-    "LTX": LTXPipeline
+    "LTX": LTXPipeline,
+    "LTXimg2vid": LTXImageToVideoPipeline
 }

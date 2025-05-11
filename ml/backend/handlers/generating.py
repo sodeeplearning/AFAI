@@ -8,7 +8,6 @@ from utils.iomodels import (
     InputModel,
     TextImageInputModel,
     TextToImageInputModel,
-    TextOnlyInputModel,
     SpeechInputModel,
     TextListModel,
     TextToVideoInputModel
@@ -78,11 +77,12 @@ def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
 
 
 @router.post("/videofromtext")
-def generate_video_from_text_prompt(body: TextToVideoInputModel) -> Response:
+def generate_video_from_text_image_prompt(body: TextToVideoInputModel) -> Response:
     is_model_active(model_name=body.model_name)
 
     generated_video_content = active_models[body.model_name](
         prompt=body.prompt,
+        image=body.image,
         frame_size=body.image_size,
         num_inference_steps=body.inference_steps,
         fps=body.fps,
@@ -92,16 +92,6 @@ def generate_video_from_text_prompt(body: TextToVideoInputModel) -> Response:
     return Response(
         content=generated_video_content,
         media_type="video/mp4"
-    )
-
-
-@router.post("/texttospeech")
-def generate_speech_from_text(body: TextOnlyInputModel) -> Response:
-    is_model_active(model_name=body.model_name)
-
-    return Response(
-        active_models[body.model_name](prompt=body.prompt),
-        media_type="audio/wav"
     )
 
 

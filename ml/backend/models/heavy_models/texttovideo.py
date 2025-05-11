@@ -1,13 +1,15 @@
 import os
+import io
 
 import torch
 from diffusers.utils.export_utils import export_to_video
 from diffusers import LTXPipeline
+from PIL import Image
 
 from models.models_config import default_saving_path
 
 
-class TextToVideoModel:
+class TextImageToVideoModel:
     """Class made for TextToVideo task."""
     def __init__(
             self,
@@ -33,7 +35,8 @@ class TextToVideoModel:
 
     def __call__(
             self,
-            prompt: str,
+            prompt: str = "",
+            image: bytes = None,
             frame_size: int = 224,
             num_inference_steps: int = 50,
             fps: int = 24,
@@ -42,6 +45,7 @@ class TextToVideoModel:
         """Generate video from text prompt.
 
         :param prompt: Description of video to generate.
+        :param image: Image for image-to-video generation.
         :param frame_size: Resolution of each frame in the generated video.
         :param num_inference_steps: Num of steps to generate (more steps - more quality and more time for generation).
         :param fps: Num of frames in generated video.
@@ -50,13 +54,26 @@ class TextToVideoModel:
         """
         temp_file_path: str = "temp.mp4"
 
-        video_frames = self.pipe(
-            prompt=prompt,
-            width=frame_size,
-            height=frame_size,
-            num_frames=fps * duration + 1,
-            num_inference_steps=num_inference_steps,
-        ).frames[0]
+        if image is not None:
+            image_buffer = io.BytesIO(image)
+            image = Image.open(image_buffer)
+
+            video_frames = self.pipe(
+                prompt=prompt,
+                image=image,
+                width=frame_size,
+                height=frame_size,
+                num_frames=fps * duration + 1,
+                num_inference_steps=num_inference_steps,
+            ).frames[0]
+        else:
+            video_frames = self.pipe(
+                prompt=prompt,
+                width=frame_size,
+                height=frame_size,
+                num_frames=fps * duration + 1,
+                num_inference_steps=num_inference_steps,
+            ).frames[0]
 
         export_to_video(video_frames, fps=fps, output_video_path=temp_file_path)
 
