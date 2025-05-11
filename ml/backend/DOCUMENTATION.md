@@ -11,6 +11,7 @@
 - [Generate from text](#from-text)
 - [Generate from image-text](#from-image-text)
 - [Generate image from text](#generate-image-from-prompt)
+- [Generate video from text or image](#generate-video-from-prompt)
 - [Generate speech from text](#generate-speech-from-text)
 - [Clear chat history](#clear-chat)
 - [Get chat history](#get-chat-history)
@@ -201,6 +202,7 @@ Input:
     {
       "model_name": string - Model to get answer from,
       "prompt": string - description of generated video,
+      "image": UploadFile - image (for image to video task), can be None
       "image_size": 1024 - Resolution of video frames,
       "inference_steps": 20 - More steps - more quality and longer generation,
       "fps": 24 - Amount of frames in generated video,
