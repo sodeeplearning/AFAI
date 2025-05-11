@@ -32,13 +32,23 @@ export const ChatHistoryListItem = observer(({ message, className }: ChatHistory
                 return (
                     <Card className={s.assistantCard}>
                         <div className={s.modelName}>{modelName}</div>
-                        {thinkPart && <div className={s.thinkPart}>{thinkPart}</div>}
-                        {mainContent && <div className={s.messageContent}>{mainContent}</div>}
+                        <div className={s.thinkPart}>{thinkPart}</div>
+                        <div className={s.messageContent}>{mainContent}</div>
                     </Card>
                 );
             }
+            return (
+                <div className={s.messageContent}>
+                    <div className={s.modelName}>{modelName}</div>
+                    {content}
+                </div>
+            );
         }
-        return <div className={s.messageContent}>{content}</div>;
+        return (
+            <div className={s.messageContent}>
+                {content}
+            </div>
+        );
     };
 
     return (

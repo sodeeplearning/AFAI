@@ -2,6 +2,7 @@ import { memo, Suspense, useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppRoutesProps, routeConfig } from 'shared/config/routeConfig/routeConfig';
 import { PageLoader } from 'widgets/PageLoader/ui/PageLoader';
+import { ScrollRecovery } from 'features/ScrollRecovery';
 
 export const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
@@ -20,9 +21,12 @@ export const AppRouter = () => {
     }, [])
 
     return (
-        <Routes>
-            {Object.values(routeConfig).map(renderWithWrapper)}
-        </Routes>
+        <>
+            <ScrollRecovery />
+            <Routes>
+                {Object.values(routeConfig).map(renderWithWrapper)}
+            </Routes>
+        </>
     );
 };
 

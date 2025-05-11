@@ -4,6 +4,7 @@ import { DeleteModelStore } from "./api/delete-model/delete-model-store";
 import { AddSystemPromptStore } from "./api/add-system-prompt/add-system-prompt-store";
 import { GenerationOnlyTextStore } from "./api/Generations/only-text/only-text-store";
 import { GetChatHistoryStore } from "./api/get-chat-history/get-chat-history-store";
+import { ScrollPositionStore } from "./scroll-position/scroll-position-store";
 
 export class RootStore {
     getAllModelsStore = new GetAllModelsStore();
@@ -12,4 +13,5 @@ export class RootStore {
     addSystemPromptStore = new AddSystemPromptStore();
     generationOnlyTextStore = new GenerationOnlyTextStore();
     getChatHistoryStore = new GetChatHistoryStore();
+    scrollPositionStore = new ScrollPositionStore();
 }   
