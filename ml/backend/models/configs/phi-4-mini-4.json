@@ -1,0 +1,6 @@
+{
+  "type": "text2text",
+  "repo_id": "MaziyarPanahi/Phi-4-mini-instruct-GGUF",
+  "filename": "Phi-4-mini-instruct.Q4_K_M.gguf",
+  "n_ctx": 8192
+}
