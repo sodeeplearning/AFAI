@@ -24,7 +24,8 @@ lite_models = [
     "pyttsx",
     "vosk-small-en",
     "vosk-ru",
-    "llama-sum-4"
+    "llama-sum-4",
+    "t-lite-4"
 ]
 heavy_models = [
     "stable-cascade",
