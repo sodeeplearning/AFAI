@@ -20,7 +20,7 @@ lite_models = [
     "deep-qwen-4",
     "llama-1b-4",
     "llava-1.5-7b-4",
-    "minicpm-o-2.6-4",
+    "minicpm-4",
     "pyttsx",
     "vosk-small-en",
     "vosk-ru",
