@@ -1,0 +1,6 @@
+{
+  "type": "text2text",
+  "repo_id": "bartowski/facebook_KernelLLM-GGUF",
+  "filename": "facebook_KernelLLM-Q4_K_M.gguf",
+  "n_ctx": 8192
+}

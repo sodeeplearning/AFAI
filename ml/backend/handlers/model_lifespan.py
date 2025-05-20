@@ -26,7 +26,8 @@ lite_models = [
     "vosk-ru",
     "llama-sum-4",
     "t-lite-4",
-    "phi-4-mini-4"
+    "phi-4-mini-4",
+    "kernel-4"
 ]
 heavy_models = [
     "stable-cascade",
