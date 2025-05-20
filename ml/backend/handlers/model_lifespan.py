@@ -21,13 +21,15 @@ lite_models = [
     "llama-1b-4",
     "llava-1.5-7b-4",
     "minicpm-4",
+    "minicpm-6",
     "pyttsx",
     "vosk-small-en",
     "vosk-ru",
     "llama-sum-4",
     "t-lite-4",
     "phi-4-mini-4",
-    "kernel-4"
+    "kernel-4",
+    "kernel-6",
 ]
 heavy_models = [
     "stable-cascade",
