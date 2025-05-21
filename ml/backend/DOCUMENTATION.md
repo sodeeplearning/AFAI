@@ -32,13 +32,7 @@ fastapi dev ./backend/main.py
 ```
 Then you can interact with API via 2 ways:
 1. Go to this [**page**](http://127.0.0.1:8000/docs) and use UI.
-2. Check ```test_app``` directory and use script for endpoint you need. 
-
-**⚠️ Caution ⚠️** File ```ml/backend/config.py``` contains **full version** param.
-- ```True``` if you need to use full version of the project including heavy models (e.g. text-to-image).
-- ```False``` if you use the project on a weak computer or a phone. Only lite models will be available.
-
-Choose variant whichever you want for your tasks.
+2. Check ```test_app``` directory and use script for endpoint you need.
 
 
 # Requests  documentation
@@ -307,6 +301,22 @@ Input:
     }
 ```
 
+## Settings
+
+Interact with the app details
+
+### Change project version
+
+```HEAD /cfg/changeversion```
+
+Change project version from lite to heavy or vice versa.
+
+```html request
+Input:
+    null
+Output:
+    null
+```
 
 # Heavy-part endpoints
 Endpoints of heavy part of the project
