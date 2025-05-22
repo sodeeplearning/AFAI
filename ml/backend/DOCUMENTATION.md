@@ -17,6 +17,9 @@
 - [Get chat history](#get-chat-history)
 - [Update model chat](#update-model-chat)
 - [Add system prompt](#add-system-prompt)
+- [Install heavy dependencies](#install-heavy-dependencies)
+- [Delete heavy dependencies](#delete-heavy-dependencies)
+- [Launch heavy model](#launch-heavy-model)
 
 
 # How to launch
