@@ -318,6 +318,34 @@ Output:
     null
 ```
 
+### Install heavy dependencies
+
+```HEAD /cfg/installdeps```
+
+Install pip dependencies needed for heavy part of the project
+
+```html request
+Input:
+    null
+Output:
+    null
+```
+
+
+### Delete heavy dependencies
+
+```HEAD /cfg/deletedeps```
+
+Delete pip dependencies needed for heavy part of the project
+
+```html request
+Input:
+    null
+Output:
+    null
+```
+
+
 # Heavy-part endpoints
 Endpoints of heavy part of the project
 
