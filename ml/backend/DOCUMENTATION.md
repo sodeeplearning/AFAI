@@ -20,6 +20,8 @@
 - [Install heavy dependencies](#install-heavy-dependencies)
 - [Delete heavy dependencies](#delete-heavy-dependencies)
 - [Launch heavy model](#launch-heavy-model)
+- [Add files to RAG](#add-files-to-rag)
+- [Clear RAG documents](#clear-rag-files)
 
 
 # How to launch
@@ -157,13 +159,10 @@ TextImage-to-Text generation (multi-modal)
 
 ```html request
 Input:
-    {
-        "model_name": "string" - Name of the model to get answer from
-        "prompt": "string" - Prompt to the model
-        "max_new_tokens": 512 - Max amount of generated tokens
-        "image_files": List[Uploadfile] - image files to the model
-        "image_links": List[string] - links of images to the model
-    }
+    model_name: "string" - Name of the model to get answer from
+    prompt: "string" - Prompt to the model
+    max_new_tokens: 512 - Max amount of generated tokens
+    image_links: List[string] - links of images to the model
 
 Output:
     StreamingResponse[text]
@@ -196,15 +195,13 @@ Generate video from text prompt
 
 ```html request
 Input:
-    {
-      "model_name": string - Model to get answer from,
-      "prompt": string - description of generated video,
-      "image": UploadFile - image (for image to video task), can be None
-      "image_size": 1024 - Resolution of video frames,
-      "inference_steps": 20 - More steps - more quality and longer generation,
-      "fps": 24 - Amount of frames in generated video,
-      "duration": 5 - Duration of generated video in seconds
-    }
+      model_name: string - Model to get answer from,
+      prompt: string - description of generated video,
+      image: UploadFile - image (for image to video task), can be None
+      image_size: 1024 - Resolution of video frames,
+      inference_steps: 20 - More steps - more quality and longer generation,
+      fps: 24 - Amount of frames in generated video,
+      duration: 5 - Duration of generated video in seconds
 
 Output:
     Video
@@ -235,11 +232,8 @@ Extract text of speech in audiofile.
 
 ```html request
 Input:
-    {
-        "model_name": string - Name of the model using to extract text,
-        "audio_files": List[Uploadfile] - List of audio files to get text of speech from (can be empty),
-        "audio_links": List[str] - List of links to hosted audio files (can be empty).
-    }
+    model_name: string - Name of the model using to extract text,
+    audio_files: List[Uploadfile] - List of audio files to get text of speech from (can be empty)
 
 Output:
     {
