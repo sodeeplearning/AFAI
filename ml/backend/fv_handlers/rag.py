@@ -1,10 +1,12 @@
 import asyncio
 import os
 import shutil
+from typing import List
 
 from fastapi import APIRouter
+from fastapi import UploadFile
 
-from utils.iomodels import AddingFilesModel, ModelNameModel
+from utils.iomodels import ModelNameModel
 from utils.checker import is_model_active
 
 from active import active_models
@@ -19,14 +21,14 @@ async def read_file(file) -> bytes:
 
 
 @router.post("/addfilestorag")
-def add_files_to_rag_model(body: AddingFilesModel):
-    models_files_path = os.path.join(rag_files_path, body.model_name)
+def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
+    models_files_path = os.path.join(rag_files_path, model_name)
     if not os.path.isdir(models_files_path):
         os.mkdir(models_files_path)
 
     files_paths = []
 
-    for file in body.files:
+    for file in files:
         file_content = asyncio.run(read_file(file))
         file_saving_path = os.path.join(models_files_path, file.filename)
 
@@ -34,9 +36,9 @@ def add_files_to_rag_model(body: AddingFilesModel):
             writing_file.write(file_content)
             files_paths.append(file_saving_path)
 
-    is_model_active(model_name=body.model_name)
+    is_model_active(model_name=model_name)
 
-    active_models[body.model_name].add_documents(
+    active_models[model_name].add_documents(
         new_documents_paths=files_paths
     )
 

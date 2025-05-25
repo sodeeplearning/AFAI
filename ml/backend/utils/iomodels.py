@@ -54,7 +54,3 @@ class SpeechInputModel(ModelNameModel):
 
 class TextListModel(BaseModel):
     texts: List[str]
-
-
-class AddingFilesModel(ModelNameModel):
-    files: List[UploadFile] = []
