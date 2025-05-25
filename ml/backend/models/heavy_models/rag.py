@@ -19,8 +19,16 @@ class BaseRAG:
             repo_id: str = "mradermacher/T-lite-it-1.0-i1-GGUF",
             filename: str = "T-lite-it-1.0.i1-Q4_K_M.gguf",
             saving_path: str = default_saving_path,
-            n_ctx: int = 8192
+            context_size: int = 8192
     ):
+        """
+
+        :param documents_paths: Path to documents files.
+        :param filename: Local file path / name of repo file.
+        :param repo_id: Model's repo name.
+        :param context_size: Max context size (memory of the model).
+        :param saving_path: Path where model will be stored.
+        """
         self.saving_path = os.path.join(saving_path, repo_id)
 
         model_path = hf_hub_download(
@@ -31,7 +39,7 @@ class BaseRAG:
 
         llm = LlamaCpp(
             model_path=model_path,
-            n_ctx=n_ctx,
+            n_ctx=context_size,
         )
 
         embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
@@ -54,11 +62,11 @@ class BaseRAG:
             chain_type="stuff"
         )
 
-    def __call__(self, prompt):
+    def __call__(self, prompt: str):
+        """Get answer from the model.
+
+        :param prompt: Input to the model.
+        :return: Answer from the model.
+        """
         response = self.rag_chain.invoke(prompt)["result"]
         return response
-
-
-if __name__ == '__main__':
-    model = BaseRAG()
-    print(model("Какая статья конституции отвечает за права человека?"))
