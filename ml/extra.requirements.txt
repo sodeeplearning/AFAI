@@ -2,3 +2,7 @@ torch
 accelerate
 transformers
 sentencepiece
+langchain
+unstructured
+hf_xet
+faiss-cpu
