@@ -1,5 +1,6 @@
 import asyncio
 import os
+import shutil
 
 from fastapi import APIRouter
 
@@ -39,3 +40,13 @@ def add_files_to_rag_model(body: AddingFilesModel):
         new_documents_paths=files_paths
     )
 
+
+@router.delete("/clearragfiles")
+def clear_rag_documents(body: ModelNameModel):
+    if body.model_name in active_models:
+        active_models[body.model_name].clear_documents()
+
+    models_files_path = os.path.join(rag_files_path, body.model_name)
+
+    if os.path.isdir(models_files_path):
+        shutil.rmtree(models_files_path)
