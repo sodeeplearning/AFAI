@@ -7,6 +7,8 @@ ml/test.py
 .locks
 saved
 chathistory.json
+db
+documents.txt
 
 
 # Byte-compiled / optimized / DLL files

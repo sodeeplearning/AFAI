@@ -372,3 +372,34 @@ Output:
 ```
 
 **Endpoints ```Delete``` and ```Kill``` are implemented in Lite-part of the project**
+
+### Add files to rag
+
+```POST /heavy/rag/addfilestorag```
+
+Add documents to RAG model directory
+
+```html request
+Input:
+    model_name: str
+    List[UploadFile] - files to send
+
+Output:
+    null
+```
+
+### Clear rag files
+
+```DELETE /heavy/rag/clearragfiles```
+
+Clear RAG documents
+
+```html request
+Input:
+{
+    "model_name": str
+}
+
+Output:
+    null
+```

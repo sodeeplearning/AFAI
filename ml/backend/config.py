@@ -14,3 +14,4 @@ with open(config_path, "r") as json_file:
 chathistory_path = config["chathistory_path"]
 configs_path = config["configs_path"]
 full_version = config["full_version"]
+rag_files_path = config["rag_files_path"]
