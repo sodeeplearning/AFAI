@@ -4,5 +4,8 @@ transformers
 sentencepiece
 langchain
 unstructured
+unstructured[pdf]
+unstructured[docx]
 hf_xet
 faiss-cpu
+langchain_huggingface
