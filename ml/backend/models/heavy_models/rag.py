@@ -86,7 +86,7 @@ class BaseRAG:
         self.rag_chain = None
 
 
-    def __call__(self, prompt: str):
+    def __call__(self, prompt: str, *args, **kwargs):
         """Get answer from the model.
 
         :param prompt: Input to the model.
