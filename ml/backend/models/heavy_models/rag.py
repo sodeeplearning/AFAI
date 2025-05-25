@@ -16,15 +16,13 @@ from models.models_config import default_saving_path
 class BaseRAG:
     def __init__(
             self,
-            documents_paths: str | list[str] = "documents.txt",
             repo_id: str = "mradermacher/T-lite-it-1.0-i1-GGUF",
             filename: str = "T-lite-it-1.0.i1-Q4_K_M.gguf",
             saving_path: str = default_saving_path,
             context_size: int = 8192
     ):
-        """
+        """Constructor of BaseRAG class.
 
-        :param documents_paths: Path to documents files.
         :param filename: Local file path / name of repo file.
         :param repo_id: Model's repo name.
         :param context_size: Max context size (memory of the model).
@@ -42,27 +40,15 @@ class BaseRAG:
         self.llm = LlamaCpp(
             model_path=model_path,
             n_ctx=context_size,
+            max_tokens=context_size
         )
 
         self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-        loader = UnstructuredFileLoader(documents_paths)
-        documents = loader.load()
-
         self.splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        docs = self.splitter.split_documents(documents)
 
-        self.db = FAISS.from_documents(docs, self.embedding_model)
-
-        self.db.add_documents(docs)
-
-        retriever = self.db.as_retriever(search_kwargs={"k": 3})
-
-        self.rag_chain = RetrievalQA.from_chain_type(
-            llm=self.llm,
-            retriever=retriever,
-            chain_type="stuff"
-        )
+        self.db = None
+        self.rag_chain = None
 
     def add_documents(self, new_documents_paths: str | list[str]):
         """Add new documents to database.
@@ -107,7 +93,7 @@ class BaseRAG:
         :return: Answer from the model.
         """
         if self.rag_chain is None:
-            raise ValueError("Document base is empty. Add documents that you need before calling model")
+            return self.llm(prompt)
 
         response = self.rag_chain.invoke(prompt)["result"]
 
@@ -116,4 +102,4 @@ class BaseRAG:
             {"role": "assistant", "content": response}
         ])
 
-        yield response
+        return response
