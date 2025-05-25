@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 
 from huggingface_hub import hf_hub_download
 
@@ -38,30 +39,66 @@ class BaseRAG:
             cache_dir=self.saving_path,
         )
 
-        llm = LlamaCpp(
+        self.llm = LlamaCpp(
             model_path=model_path,
             n_ctx=context_size,
         )
 
-        embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
         loader = UnstructuredFileLoader(documents_paths)
         documents = loader.load()
 
-        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        docs = splitter.split_documents(documents)
+        self.splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        docs = self.splitter.split_documents(documents)
 
-        db = FAISS.from_documents(docs, embedding_model)
+        self.db = FAISS.from_documents(docs, self.embedding_model)
 
-        db.add_documents(docs)
+        self.db.add_documents(docs)
 
-        retriever = db.as_retriever(search_kwargs={"k": 3})
+        retriever = self.db.as_retriever(search_kwargs={"k": 3})
 
         self.rag_chain = RetrievalQA.from_chain_type(
-            llm=llm,
+            llm=self.llm,
             retriever=retriever,
             chain_type="stuff"
         )
+
+    def add_documents(self, new_documents_paths: str | list[str]):
+        """Add new documents to database.
+
+        :param new_documents_paths: Path to new documents.
+        :return: None
+        """
+        if isinstance(new_documents_paths, str):
+            new_documents_paths = [new_documents_paths]
+
+        all_docs = []
+
+        for path in tqdm(new_documents_paths):
+            loader = UnstructuredFileLoader(path)
+            documents = loader.load()
+            split_docs = self.splitter.split_documents(documents)
+            all_docs.extend(split_docs)
+
+        if self.db is None:
+            self.db = FAISS.from_documents(all_docs, self.embedding_model)
+        else:
+            self.db.add_documents(all_docs)
+
+        retriever = self.db.as_retriever(search_kwargs={"k": 3})
+
+        self.rag_chain = RetrievalQA.from_chain_type(
+            llm=self.llm,
+            retriever=retriever,
+            chain_type="stuff"
+        )
+
+    def clear_documents(self):
+        """Clear database."""
+        self.db = None
+        self.rag_chain = None
+
 
     def __call__(self, prompt: str):
         """Get answer from the model.
@@ -69,6 +106,9 @@ class BaseRAG:
         :param prompt: Input to the model.
         :return: Answer from the model.
         """
+        if self.rag_chain is None:
+            raise ValueError("Document base is empty. Add documents that you need before calling model")
+
         response = self.rag_chain.invoke(prompt)["result"]
 
         self.messages.extend([
