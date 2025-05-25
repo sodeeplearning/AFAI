@@ -33,6 +33,14 @@ def launch_heavy_model(body: ModelNameModel):
                     repo_id=model_config["repo_id"]
                 )
 
+            case "text2text": # RAG in this case
+                active_models[body.model_name] = classes_mapping["BaseRAG"](
+                    repo_id=model_config["repo_id"],
+                    filename=model_config["filename"],
+                    context_size=model_config["n_ctx"]
+                )
+
+
     except ConnectionError as e:
         raise HTTPException(
             status_code=408,
