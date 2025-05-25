@@ -30,6 +30,7 @@ class BaseRAG:
         :param saving_path: Path where model will be stored.
         """
         self.saving_path = os.path.join(saving_path, repo_id)
+        self.messages = []
 
         model_path = hf_hub_download(
             repo_id=repo_id,
@@ -69,4 +70,10 @@ class BaseRAG:
         :return: Answer from the model.
         """
         response = self.rag_chain.invoke(prompt)["result"]
-        return response
+
+        self.messages.extend([
+            {"role": "user", "content": prompt},
+            {"role": "assistant", "content": response}
+        ])
+
+        yield response
