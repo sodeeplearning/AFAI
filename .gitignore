@@ -9,6 +9,7 @@ saved
 chathistory.json
 db
 documents.txt
+ml/rags
 
 
 # Byte-compiled / optimized / DLL files

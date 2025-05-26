@@ -3,8 +3,10 @@ import os
 import shutil
 from typing import List
 
-from fastapi import APIRouter
-from fastapi import UploadFile
+import unstructured_pytesseract.pytesseract
+from fastapi import APIRouter, UploadFile
+from fastapi.exceptions import HTTPException
+
 
 from utils.iomodels import ModelNameModel
 from utils.checker import is_model_active
@@ -42,9 +44,15 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
 
     is_model_active(model_name=model_name)
 
-    active_models[model_name].add_documents(
-        new_documents_paths=files_paths
-    )
+    try:
+        active_models[model_name].add_documents(
+            new_documents_paths=files_paths
+        )
+    except unstructured_pytesseract.pytesseract.TesseractNotFoundError:
+        raise HTTPException(
+            status_code=403,
+            detail="Failed to process documents, cause at least one of them contains image."
+        )
 
 
 @router.delete("/clearragfiles")
