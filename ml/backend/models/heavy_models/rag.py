@@ -3,7 +3,7 @@ from tqdm import tqdm
 
 from huggingface_hub import hf_hub_download
 
-from langchain.llms import LlamaCpp
+from langchain_community.llms import LlamaCpp
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import RetrievalQA

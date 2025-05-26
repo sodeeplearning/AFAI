@@ -23,6 +23,10 @@ async def read_file(file) -> bytes:
 @router.post("/addfilestorag")
 def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
     models_files_path = os.path.join(rag_files_path, model_name)
+
+    if not os.path.isdir(rag_files_path):
+        os.mkdir(rag_files_path)
+
     if not os.path.isdir(models_files_path):
         os.mkdir(models_files_path)
 
@@ -32,7 +36,7 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
         file_content = asyncio.run(read_file(file))
         file_saving_path = os.path.join(models_files_path, file.filename)
 
-        with open(file_saving_path, "w") as writing_file:
+        with open(file_saving_path, "wb") as writing_file:
             writing_file.write(file_content)
             files_paths.append(file_saving_path)
 
