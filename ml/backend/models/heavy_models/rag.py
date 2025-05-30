@@ -105,6 +105,11 @@ class BaseRAG:
 
 
     def __retrieve(self, query: str) -> str:
+        """Retrieve information from database (if it exists).
+
+        :param query: Query to search.
+        :return: Found data.
+        """
         if self.db is None:
             return "Error: Database doesn't contain any files."
 
