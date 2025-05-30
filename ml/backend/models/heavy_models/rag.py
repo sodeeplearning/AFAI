@@ -45,7 +45,7 @@ class BaseRAG:
         self.llm = LlamaCpp(
             model_path=model_path,
             n_ctx=context_size,
-            max_tokens=context_size
+            max_tokens=context_size // 8
         )
 
         self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
@@ -59,6 +59,11 @@ class BaseRAG:
                 name="Retriever",
                 func=self.__retrieve,
                 description="If model doesn't know the answer, it can retrieve information from database if it exists"
+            ),
+            Tool(
+                name="WebSearch",
+                func=self.__duckduckgo_search,
+                description="Searching relevant information in internet. Use if no relevant information from Retriever"
             )
         ]
 
@@ -69,7 +74,7 @@ class BaseRAG:
             llm=self.llm,
             agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
             memory=self.memory,
-            verbose=True,
+            verbose=False,
         )
 
     def add_documents(self, new_documents_paths: str | list[str]):
@@ -136,7 +141,7 @@ class BaseRAG:
 
         elif data.get("RelatedTopics"):
             results = [topic.get("Text") for topic in data["RelatedTopics"] if "Text" in topic]
-            return "\n".join(results[:5]) if results else "No results."
+            return "\n".join(results[:3]) if results else "No results."
 
         else:
             return "Nothing found."
