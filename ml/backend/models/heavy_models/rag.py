@@ -1,4 +1,5 @@
 import os
+import requests
 from tqdm import tqdm
 
 
@@ -98,6 +99,7 @@ class BaseRAG:
         """Clear database."""
         self.db = None
 
+
     def clear(self):
         """Clear chat history."""
         self.memory.clear()
@@ -115,6 +117,29 @@ class BaseRAG:
 
         docs = self.db.similarity_search(query, k=3)
         return "\n".join([doc.page_content for doc in docs])
+
+
+    @staticmethod
+    def __duckduckgo_search(query):
+        url = "https://api.duckduckgo.com/"
+        params = {
+            "q": query,
+            "format": "json",
+            "no_html": 1,
+            "skip_disambig": 1
+        }
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        if data.get("AbstractText"):
+            return data["AbstractText"]
+
+        elif data.get("RelatedTopics"):
+            results = [topic.get("Text") for topic in data["RelatedTopics"] if "Text" in topic]
+            return "\n".join(results[:5]) if results else "No results."
+
+        else:
+            return "Nothing found."
 
 
     def __call__(self, prompt: str, *args, **kwargs):
