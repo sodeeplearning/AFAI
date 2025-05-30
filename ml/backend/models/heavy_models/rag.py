@@ -173,6 +173,43 @@ class BaseRAG:
         return f"Time in {city} — {current_time}"
 
 
+    @staticmethod
+    def __get_coordinates(city: str):
+        url = "https://geocoding-api.open-meteo.com/v1/search"
+        params = {"name": city, "count": 1, "language": "en", "format": "json"}
+
+        response = requests.get(url, params=params)
+        data = response.json()
+        results = data.get("results")
+
+        if results:
+            return results[0]["latitude"], results[0]["longitude"]
+        else:
+            return None, None
+
+
+    def __get_weather(self, city):
+        lat, lon = self.__get_coordinates(city.lower())
+        if lat is None:
+            return f"City '{city}' not found."
+
+        url = "https://api.open-meteo.com/v1/forecast"
+        params = {
+            "latitude": lat,
+            "longitude": lon,
+            "current_weather": "true"
+        }
+        response = requests.get(url, params=params)
+        data = response.json()
+        weather = data.get("current_weather")
+        if weather:
+            temperature = weather["temperature"]
+            windspeed = weather["windspeed"]
+            return f"The weather in {city} is {temperature}°C, wind speed is {windspeed} km/h"
+        else:
+            return "Error while receiving info about weather"
+
+
     def __call__(self, prompt: str, *args, **kwargs) -> str:
         """Get answer from the model.
 
