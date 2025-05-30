@@ -22,7 +22,7 @@ async def clear_chat_history(body: ModelNameModel):
         raise not_found_exception
 
     if model_name in active_models:
-        active_models[model_name].messages = []
+        active_models[model_name].clear()
     chat_history[model_name] = []
 
     update_chathistory_file()
