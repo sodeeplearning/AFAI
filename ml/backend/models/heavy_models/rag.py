@@ -131,6 +131,11 @@ class BaseRAG:
 
     @staticmethod
     def __duckduckgo_search(query: str) -> str:
+        """Search information from web.
+
+        :param query: Query to search.
+        :return: Found information
+        """
         url = "https://api.duckduckgo.com/"
         params = {
             "q": query,
@@ -153,6 +158,11 @@ class BaseRAG:
 
     @staticmethod
     def __get_time(city: str) -> str:
+        """Get time in the city.
+
+        :param city: City to get time from.
+        :return: Time in the city.
+        """
         timezone_lookup = {
             "moscow": "Europe/Moscow",
             "new york": "America/New_York",
@@ -175,6 +185,11 @@ class BaseRAG:
 
     @staticmethod
     def __get_coordinates(city: str):
+        """Get coordinates of city.
+
+        :param city: Get coordinates from.
+        :return: Received coordinates.
+        """
         url = "https://geocoding-api.open-meteo.com/v1/search"
         params = {"name": city, "count": 1, "language": "en", "format": "json"}
 
@@ -189,6 +204,11 @@ class BaseRAG:
 
 
     def __get_weather(self, city):
+        """Get information about weather.
+
+        :param city: Get weather from.
+        :return: Received information about weather.
+        """
         lat, lon = self.__get_coordinates(city.lower())
         if lat is None:
             return f"City '{city}' not found."
