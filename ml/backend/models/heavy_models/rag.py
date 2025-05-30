@@ -1,14 +1,17 @@
 import os
 from tqdm import tqdm
 
+
 from huggingface_hub import hf_hub_download
 
-from langchain_community.llms import LlamaCpp
+from langchain.agents import initialize_agent, Tool, AgentType
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.chains import RetrievalQA
+
+from langchain_community.llms import LlamaCpp
 from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain_community.vectorstores import FAISS
+
 
 from models.models_config import default_saving_path
 from config import rag_files_path
@@ -51,12 +54,26 @@ class BaseRAG:
         self.splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
         self.db = None
-        self.rag_chain = None
 
         if os.path.isdir(documents_dir):
             docs_paths = [os.path.join(documents_dir, current_doc) for current_doc in os.listdir(documents_dir)]
             if docs_paths:
                 self.add_documents(new_documents_paths=docs_paths)
+
+        tools = [
+            Tool(
+                name="Retriever",
+                func=self.__retrieve,
+                description="Retrieves relevant information in the database."
+            )
+        ]
+
+        self.agent = initialize_agent(
+            tools=tools,
+            llm=self.llm,
+            agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
+            verbose=True
+        )
 
     def add_documents(self, new_documents_paths: str | list[str]):
         """Add new documents to database.
@@ -80,18 +97,10 @@ class BaseRAG:
         else:
             self.db.add_documents(all_docs)
 
-        retriever = self.db.as_retriever(search_kwargs={"k": 3})
-
-        self.rag_chain = RetrievalQA.from_chain_type(
-            llm=self.llm,
-            retriever=retriever,
-            chain_type="stuff"
-        )
 
     def clear_documents(self):
         """Clear database."""
         self.db = None
-        self.rag_chain = None
 
 
     def __retrieve(self, query: str) -> str:
@@ -108,10 +117,7 @@ class BaseRAG:
         :param prompt: Input to the model.
         :return: Answer from the model.
         """
-        if self.rag_chain is None:
-            return self.llm(prompt)
-
-        response = self.rag_chain.invoke(prompt)["result"]
+        response = self.agent.invoke({"query": prompt})["result"]
 
         self.messages.extend([
             {"role": "user", "content": prompt},
