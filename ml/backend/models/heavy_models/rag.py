@@ -69,6 +69,11 @@ class BaseRAG:
                 name="Datetime",
                 func=self.__get_time,
                 description="Get date and time from name of the city."
+            ),
+            Tool(
+                name="Weather",
+                func=self.__get_weather,
+                description="Get information about weather in the requested city."
             )
         ]
 
