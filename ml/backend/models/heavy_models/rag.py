@@ -5,6 +5,7 @@ from tqdm import tqdm
 from huggingface_hub import hf_hub_download
 
 from langchain.agents import initialize_agent, Tool, AgentType
+from langchain.memory import ConversationBufferMemory
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
@@ -14,7 +15,6 @@ from langchain_community.vectorstores import FAISS
 
 
 from models.models_config import default_saving_path
-from config import rag_files_path
 
 
 class BaseRAG:
@@ -24,7 +24,6 @@ class BaseRAG:
             filename: str = "T-lite-it-1.0.i1-Q4_K_M.gguf",
             saving_path: str = default_saving_path,
             context_size: int = 8192,
-            documents_dir: str = rag_files_path
     ):
         """Constructor of BaseRAG class.
 
@@ -32,7 +31,6 @@ class BaseRAG:
         :param repo_id: Model's repo name.
         :param context_size: Max context size (memory of the model).
         :param saving_path: Path where model will be stored.
-        :param documents_dir: Path where RAG documents stored.
         """
         self.saving_path = os.path.join(saving_path, repo_id)
         self.messages = []
@@ -51,28 +49,26 @@ class BaseRAG:
 
         self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-        self.splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        self.splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
 
         self.db = None
-
-        if os.path.isdir(documents_dir):
-            docs_paths = [os.path.join(documents_dir, current_doc) for current_doc in os.listdir(documents_dir)]
-            if docs_paths:
-                self.add_documents(new_documents_paths=docs_paths)
 
         tools = [
             Tool(
                 name="Retriever",
                 func=self.__retrieve,
-                description="Retrieves relevant information in the database."
+                description="If model doesn't know the answer, it can retrieve information from database if it exists"
             )
         ]
+
+        self.memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
         self.agent = initialize_agent(
             tools=tools,
             llm=self.llm,
-            agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
-            verbose=True
+            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+            memory=self.memory,
+            verbose=True,
         )
 
     def add_documents(self, new_documents_paths: str | list[str]):
@@ -102,12 +98,17 @@ class BaseRAG:
         """Clear database."""
         self.db = None
 
+    def clear(self):
+        """Clear chat history."""
+        self.memory.clear()
+        self.messages.clear()
+
 
     def __retrieve(self, query: str) -> str:
         if self.db is None:
             return "Error: Database doesn't contain any files."
 
-        docs = self.db.similarity_searc(query, k=3)
+        docs = self.db.similarity_search(query, k=3)
         return "\n".join([doc.page_content for doc in docs])
 
 
@@ -117,7 +118,7 @@ class BaseRAG:
         :param prompt: Input to the model.
         :return: Answer from the model.
         """
-        response = self.agent.invoke({"query": prompt})["result"]
+        response = self.agent.invoke({"input": prompt})["output"]
 
         self.messages.extend([
             {"role": "user", "content": prompt},

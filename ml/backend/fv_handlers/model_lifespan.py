@@ -1,9 +1,12 @@
+import os
+
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
 from utils.iomodels import ModelNameModel
 from utils.model import get_model_config
 from active import active_models, chat_history, update_chathistory_file
+from config import rag_files_path
 
 from models.heavy_models import classes_mapping, pipeline_mapping
 
@@ -39,6 +42,13 @@ def launch_heavy_model(body: ModelNameModel):
                     filename=model_config["filename"],
                     context_size=model_config["n_ctx"]
                 )
+
+                model_docs = os.path.join(rag_files_path, body.model_name)
+                if os.path.isdir(model_docs):
+                    adding_files = [os.path.join(model_docs, doc) for doc in os.listdir(model_docs)]
+
+                    active_models[body.model_name].add_documents(adding_files)
+
 
 
     except ConnectionError as e:
