@@ -235,6 +235,17 @@ class BaseRAG:
             return "Error while receiving info about weather"
 
 
+    @staticmethod
+    def __execute_python_code(code: str) -> str:
+        try:
+            local_vars = {}
+            exec(code, {"__builtins__": {}}, local_vars)
+            return f"Successful execution. All variables: {local_vars}"
+
+        except Exception as e:
+            return f"Error while execution: {str(e)}"
+
+
     def __call__(self, prompt: str, *args, **kwargs) -> str:
         """Get answer from the model.
 
