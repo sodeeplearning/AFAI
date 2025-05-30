@@ -54,6 +54,10 @@ class TextImageModel:
             {"role": "system", "content": "You are an assistant who perfectly describes images."}
         ]
 
+    def clear(self):
+        """Clear model's chat history"""
+        self.messages.clear()
+
     def __call__(
             self,
             prompt: str,

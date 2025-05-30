@@ -40,6 +40,10 @@ class TextOnlyModel:
 
         self.messages = []
 
+    def clear(self):
+        """Clear model's chat history"""
+        self.messages.clear()
+
     def __call__(self, prompt: str, max_new_tokens: int = 512):
         """Get generator of model's response.
 
