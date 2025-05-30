@@ -94,6 +94,14 @@ class BaseRAG:
         self.rag_chain = None
 
 
+    def __retrieve(self, query: str) -> str:
+        if self.db is None:
+            return "Error: Database doesn't contain any files."
+
+        docs = self.db.similarity_searc(query, k=3)
+        return "\n".join([doc.page_content for doc in docs])
+
+
     def __call__(self, prompt: str, *args, **kwargs):
         """Get answer from the model.
 
