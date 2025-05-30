@@ -125,7 +125,7 @@ class BaseRAG:
 
 
     @staticmethod
-    def __duckduckgo_search(query):
+    def __duckduckgo_search(query: str) -> str:
         url = "https://api.duckduckgo.com/"
         params = {
             "q": query,
@@ -146,8 +146,29 @@ class BaseRAG:
         else:
             return "Nothing found."
 
+    @staticmethod
+    def __get_time(city: str) -> str:
+        timezone_lookup = {
+            "moscow": "Europe/Moscow",
+            "new york": "America/New_York",
+            "london": "Europe/London",
+            "tokyo": "Asia/Tokyo",
+            "berlin": "Europe/Berlin"
+        }
+        city_lower = city.lower()
+        timezone = timezone_lookup.get(city_lower)
 
-    def __call__(self, prompt: str, *args, **kwargs):
+        if not timezone:
+            return f"I can't find a time in {city}."
+
+        response = requests.get(f"http://worldtimeapi.org/api/timezone/{timezone}")
+        data = response.json()
+
+        current_time = data.get("datetime", "Error while receiving time.")
+        return f"Time in {city} — {current_time}"
+
+
+    def __call__(self, prompt: str, *args, **kwargs) -> str:
         """Get answer from the model.
 
         :param prompt: Input to the model.
