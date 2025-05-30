@@ -67,6 +67,10 @@ def launch_model(body: LaunchModel):
                     context_size=n_ctx
                 )
 
+                if body.model_name in chat_history:
+                    active_models[body.model_name].messages = chat_history[body.model_name]
+
+
             case "imagetext2text":
                 n_ctx = body.n_ctx
                 if n_ctx == -1:
@@ -84,11 +88,16 @@ def launch_model(body: LaunchModel):
                     handler_filename=handler_filename
                 )
 
+                if body.model_name in chat_history:
+                    active_models[body.model_name].messages = chat_history[body.model_name]
+
+
             case "text2speech":
                 class_name = config_file["class_name"]
                 active_models[body.model_name] = classes_mapping[class_name](
                     repo_id=repo_id
                 )
+
 
             case "speech2text":
                 class_name = config_file["class_name"]
