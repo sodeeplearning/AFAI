@@ -1,0 +1,6 @@
+{
+  "type": "text2text",
+  "repo_id": "mradermacher/T-lite-it-1.0-i1-GGUF",
+  "filename": "T-lite-it-1.0.i1-Q6_K.gguf",
+  "n_ctx": 8192
+}
