@@ -64,6 +64,11 @@ class BaseRAG:
                 name="WebSearch",
                 func=self.__duckduckgo_search,
                 description="Searching relevant information in internet. Use if no relevant information from Retriever"
+            ),
+            Tool(
+                name="Datetime",
+                func=self.__get_time,
+                description="Get date and time from name of the city."
             )
         ]
 
