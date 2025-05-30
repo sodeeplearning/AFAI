@@ -82,7 +82,12 @@ class BaseRAG:
             )
         ]
 
-        self.memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            human_prefix="user",
+            ai_prefix="assistant",
+            return_messages=True
+        )
 
         self.agent = initialize_agent(
             tools=tools,
