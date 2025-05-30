@@ -74,6 +74,11 @@ class BaseRAG:
                 name="Weather",
                 func=self.__get_weather,
                 description="Get information about weather in the requested city."
+            ),
+            Tool(
+                name="Python Execution",
+                func=self.__execute_python_code,
+                description="Execute python code. Give code to it without any strings with 'import'!"
             )
         ]
 
