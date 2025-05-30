@@ -237,6 +237,11 @@ class BaseRAG:
 
     @staticmethod
     def __execute_python_code(code: str) -> str:
+        """Execute simple Python code.
+
+        :param code: Code to execute.
+        :return: Result of execution.
+        """
         try:
             local_vars = {}
             exec(code, {"__builtins__": {}}, local_vars)
