@@ -11,6 +11,7 @@ from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain_community.vectorstores import FAISS
 
 from models.models_config import default_saving_path
+from config import rag_files_path
 
 
 class BaseRAG:
@@ -19,7 +20,8 @@ class BaseRAG:
             repo_id: str = "mradermacher/T-lite-it-1.0-i1-GGUF",
             filename: str = "T-lite-it-1.0.i1-Q4_K_M.gguf",
             saving_path: str = default_saving_path,
-            context_size: int = 8192
+            context_size: int = 8192,
+            documents_dir: str = rag_files_path
     ):
         """Constructor of BaseRAG class.
 
@@ -27,6 +29,7 @@ class BaseRAG:
         :param repo_id: Model's repo name.
         :param context_size: Max context size (memory of the model).
         :param saving_path: Path where model will be stored.
+        :param documents_dir: Path where RAG documents stored.
         """
         self.saving_path = os.path.join(saving_path, repo_id)
         self.messages = []
@@ -49,6 +52,11 @@ class BaseRAG:
 
         self.db = None
         self.rag_chain = None
+
+        if os.path.isdir(documents_dir):
+            docs_paths = [os.path.join(documents_dir, current_doc) for current_doc in os.listdir(documents_dir)]
+            if docs_paths:
+                self.add_documents(new_documents_paths=docs_paths)
 
     def add_documents(self, new_documents_paths: str | list[str]):
         """Add new documents to database.
