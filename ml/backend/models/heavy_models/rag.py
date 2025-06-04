@@ -19,12 +19,14 @@ from models.models_config import default_saving_path
 
 
 class BaseRAG:
+    """Class made for base tasks about documents (RAG)."""
     def __init__(
             self,
             repo_id: str = "mradermacher/T-lite-it-1.0-i1-GGUF",
             filename: str = "T-lite-it-1.0.i1-Q4_K_M.gguf",
             saving_path: str = default_saving_path,
             context_size: int = 8192,
+            k: int = 3
     ):
         """Constructor of BaseRAG class.
 
@@ -32,7 +34,10 @@ class BaseRAG:
         :param repo_id: Model's repo name.
         :param context_size: Max context size (memory of the model).
         :param saving_path: Path where model will be stored.
+        :param k: Num of search results.
         """
+        self.k = k
+
         self.saving_path = os.path.join(saving_path, repo_id)
         self.messages = []
 
@@ -140,12 +145,11 @@ class BaseRAG:
         if self.db is None:
             return "Error: Database doesn't contain any files."
 
-        docs = self.db.similarity_search(query, k=3)
+        docs = self.db.similarity_search(query, k=self.k)
         return "\n".join([doc.page_content for doc in docs])
 
 
-    @staticmethod
-    def __duckduckgo_search(query: str) -> str:
+    def __duckduckgo_search(self, query: str) -> str:
         """Search information from web.
 
         :param query: Query to search.
@@ -166,7 +170,7 @@ class BaseRAG:
 
         elif data.get("RelatedTopics"):
             results = [topic.get("Text") for topic in data["RelatedTopics"] if "Text" in topic]
-            return "\n".join(results[:3]) if results else "No results."
+            return "\n".join(results[:self.k]) if results else "No results."
 
         else:
             return "Nothing found."
