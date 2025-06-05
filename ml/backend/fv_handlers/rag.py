@@ -27,6 +27,9 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
     if not os.path.isdir(temp_folder_path):
         os.mkdir(temp_folder_path)
 
+    if not os.path.isdir(rag_files_path):
+        os.mkdir(rag_files_path)
+
     files_paths = []
 
     for file in files:
@@ -50,6 +53,12 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
         )
 
     shutil.rmtree(temp_folder_path)
+
+    model_database_path = os.path.join(rag_files_path, model_name)
+    if not os.path.isdir(model_database_path):
+        os.mkdir(model_database_path)
+
+    active_models[model_name].save_database(path=model_database_path)
 
 
 @router.delete("/clearragfiles")
