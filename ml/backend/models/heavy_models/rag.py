@@ -30,10 +30,10 @@ class BaseRAG:
     ):
         """Constructor of BaseRAG class.
 
-        :param filename: Local file path / name of repo file.
         :param repo_id: Model's repo name.
-        :param context_size: Max context size (memory of the model).
+        :param filename: Local file path / name of repo file.
         :param saving_path: Path where model will be stored.
+        :param context_size: Max context size (memory of the model).
         :param k: Num of search results.
         """
         self.k = k
