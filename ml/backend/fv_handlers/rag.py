@@ -65,3 +65,8 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
 def clear_rag_documents(body: ModelNameModel):
     if body.model_name in active_models:
         active_models[body.model_name].clear_documents()
+
+    model_database_path = os.path.join(rag_files_path, body.model_name)
+
+    if os.path.isdir(model_database_path):
+        shutil.rmtree(model_database_path)
