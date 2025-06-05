@@ -58,7 +58,7 @@ Download / Start model
 Input:
     {
         "model_name": "string" - name of the model to launch
-        "n_ctx": 8192 - size in tokens of model's context (memory)
+        "n_ctx": -1 - size in tokens of model's context (memory)
     }
 ```
 
@@ -359,8 +359,10 @@ Download or start model
 ```html request
 Input:
     {
-      "model_name": string - Name of the model to launch
+        "model_name": "string" - name of the model to launch
+        "n_ctx": -1 - size in tokens of model's context (memory)
     }
+
 Output:
     null
 ```

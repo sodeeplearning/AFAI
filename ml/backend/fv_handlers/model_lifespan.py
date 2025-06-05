@@ -3,7 +3,7 @@ import os
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from utils.iomodels import ModelNameModel
+from utils.iomodels import LaunchModel
 from utils.model import get_model_config
 from active import active_models, chat_history, update_chathistory_file
 from config import rag_files_path
@@ -15,7 +15,7 @@ router = APIRouter(prefix="/model")
 
 
 @router.post("/launch")
-def launch_heavy_model(body: ModelNameModel):
+def launch_heavy_model(body: LaunchModel):
     model_config = get_model_config(model_name=body.model_name)
 
     try:
@@ -40,7 +40,7 @@ def launch_heavy_model(body: ModelNameModel):
                 active_models[body.model_name] = classes_mapping["BaseRAG"](
                     repo_id=model_config["repo_id"],
                     filename=model_config["filename"],
-                    context_size=model_config["n_ctx"]
+                    context_size=model_config["n_ctx"] if body.n_ctx == -1 else body.n_ctx
                 )
 
                 model_database_path = os.path.join(rag_files_path, body.model_name)
