@@ -196,6 +196,33 @@ class BaseRAG:
             return "Nothing found."
 
 
+    def __get_weather(self, city):
+        """Get information about weather.
+
+        :param city: Get weather from.
+        :return: Received information about weather.
+        """
+        lat, lon = self.__get_coordinates(city.lower())
+        if lat is None:
+            return f"City '{city}' not found."
+
+        url = "https://api.open-meteo.com/v1/forecast"
+        params = {
+            "latitude": lat,
+            "longitude": lon,
+            "current_weather": "true"
+        }
+        response = requests.get(url, params=params)
+        data = response.json()
+        weather = data.get("current_weather")
+        if weather:
+            temperature = weather["temperature"]
+            windspeed = weather["windspeed"]
+            return f"The weather in {city} is {temperature}°C, wind speed is {windspeed} km/h"
+        else:
+            return "Error while receiving info about weather"
+
+
     @staticmethod
     def __get_time(city: str) -> str:
         """Get time in the city.
@@ -241,33 +268,6 @@ class BaseRAG:
             return results[0]["latitude"], results[0]["longitude"]
         else:
             return None, None
-
-
-    def __get_weather(self, city):
-        """Get information about weather.
-
-        :param city: Get weather from.
-        :return: Received information about weather.
-        """
-        lat, lon = self.__get_coordinates(city.lower())
-        if lat is None:
-            return f"City '{city}' not found."
-
-        url = "https://api.open-meteo.com/v1/forecast"
-        params = {
-            "latitude": lat,
-            "longitude": lon,
-            "current_weather": "true"
-        }
-        response = requests.get(url, params=params)
-        data = response.json()
-        weather = data.get("current_weather")
-        if weather:
-            temperature = weather["temperature"]
-            windspeed = weather["windspeed"]
-            return f"The weather in {city} is {temperature}°C, wind speed is {windspeed} km/h"
-        else:
-            return "Error while receiving info about weather"
 
 
     @staticmethod
