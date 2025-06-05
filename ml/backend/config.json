@@ -1,1 +1,7 @@
-{"full_version": true, "chathistory_path": "chathistory.json", "configs_path": "backend/models/configs", "rag_files_path":  "rags"}
+{
+  "full_version": true,
+  "chathistory_path": "chathistory.json",
+  "configs_path": "backend/models/configs",
+  "rag_files_path":  "rags",
+  "temp_folder_path": "temp"
+}
