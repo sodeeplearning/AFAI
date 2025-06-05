@@ -102,6 +102,26 @@ class BaseRAG:
             verbose=False,
         )
 
+
+    def save_database(self, path: str):
+        """Save database to a local folder.
+
+        :param path: Path to saving folder.
+        :return: None
+        """
+        if self.db is not None:
+            self.db.save_local(path)
+
+
+    def load_database(self, path: str):
+        """Load database from local folder.
+
+        :param path: Path to the folder.
+        :return: None
+        """
+        self.db = FAISS.load_local(path, embeddings=self.embedding_model)
+
+
     def add_documents(self, new_documents_paths: str | list[str]):
         """Add new documents to database.
 
@@ -174,6 +194,7 @@ class BaseRAG:
 
         else:
             return "Nothing found."
+
 
     @staticmethod
     def __get_time(city: str) -> str:
