@@ -43,12 +43,9 @@ def launch_heavy_model(body: ModelNameModel):
                     context_size=model_config["n_ctx"]
                 )
 
-                model_docs = os.path.join(rag_files_path, body.model_name)
-                if os.path.isdir(model_docs):
-                    adding_files = [os.path.join(model_docs, doc) for doc in os.listdir(model_docs)]
-
-                    active_models[body.model_name].add_documents(adding_files)
-
+                model_database_path = os.path.join(rag_files_path, body.model_name)
+                if os.path.isdir(model_database_path):
+                    active_models[body.model_name].load_database(path=model_database_path)
 
 
     except ConnectionError as e:
