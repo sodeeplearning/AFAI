@@ -359,8 +359,9 @@ Download or start model
 ```html request
 Input:
     {
-        "model_name": "string" - name of the model to launch
-        "n_ctx": -1 - size in tokens of model's context (memory)
+        "model_name": string - name of the model to launch
+        "n_ctx": int = -1 - size in tokens of model's context (memory)
+        "rag_strategy": string = "base" - Type of RAG class (now available: "base", "graph")
     }
 
 Output:
