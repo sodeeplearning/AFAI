@@ -6,15 +6,11 @@ class TextModel(BaseModel):
     text: str
 
 
-class ModelNameModel(BaseModel):
-    model_name: str
-
-
-class SystemPromptModel(ModelNameModel):
+class SystemPromptModel(BaseModel):
     system_prompt: str
 
 
-class LaunchModel(ModelNameModel):
+class LaunchModel(BaseModel):
     n_ctx: int = -1
 
 
@@ -22,7 +18,7 @@ class HeavyLaunchModel(LaunchModel):
     rag_strategy: str = "base"
 
 
-class TextOnlyInputModel(ModelNameModel):
+class TextOnlyInputModel(BaseModel):
     prompt: str
 
 

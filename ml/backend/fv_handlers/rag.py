@@ -7,8 +7,6 @@ import unstructured_pytesseract.pytesseract
 from fastapi import APIRouter, UploadFile
 from fastapi.exceptions import HTTPException
 
-
-from utils.iomodels import ModelNameModel
 from utils.checker import is_model_active
 
 from active import active_models
@@ -62,11 +60,11 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
 
 
 @router.delete("/clearragfiles")
-def clear_rag_documents(body: ModelNameModel):
-    if body.model_name in active_models:
-        active_models[body.model_name].clear_documents()
+def clear_rag_documents(model_name: str):
+    if model_name in active_models:
+        active_models[model_name].clear_documents()
 
-    model_database_path = os.path.join(rag_files_path, body.model_name)
+    model_database_path = os.path.join(rag_files_path, model_name)
 
     if os.path.isdir(model_database_path):
         shutil.rmtree(model_database_path)
