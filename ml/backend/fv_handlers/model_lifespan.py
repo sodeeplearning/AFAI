@@ -15,24 +15,24 @@ router = APIRouter(prefix="/model")
 
 
 @router.post("/launch")
-def launch_heavy_model(body: HeavyLaunchModel):
-    model_config = get_model_config(model_name=body.model_name)
+def launch_heavy_model(model_name: str, body: HeavyLaunchModel):
+    model_config = get_model_config(model_name=model_name)
 
     try:
         match model_config["type"]:
             case "text2image":
-                active_models[body.model_name] = classes_mapping[model_config["class_name"]](
+                active_models[model_name] = classes_mapping[model_config["class_name"]](
                     repo_id=model_config["repo_id"]
                 )
 
             case "text2video":
-                active_models[body.model_name] = classes_mapping[model_config["class_name"]](
+                active_models[model_name] = classes_mapping[model_config["class_name"]](
                     repo_id=model_config["repo_id"],
                     pipeline_class=pipeline_mapping[model_config["pipeline_name"]]
                 )
 
             case "text2speech":
-                active_models[body.model_name] = classes_mapping[model_config["class_name"]](
+                active_models[model_name] = classes_mapping[model_config["class_name"]](
                     repo_id=model_config["repo_id"]
                 )
 
@@ -45,15 +45,15 @@ def launch_heavy_model(body: HeavyLaunchModel):
 
                 rag_class = rag_strategies_mapping[body.rag_strategy]
 
-                active_models[body.model_name] = classes_mapping[rag_class](
+                active_models[model_name] = classes_mapping[rag_class](
                     repo_id=model_config["repo_id"],
                     filename=model_config["filename"],
                     context_size=model_config["n_ctx"] if body.n_ctx == -1 else body.n_ctx
                 )
 
-                model_database_path = os.path.join(rag_files_path, body.model_name)
+                model_database_path = os.path.join(rag_files_path, model_name)
                 if os.path.isdir(model_database_path):
-                    active_models[body.model_name].load_database(path=model_database_path)
+                    active_models[model_name].load_database(path=model_database_path)
 
 
     except ConnectionError as e:
@@ -62,8 +62,8 @@ def launch_heavy_model(body: HeavyLaunchModel):
             detail=f"Conntection Error: {e}"
         )
 
-    if body.model_name not in chat_history:
-        chat_history[body.model_name] = []
+    if model_name not in chat_history:
+        chat_history[model_name] = []
         update_chathistory_file()
     else:
-        active_models[body.model_name].messages = chat_history[body.model_name]
+        active_models[model_name].messages = chat_history[model_name]

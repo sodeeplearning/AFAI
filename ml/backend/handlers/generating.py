@@ -12,7 +12,7 @@ from utils.iomodels import (
     TextToImageInputModel,
     TextListModel,
 )
-from utils.checker import is_model_active
+from utils.checker import available_model_types, model_active_checker
 
 
 router = APIRouter(prefix="/generate")
@@ -23,11 +23,15 @@ async def read_file(file) -> bytes:
 
 
 @router.post("/fromtext")
-def generate_text_only(body: InputModel) -> StreamingResponse:
-    is_model_active(model_name=body.model_name)
+@available_model_types(types=["text2text", "imagetext2text"])
+@model_active_checker
+def generate_text_only(
+        model_name: str,
+        body: InputModel
+) -> StreamingResponse:
 
     return StreamingResponse(
-        active_models[body.model_name](
+        active_models[model_name](
             prompt=body.prompt,
             max_new_tokens=body.max_new_tokens
         ),
@@ -36,10 +40,12 @@ def generate_text_only(body: InputModel) -> StreamingResponse:
 
 
 @router.post("/fromimagetext")
-def generate_from_image_text(body: TextImageInputModel) -> StreamingResponse:
-    model_name = body.model_name
-
-    is_model_active(model_name=body.model_name)
+@available_model_types(types=["text2text", "imagetext2text"])
+@model_active_checker
+def generate_from_image_text(
+        model_name: str,
+        body: TextImageInputModel
+) -> StreamingResponse:
 
     return StreamingResponse(
         active_models[model_name](
@@ -52,10 +58,14 @@ def generate_from_image_text(body: TextImageInputModel) -> StreamingResponse:
 
 
 @router.post("/imagefromtext")
-def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
-    is_model_active(model_name=body.model_name)
+@available_model_types(types=["text2image"])
+@model_active_checker
+def generate_image_from_text_prompt(
+        model_name: str,
+        body: TextToImageInputModel
+) -> Response:
 
-    generated_image_content = active_models[body.model_name](
+    generated_image_content = active_models[model_name](
         prompt=body.prompt,
         image_size=body.image_size,
         inference_steps=body.inference_steps
@@ -68,6 +78,8 @@ def generate_image_from_text_prompt(body: TextToImageInputModel) -> Response:
 
 
 @router.post("/videofromtext")
+@available_model_types(types=["text2video"])
+@model_active_checker
 def generate_video_from_text_image_prompt(
         model_name: str,
         prompt: str,
@@ -77,7 +89,6 @@ def generate_video_from_text_image_prompt(
         duration: int = 5,
         image: UploadFile = None
 ) -> Response:
-    is_model_active(model_name=model_name)
 
     if image is not None:
         image = asyncio.run(read_file(image))
@@ -98,11 +109,12 @@ def generate_video_from_text_image_prompt(
 
 
 @router.post("/speechtotext")
+@available_model_types(types=["speech2text"])
+@model_active_checker
 def speech_to_text(
         model_name: str,
         audio_files: List[UploadFile]
 ) -> TextListModel:
-    is_model_active(model_name=model_name)
 
     audio_bytes = []
     for current_file in audio_files:

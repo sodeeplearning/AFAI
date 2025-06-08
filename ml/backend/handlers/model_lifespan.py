@@ -4,7 +4,7 @@ import shutil
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from utils.iomodels import LaunchModel, ModelNameModel, HeavyCheckingModel
+from utils.iomodels import LaunchModel, HeavyCheckingModel
 from utils.model import get_model_config
 from config import full_version
 from active import active_models, chat_history, update_chathistory_file
@@ -42,14 +42,14 @@ heavy_models = [
 
 
 @router.post("/launch")
-def launch_model(body: LaunchModel):
-    if body.model_name in heavy_models:
+def launch_model(model_name: str, body: LaunchModel):
+    if model_name in heavy_models:
         raise HTTPException(
             status_code=403,
             detail="You are likely trying to launch 'heavy' model via endpoint for 'lite' models"
         )
 
-    config_file = get_model_config(model_name=body.model_name)
+    config_file = get_model_config(model_name=model_name)
 
     model_type = config_file["type"]
     repo_id = config_file["repo_id"]
@@ -62,14 +62,14 @@ def launch_model(body: LaunchModel):
                     n_ctx = config_file["n_ctx"]
 
                 filename = config_file["filename"]
-                active_models[body.model_name] = classes_mapping[model_type](
+                active_models[model_name] = classes_mapping[model_type](
                     repo_id=repo_id,
                     filename=filename,
                     context_size=n_ctx
                 )
 
-                if body.model_name in chat_history:
-                    active_models[body.model_name].messages = chat_history[body.model_name]
+                if model_name in chat_history:
+                    active_models[model_name].messages = chat_history[model_name]
 
 
             case "imagetext2text":
@@ -81,7 +81,7 @@ def launch_model(body: LaunchModel):
                 handler_type = handler_mapping[config_file["handler_type"]]
                 handler_filename = config_file["handler_filename"]
 
-                active_models[body.model_name] = classes_mapping[model_type](
+                active_models[model_name] = classes_mapping[model_type](
                     repo_id=repo_id,
                     filename=filename,
                     context_size=n_ctx,
@@ -89,20 +89,20 @@ def launch_model(body: LaunchModel):
                     handler_filename=handler_filename
                 )
 
-                if body.model_name in chat_history:
-                    active_models[body.model_name].messages = chat_history[body.model_name]
+                if model_name in chat_history:
+                    active_models[model_name].messages = chat_history[model_name]
 
 
             case "text2speech":
                 class_name = config_file["class_name"]
-                active_models[body.model_name] = classes_mapping[class_name](
+                active_models[model_name] = classes_mapping[class_name](
                     repo_id=repo_id
                 )
 
 
             case "speech2text":
                 class_name = config_file["class_name"]
-                active_models[body.model_name] = classes_mapping[class_name](
+                active_models[model_name] = classes_mapping[class_name](
                     repo_id=repo_id
                 )
 
@@ -112,16 +112,15 @@ def launch_model(body: LaunchModel):
             detail=f"Conntection Error: {e}"
         )
 
-    if body.model_name not in chat_history:
-        chat_history[body.model_name] = []
+    if model_name not in chat_history:
+        chat_history[model_name] = []
         update_chathistory_file()
     else:
-        active_models[body.model_name].messages = chat_history[body.model_name]
+        active_models[model_name].messages = chat_history[model_name]
 
 
 @router.delete("/kill")
-async def kill_model(body: ModelNameModel):
-    model_name = body.model_name
+async def kill_model(model_name: str):
     if model_name not in active_models:
         raise HTTPException(status_code=404, detail=f"model {model_name} is not launched or even exists.")
 
@@ -129,8 +128,7 @@ async def kill_model(body: ModelNameModel):
 
 
 @router.delete("/delete")
-def delete_model(body: ModelNameModel):
-    model_name = body.model_name
+def delete_model(model_name: str):
     config_file = get_model_config(model_name)
     repo_id = config_file["repo_id"]
 
@@ -142,7 +140,7 @@ def delete_model(body: ModelNameModel):
     model_path = os.path.join(default_saving_path, repo_id)
 
     if not os.path.isdir(model_path):
-        if body.model_name != "pyttsx":
+        if model_name != "pyttsx":
             raise HTTPException(status_code=404, detail=f"model {model_name} is not installed.")
     else:
         shutil.rmtree(model_path)
@@ -159,9 +157,9 @@ async def get_all_available_models_to_download_them():
 
 
 @router.post("/ismodelheavy")
-async def check_if_model_is_heavy(body: ModelNameModel) -> HeavyCheckingModel:
+async def check_if_model_is_heavy(model_name: str) -> HeavyCheckingModel:
     result = False
-    if body.model_name in heavy_models:
+    if model_name in heavy_models:
         result = True
     return HeavyCheckingModel(
         is_heavy=result

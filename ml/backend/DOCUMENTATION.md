@@ -69,9 +69,7 @@ Stop working model
 
 ```html request
 Input:
-    {
-        "model_name": "string" - name of the model to kill
-    }
+    model_name: string - name of the model to kill
 ```
 
 ### Delete model
@@ -81,9 +79,7 @@ Delete installed model
 
 ```html request
 Input:
-    {
-        "model_name": "string" - name of the model to delete
-    }
+    model_name: string - name of the model to delete
 ```
 
 ### Get active models
@@ -122,10 +118,7 @@ Output:
 Check if model is heavy or not.
 ```html request
 Input:
-    {
-        "model_name": Name of the model to check
-    }
-
+    model_name: string - Name of the model to check
 Output:
     {
         "is_heavy" True or False (depends on a model)
@@ -142,8 +135,8 @@ Text-to-text generation
 
 ```html request
 Input:
+    model_name: string - Name of the model to get answer from
     {
-        "model_name": "string" - Name of the model to get answer from
         "prompt": "string" - Prompt to the model
         "max_new_tokens": 512 - Max amount of generated tokens
     }
@@ -159,10 +152,12 @@ TextImage-to-Text generation (multi-modal)
 
 ```html request
 Input:
-    model_name: "string" - Name of the model to get answer from
-    prompt: "string" - Prompt to the model
-    max_new_tokens: 512 - Max amount of generated tokens
-    image_links: List[string] - links of images to the model
+    model_name: string - Name of the model to get answer from
+    {
+        prompt: "string" - Prompt to the model
+        max_new_tokens: 512 - Max amount of generated tokens
+        image_links: List[string] - links of images to the model
+    }
 
 Output:
     StreamingResponse[text]
@@ -176,8 +171,8 @@ Generate image from single text prompt
 
 ```html request
 Input:
+    model_name: string - Model to get answer from
     {
-      "model_name": string - Model to get answer from,
       "prompt": string - prompt / query to the model,
       "image_size": int = 1024 - Size of generated image (squared image),
       "inference_steps": 20 - More steps - more quality and longer generation
@@ -215,8 +210,8 @@ Generate speech from text prompt.
 
 ```html request
 Input:
+    model_name: string - Model to get answer from
     {
-        "model_name": string - Model to get answer from,
         "prompt" : string - Text prompt to get speech of
     }
    
@@ -255,9 +250,7 @@ Clear chat history with the model
 
 ```html request
 Input:
-    {
-        "model_name": string - Name of the model to clear chat with
-    }
+    model_name: string - Name of the model to clear chat with
 ```
 
 ### Add system prompt
@@ -267,8 +260,8 @@ Add system prompt to the model
 
 ```html request
 Input:
+    model_name: string - Name of the model to set its system prompt
     {
-        "model_name": string - Name of the model to set its system prompt
         "system_prompt": string - System prompt to the model
     }
 ```
@@ -293,9 +286,7 @@ Update chat with model (it doesn't happen automatically yet)
 
 ```html request
 Input:
-    {
-        "model_name" - Name of the model to update chat with.
-    }
+    model_name - Name of the model to update chat with.
 ```
 
 ## Settings
@@ -358,8 +349,8 @@ Download or start model
 
 ```html request
 Input:
+    model_name: string - name of the model to launch
     {
-        "model_name": string - name of the model to launch
         "n_ctx": int = -1 - size in tokens of model's context (memory)
         "rag_strategy": string = "base" - Type of RAG class (now available: "base", "graph")
     }
@@ -393,9 +384,7 @@ Clear RAG documents
 
 ```html request
 Input:
-{
-    "model_name": str
-}
+    model_name: string - Name of the model for sending file to.
 
 Output:
     null
