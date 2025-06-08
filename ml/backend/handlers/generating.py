@@ -12,7 +12,7 @@ from utils.iomodels import (
     TextToImageInputModel,
     TextListModel,
 )
-from utils.checker import is_model_active
+from utils.checker import is_model_active, available_model_types
 
 
 router = APIRouter(prefix="/generate")
@@ -23,6 +23,7 @@ async def read_file(file) -> bytes:
 
 
 @router.post("/fromtext")
+@available_model_types(types=["text2text", "imagetext2text"])
 def generate_text_only(model_name: str, body: InputModel) -> StreamingResponse:
     is_model_active(model_name=model_name)
 
@@ -36,6 +37,7 @@ def generate_text_only(model_name: str, body: InputModel) -> StreamingResponse:
 
 
 @router.post("/fromimagetext")
+@available_model_types(types=["text2text", "imagetext2text"])
 def generate_from_image_text(model_name: str, body: TextImageInputModel) -> StreamingResponse:
     is_model_active(model_name=model_name)
 
@@ -50,6 +52,7 @@ def generate_from_image_text(model_name: str, body: TextImageInputModel) -> Stre
 
 
 @router.post("/imagefromtext")
+@available_model_types(types=["text2image"])
 def generate_image_from_text_prompt(model_name: str, body: TextToImageInputModel) -> Response:
     is_model_active(model_name=model_name)
 
@@ -66,6 +69,7 @@ def generate_image_from_text_prompt(model_name: str, body: TextToImageInputModel
 
 
 @router.post("/videofromtext")
+@available_model_types(types=["text2video"])
 def generate_video_from_text_image_prompt(
         model_name: str,
         prompt: str,
@@ -96,6 +100,7 @@ def generate_video_from_text_image_prompt(
 
 
 @router.post("/speechtotext")
+@available_model_types(types=["speech2text"])
 def speech_to_text(
         model_name: str,
         audio_files: List[UploadFile]

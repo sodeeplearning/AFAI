@@ -7,7 +7,7 @@ import unstructured_pytesseract.pytesseract
 from fastapi import APIRouter, UploadFile
 from fastapi.exceptions import HTTPException
 
-from utils.checker import is_model_active
+from utils.checker import is_model_active, available_model_types
 
 from active import active_models
 from config import rag_files_path, temp_folder_path
@@ -21,6 +21,7 @@ async def read_file(file) -> bytes:
 
 
 @router.post("/addfilestorag")
+@available_model_types(types=["text2text"])
 def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
     if not os.path.isdir(temp_folder_path):
         os.mkdir(temp_folder_path)
@@ -60,6 +61,7 @@ def add_files_to_rag_model(model_name: str, files: List[UploadFile]):
 
 
 @router.delete("/clearragfiles")
+@available_model_types(types=["text2text"])
 def clear_rag_documents(model_name: str):
     if model_name in active_models:
         active_models[model_name].clear_documents()

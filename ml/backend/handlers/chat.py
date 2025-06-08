@@ -3,6 +3,7 @@ from fastapi.exceptions import HTTPException
 
 from active import active_models, chat_history, update_chathistory_file
 from utils.iomodels import SystemPromptModel
+from utils.checker import available_model_types_async
 
 
 router = APIRouter(prefix="/chat")
@@ -15,6 +16,7 @@ not_found_exception = HTTPException(
 
 
 @router.delete("/clearchat")
+@available_model_types_async(types=["text2text", "imagetext2text"])
 async def clear_chat_history(model_name: str):
     if model_name not in chat_history:
         raise not_found_exception
@@ -27,6 +29,7 @@ async def clear_chat_history(model_name: str):
 
 
 @router.post("/addsystemprompt")
+@available_model_types_async(types=["text2text", "imagetext2text"])
 async def add_system_prompt(model_name: str, body: SystemPromptModel):
     if model_name not in chat_history or model_name not in active_models:
         raise not_found_exception
@@ -48,6 +51,7 @@ async def get_chat_history():
 
 
 @router.post("/updatemodelchat")
+@available_model_types_async(types=["text2text", "imagetext2text"])
 async def update_model_chat_history(model_name: str):
     chat_history[model_name] = active_models[model_name].messages.copy()
     update_chathistory_file()
