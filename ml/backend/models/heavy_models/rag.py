@@ -4,15 +4,19 @@ from tqdm import tqdm
 
 
 from huggingface_hub import hf_hub_download
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from langchain.agents import initialize_agent, Tool, AgentType
 from langchain.memory import ConversationBufferMemory
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from langchain_community.llms import LlamaCpp
 from langchain_community.document_loaders import UnstructuredFileLoader
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS\
+
+from langchain_graph_retriever.transformers import ShreddingTransformer
+from langchain_graph_retriever import GraphRetriever
+from graph_retriever.strategies import Eager
 
 
 from models.models_config import default_saving_path
@@ -58,6 +62,7 @@ class BaseRAG:
         self.splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
 
         self.db = None
+        self.retriever = None
 
         tools = [
             Tool(
@@ -300,3 +305,84 @@ class BaseRAG:
         ])
 
         return response
+
+
+class GraphRAG(BaseRAG):
+    """Class made for processing more complex connections in data."""
+    def __init__(
+            self,
+            repo_id: str = "mradermacher/T-lite-it-1.0-i1-GGUF",
+            filename: str = "T-lite-it-1.0.i1-Q4_K_M.gguf",
+            saving_path: str = default_saving_path,
+            context_size: int = 8192,
+            k: int = 3
+    ):
+        """Constructor of GraphRAG class.
+
+        :param repo_id: Model's repo name.
+        :param filename: Local file path / name of repo file.
+        :param saving_path: Path where model will be stored.
+        :param context_size: Max context size (memory of the model).
+        :param k: Num of search results.
+        """
+        super().__init__(
+            repo_id=repo_id,
+            filename=filename,
+            saving_path=saving_path,
+            context_size=context_size,
+            k=k
+        )
+
+
+    def add_documents(self, new_documents_paths: str | list[str]):
+        """Add new documents to database.
+
+        :param new_documents_paths: Path to new documents.
+        :return: None
+        """
+        if isinstance(new_documents_paths, str):
+            new_documents_paths = [new_documents_paths]
+
+        all_docs = []
+
+        for path in tqdm(new_documents_paths):
+            loader = UnstructuredFileLoader(path)
+            documents = loader.load()
+            split_docs = self.splitter.split_documents(documents)
+            all_docs.extend(split_docs)
+
+        if self.db is None:
+            self.db = FAISS.from_documents(
+                documents=list(ShreddingTransformer().transform_documents(all_docs)),
+                embedding=self.embedding_model
+            )
+        else:
+            self.db.add_documents(all_docs)
+
+        self.retriever = GraphRetriever(
+            store=self.db,
+            strategy=Eager(k=self.k, start_k=1, max_depth=3)
+        )
+
+
+    def clear_documents(self):
+        """Clear database."""
+        self.db = None
+        self.retriever = None
+
+
+    def __retrieve(self, query: str) -> str:
+        """Retrieve information from database (if it exists).
+
+        :param query: Query to search.
+        :return: Found data.
+        """
+        if self.db is None:
+            return "Error: Database doesn't contain any files."
+
+        results = self.retriever.invoke(query)
+
+        processed_results = [f"{doc.id}: {doc.page_content}" for doc in results]
+
+        return "\n".join(processed_results)
+
