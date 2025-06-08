@@ -29,15 +29,6 @@ def model_active_checker(func):
     return wrapper
 
 
-def model_active_checker_async(func):
-    @wraps(func)
-    async def wrapper(model_name, *args, **kwargs):
-        if model_name not in active_models:
-            __raise_model_not_launched_error(model_name=model_name)
-        return await func(model_name, args, kwargs)
-    return wrapper
-
-
 def available_model_types(types: list[str]):
     def decorator(func):
         @wraps(func)
