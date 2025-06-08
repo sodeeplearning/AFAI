@@ -18,6 +18,10 @@ class LaunchModel(ModelNameModel):
     n_ctx: int = -1
 
 
+class HeavyLaunchModel(LaunchModel):
+    rag_strategy: str = "base"
+
+
 class TextOnlyInputModel(ModelNameModel):
     prompt: str
 

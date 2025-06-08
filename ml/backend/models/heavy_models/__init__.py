@@ -18,3 +18,8 @@ pipeline_mapping = {
     "LTX": LTXPipeline,
     "LTXimg2vid": LTXImageToVideoPipeline
 }
+
+rag_strategies_mapping = {
+    "base": "BaseRAG",
+    "graph": "GraphRAG"
+}

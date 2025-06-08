@@ -3,19 +3,19 @@ import os
 from fastapi import APIRouter
 from fastapi.exceptions import HTTPException
 
-from utils.iomodels import LaunchModel
+from utils.iomodels import HeavyLaunchModel
 from utils.model import get_model_config
 from active import active_models, chat_history, update_chathistory_file
 from config import rag_files_path
 
-from models.heavy_models import classes_mapping, pipeline_mapping
+from models.heavy_models import classes_mapping, pipeline_mapping, rag_strategies_mapping
 
 
 router = APIRouter(prefix="/model")
 
 
 @router.post("/launch")
-def launch_heavy_model(body: LaunchModel):
+def launch_heavy_model(body: HeavyLaunchModel):
     model_config = get_model_config(model_name=body.model_name)
 
     try:
@@ -37,7 +37,15 @@ def launch_heavy_model(body: LaunchModel):
                 )
 
             case "text2text": # RAG in this case
-                active_models[body.model_name] = classes_mapping["BaseRAG"](
+                if body.rag_strategy not in rag_strategies_mapping:
+                    raise HTTPException(
+                        status_code=404,
+                        detail=f"RAG strategy '{body.rag_strategy}' doesn't exist."
+                    )
+
+                rag_class = rag_strategies_mapping[body.rag_strategy]
+
+                active_models[body.model_name] = classes_mapping[rag_class](
                     repo_id=model_config["repo_id"],
                     filename=model_config["filename"],
                     context_size=model_config["n_ctx"] if body.n_ctx == -1 else body.n_ctx
