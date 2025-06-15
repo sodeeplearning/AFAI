@@ -1,0 +1,6 @@
+{
+  "type": "text2text",
+  "repo_id": "mradermacher/MiniCPM4-0.5B-GGUF",
+  "filename": "MiniCPM4-0.5B.Q4_K_M.gguf",
+  "n_ctx": 8192
+}

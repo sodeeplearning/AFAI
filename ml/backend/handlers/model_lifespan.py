@@ -22,6 +22,7 @@ lite_models = [
     "llava-1.5-7b-4",
     "minicpm-4",
     "minicpm-6",
+    "minicpm-0.5",
     "pyttsx",
     "vosk-small-en",
     "vosk-ru",
